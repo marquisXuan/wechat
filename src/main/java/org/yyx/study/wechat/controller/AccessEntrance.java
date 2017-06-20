@@ -3,6 +3,7 @@ package org.yyx.study.wechat.controller;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.yyx.study.wechat.util.ValidateWeChat;
@@ -46,5 +47,10 @@ public class AccessEntrance {
         }
         logger.info("验证失败...");
         return "wrong";
+    }
+
+    @PostMapping("/")
+    public String accessPost() {
+        return null;
     }
 }
