@@ -1,0 +1,9 @@
+#加入外部配置文件
+spring:
+  profiles:
+    include: wechat
+
+#服务器配置
+server:
+  address: 0.0.0.0
+  port: 8989
