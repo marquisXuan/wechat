@@ -7,3 +7,5 @@ spring:
 server:
   address: 0.0.0.0
   port: 8989
+logging:
+  config: src/main/resources/logback-spring.xml
