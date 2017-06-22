@@ -27,6 +27,20 @@ public class BaseMessage {
      */
     private long MsgId;
 
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        BaseMessage that = (BaseMessage) o;
+
+        if (CreateTime != that.CreateTime) return false;
+        if (MsgId != that.MsgId) return false;
+        if (ToUserName != null ? !ToUserName.equals(that.ToUserName) : that.ToUserName != null) return false;
+        if (FromUserName != null ? !FromUserName.equals(that.FromUserName) : that.FromUserName != null) return false;
+        return MsgType != null ? MsgType.equals(that.MsgType) : that.MsgType == null;
+    }
+
     public long getCreateTime() {
         return CreateTime;
     }
@@ -65,5 +79,26 @@ public class BaseMessage {
 
     public void setToUserName(String toUserName) {
         ToUserName = toUserName;
+    }
+
+    @Override
+    public int hashCode() {
+        int result = ToUserName != null ? ToUserName.hashCode() : 0;
+        result = 31 * result + (FromUserName != null ? FromUserName.hashCode() : 0);
+        result = 31 * result + (int) (CreateTime ^ (CreateTime >>> 32));
+        result = 31 * result + (MsgType != null ? MsgType.hashCode() : 0);
+        result = 31 * result + (int) (MsgId ^ (MsgId >>> 32));
+        return result;
+    }
+
+    @Override
+    public String toString() {
+        return "BaseMessage{" +
+                "ToUserName='" + ToUserName + '\'' +
+                ", FromUserName='" + FromUserName + '\'' +
+                ", CreateTime=" + CreateTime +
+                ", MsgType='" + MsgType + '\'' +
+                ", MsgId=" + MsgId +
+                '}';
     }
 }

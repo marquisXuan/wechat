@@ -72,15 +72,6 @@ public class AccessEntrance {
             } catch (DocumentException e) {
                 e.printStackTrace();
             }
-           /* byte[] b = new byte[1024];
-            int length;
-            StringBuffer stringBuffer = new StringBuffer();
-            while ((length = inputStream.read(b)) > 0) {
-                stringBuffer.append(new String(b, 0, length));
-            }
-
-            logger.info(stringBuffer.toString());*/
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -105,13 +96,6 @@ public class AccessEntrance {
         String s = document.asXML();
 
         return s;
-                /*"<xml><ToUserName><![CDATA[ot61CwKqk6UNlyZGYLrgOK6k1vR0]]></ToUserName>\n" +
-                "<FromUserName><![CDATA[gh_26725d663db1]]></FromUserName>\n" +
-                "<CreateTime>1498013819</CreateTime>\n" +
-                "<MsgType><![CDATA[text]]></MsgType>\n" +
-                "<Content><![CDATA[5]]></Content>\n" +
-                "<MsgId>6433920361987854659</MsgId>\n" +
-                "</xml>";*/
     }
 
     private void printNodeMessage(Element element, Element parentElement) {
