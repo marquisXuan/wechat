@@ -6,7 +6,7 @@
     <groupId>org.yyx.wx</groupId>
     <artifactId>yyx-wx</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <name>yyx-wx</name>
     <description>叶云轩微信Demo</description>
@@ -31,38 +31,15 @@
         <dom4j>1.6.1</dom4j>
     </properties>
 
+    <modules>
+        <module>yyx-wx-commons</module>
+        <module>yyx-wx-web</module>
+    </modules>
+
     <dependencies>
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-redis</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-web</artifactId>
-        </dependency>
-
-        <dependency>
-            <groupId>org.projectlombok</groupId>
-            <artifactId>lombok</artifactId>
-            <version>${lombok}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>com.alibaba</groupId>
-            <artifactId>fastjson</artifactId>
-            <version>${fastjson}</version>
-        </dependency>
-
-        <dependency>
-            <groupId>org.yyx</groupId>
-            <artifactId>util</artifactId>
-            <version>${util}</version>
         </dependency>
 
         <dependency>
