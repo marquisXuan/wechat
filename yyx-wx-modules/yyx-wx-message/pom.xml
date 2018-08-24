@@ -4,11 +4,11 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>org.yyx.wx.modules</groupId>
-    <artifactId>yyx-wx-account</artifactId>
+    <artifactId>yyx-wx-message</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>pom</packaging>
+    <packaging>jar</packaging>
 
-    <name>yyx-wx-account</name>
+    <name>yyx-wx-message</name>
     <description>Demo project for Spring Boot</description>
 
     <parent>
@@ -24,7 +24,6 @@
     </properties>
 
     <dependencies>
-
     </dependencies>
 
     <build>
@@ -35,5 +34,6 @@
             </plugin>
         </plugins>
     </build>
+
 
 </project>

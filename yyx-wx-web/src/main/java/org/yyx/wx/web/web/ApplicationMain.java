@@ -21,16 +21,17 @@ import java.util.Iterator;
 
 /**
  * 接入微信服务器入口
- * Created by 叶云轩 on 2017/6/20-10:59
- * Concat ycountjavaxuan@outlook.com
+ *
+ * @author 叶云轩 contact by tdg_yyx@foxmail.com
+ * @date 2018/8/24 - 18:27
  */
 @RestController
-public class AccessEntrance {
+public class ApplicationMain {
 
     /**
      * AccessEntrance日志输出
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(AccessEntrance.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationMain.class);
 
     /**
      * 验证工具类
