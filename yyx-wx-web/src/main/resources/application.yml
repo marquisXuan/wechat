@@ -1,13 +1,13 @@
 server:
   port: 8080
   servlet:
-    context-path: /api/
+    context-path: /
 spring:
   http:
     encoding:
       charset: utf-8
   profiles:
-    active: prod
+    active: test
 wx:
   url:
     # 获取AccessToken的URL 此AccessToken不能用于获取OPENID
@@ -16,3 +16,11 @@ wx:
     create_ticket: https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=
     # 通过Ticket换取二维码的URL
     get_qr_code: https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=
+    # 用户同意授权，获取code
+    auth_code: https://open.weixin.qq.com/connect/oauth2/authorize?appid=
+    # code换取accessToken
+    code_to_auth_token: https://api.weixin.qq.com/sns/oauth2/access_token?appid=
+    # 使用refreshToken的请求路径
+    refresh_token: https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=
+    # 用户信息
+    user_info: https://api.weixin.qq.com/cgi-bin/user/info?access_token=

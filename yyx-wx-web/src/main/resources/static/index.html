@@ -1,0 +1,66 @@
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>叶云轩的测试号</title>
+</head>
+<body>
+<img id="iimg">
+<h1 id="cl">点我获取二维码</h1>
+<div style="border-style: double;" id="content">
+
+</div>
+</body>
+<script src="http://pv.sohu.com/cityjson?ie=utf-8"></script>
+<script src="http://cdn.sockjs.org/sockjs-0.3.min.js"></script>
+<script src="http://libs.baidu.com/jquery/2.0.0/jquery.min.js"></script>
+
+<script type="text/javascript">
+
+    var userName = returnCitySN["cip"] + returnCitySN["cname"] + new Date().getTime();
+    console.log("userName: " + userName);
+    console.log(window.location.host);
+
+
+    $("#cl").on('click', function () {
+            $("#iimg").attr('src', "http://" + window.location.host + "/api/qr.png?userName=" + userName)
+                .attr('width', 200).attr('height', 200);
+        }
+    )
+    ;
+
+    $("#content").append("<p>准备介入服务器。。。。</p>");
+    var url = "ws://" + window.location.host + "/push/" + userName;
+    var ws = new WebSocket(url);
+
+    ws.onopen = function (evt) {
+        $("#content").append("<p>连接服务器成功。。。。</p>")
+            .append("<p>发送测试消息：[Hello WebSockets!]</p>");
+        ws.send("Hello WebSockets!");
+    };
+
+    ws.onmessage = function (evt) {
+        var data = evt.data;
+        if (data === "_redirect") {
+            $("#iimg").remove();
+            $("#content").empty()
+                .append("<p>登陆成功。。。</p>")
+                .append("<p>获取用户信息中。。。</p>");
+            $.get("http://" + window.location.host + "/api/code/auto/" + userName);
+        } else if (data == "user_info") {
+            // $("#content").append("<p>" +
+            //     " 网站应用获取用户信息需要开通微信开发者开发平台，并与公众号进行绑定。用来获取用户信息" +
+            //     "</p>");
+            $.get("http://" + window.location.host + "/api/user/info", function (data) {
+                $("#content").append("<p>" + data + "</p>");
+            });
+        } else {
+            $("#content").append("<p>服务器返回：[" + evt.data + "]</p>");
+        }
+
+    };
+
+    ws.onclose = function (evt) {
+        console.log("Connection closed.");
+    };
+</script>
+</html>

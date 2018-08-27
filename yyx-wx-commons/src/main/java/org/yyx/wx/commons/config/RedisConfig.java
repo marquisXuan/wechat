@@ -6,6 +6,8 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import org.yyx.wx.commons.vo.pubnum.reponse.BaseAccessToken;
+import org.yyx.wx.commons.vo.pubnum.reponse.auth.AuthAccessToken;
 
 /**
  * Redis缓存配置类
@@ -16,7 +18,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
  */
 @Configuration
 public class RedisConfig {
-
 
     @Bean
     @SuppressWarnings("unchecked")
@@ -30,7 +31,6 @@ public class RedisConfig {
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setHashKeySerializer(new StringRedisSerializer());
         redisTemplate.setConnectionFactory(redisConnectionFactory);
-
         return redisTemplate;
     }
 }

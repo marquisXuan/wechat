@@ -1,6 +1,8 @@
 package org.yyx.wx.commons.vo.pubnum.reponse.qrcode;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import org.yyx.wx.commons.vo.pubnum.reponse.BaseResponse;
 
 /**
  * 微信二维码返回值
@@ -10,7 +12,8 @@ import lombok.Data;
  * @date 2018/8/24-13:53
  */
 @Data
-public class TicketResponse {
+@EqualsAndHashCode(callSuper = false)
+public class TicketResponse extends BaseResponse {
 
     /**
      * 获取的二维码ticket，凭借此ticket可以在有效时间内换取二维码。

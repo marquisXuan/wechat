@@ -1,0 +1,13 @@
+wx:
+  url:
+    redirect_uri: http%3a%2f%2fxuan.pub.happyqing.com%2fapi%2fauth%2ftoken
+  public_number:
+    # 百川云公众号appId
+    app_id: wxf6afef5696c7879e
+    app_secret: 92fb6d5622e0569ade6c4bbce1dc92a8
+    config_token: uccccc
+spring:
+  redis:
+    host: 10.211.55.5
+#    host: 172.21.0.4
+    password: 1q2w3e4r`

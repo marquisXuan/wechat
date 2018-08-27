@@ -27,19 +27,17 @@
             <groupId>org.yyx.wx</groupId>
             <artifactId>yyx-wx-commons</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>lombok</artifactId>
+                    <groupId>org.projectlombok</groupId>
+                </exclusion>
+            </exclusions>
         </dependency>
     </dependencies>
 
     <modules>
         <module>yyx-wx-account</module>
+        <module>yyx-wx-message</module>
     </modules>
-    <build>
-        <plugins>
-            <plugin>
-                <groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-maven-plugin</artifactId>
-            </plugin>
-        </plugins>
-    </build>
-
 </project>

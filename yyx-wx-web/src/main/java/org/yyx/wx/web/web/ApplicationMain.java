@@ -11,13 +11,18 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
+import org.yyx.wx.commons.util.XmlToObjectUtil;
+import org.yyx.wx.commons.vo.pubnum.BaseMessage;
+import org.yyx.wx.message.handler.event.ScanSubscribeEventHandler;
+import org.yyx.wx.message.handler.event.SubscribeEventHandler;
+import org.yyx.wx.message.handler.message.TextMessageHandler;
 import org.yyx.wx.web.util.ValidateWeChat;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.Iterator;
 
 /**
  * 接入微信服务器入口
@@ -63,17 +68,61 @@ public class ApplicationMain {
         return "wrong";
     }
 
+    /**
+     * 微信服务器推送过来的消息
+     *
+     * @param request 请求
+     * @return 处理结果
+     */
     @PostMapping("/")
     public String accessPost(HttpServletRequest request) {
+        LOGGER.info("[进入处理微信请求的方法]");
         try {
+            // 从微信请求中获取流
             ServletInputStream inputStream = request.getInputStream();
-
+            // 创建一个xml解析对象
             SAXReader saxReader = new SAXReader();
             try {
+                // 解析到一个Document中
                 Document document = saxReader.read(inputStream);
+                // 获取xml中根节点
                 Element rootElement = document.getRootElement();
-                printNodeMessage(rootElement, null);
-            } catch (DocumentException e) {
+                // 解析成BaseMessage对象
+                BaseMessage baseMessage = XmlToObjectUtil.xmlToObject(rootElement, BaseMessage.class);
+                // 订阅事件处理器
+                SubscribeEventHandler subscribeEventHandler = new SubscribeEventHandler();
+                // todo 可以优化
+                // 文本消息处理器
+                TextMessageHandler textMessageHandler = new TextMessageHandler();
+                // 扫码未关注公众号事件处理器
+                ScanSubscribeEventHandler scanSubscribeEventHandler = new ScanSubscribeEventHandler();
+
+                scanSubscribeEventHandler.setNextHandler(subscribeEventHandler);
+                subscribeEventHandler.setNextHandler(textMessageHandler);
+                BaseMessage baseMessageResponse = scanSubscribeEventHandler.handleMessage(baseMessage, rootElement);
+
+                /*创建一个document*/
+                Document documentResponse = DocumentHelper.createDocument();
+                /*生成根节点*/
+                Element rootElementResponse = documentResponse.addElement("xml");
+                Element toUserName = rootElementResponse.addElement("ToUserName");
+                toUserName.addCDATA(baseMessage.getFromUserName());
+                Element fromUserName = rootElementResponse.addElement("FromUserName");
+                fromUserName.addCDATA(baseMessage.getToUserName());
+                Element cdata = rootElementResponse.addElement("CreateTime");
+                cdata.addCDATA(System.currentTimeMillis() + "");
+                Element MsgType = rootElementResponse.addElement("MsgType");
+                MsgType.addCDATA(MessageTypeEnum.text.toString());
+                Element content = rootElementResponse.addElement("Content");
+                content.addCDATA("这是叶云轩开发的程序返回的,用来测试");
+
+                String s = documentResponse.asXML();
+                System.out.println(s);
+
+                return s;
+            } catch (DocumentException | InstantiationException e) {
+                e.printStackTrace();
+            } catch (IllegalAccessException e) {
                 e.printStackTrace();
             }
         } catch (IOException e) {
@@ -81,56 +130,6 @@ public class ApplicationMain {
         }
 
 
-
-        /*创建一个document*/
-        Document document = DocumentHelper.createDocument();
-        /*生成根节点*/
-        Element rootElement = document.addElement("xml");
-        Element toUserName = rootElement.addElement("ToUserName");
-        toUserName.addCDATA("ot61CwKqk6UNlyZGYLrgOK6k1vR0");
-        Element fromUserName = rootElement.addElement("FromUserName");
-        fromUserName.addCDATA("gh_26725d663db1");
-        Element cdata = rootElement.addElement("CreateTime");
-        cdata.addCDATA(System.currentTimeMillis() + "");
-        Element MsgType = rootElement.addElement("MsgType");
-        MsgType.addCDATA("text");
-        Element content = rootElement.addElement("Content");
-        content.addCDATA("这是手写的");
-
-        String s = document.asXML();
-
-        return s;
-    }
-
-    private void printNodeMessage(Element element, Element parentElement) {
-        /**
-         * 如果当前节点是根节点,遍历根节点
-         * 如果当前节点不是根节点
-         *  看当前节点下是否有子节点，没有，输出信息，有遍历当前节点
-         */
-        System.out.println("当前节点是不是根节点：" + (element.isRootElement() ? "是" : "不是") + "根节点，节点名称：" + element.getName());
-        if (element.isRootElement()) {
-            //当前节点是根节点,遍历当前节点
-            Iterator iterator = element.elementIterator();
-            if (iterator.hasNext()) {
-                while (iterator.hasNext()) {
-                    Element next = (Element) iterator.next();
-                    printNodeMessage(next, element);
-                }
-            }
-        } else {
-            //不是根节点
-            //判断是否有子节点
-            Iterator iterator = element.elementIterator();
-            if (iterator.hasNext()) {
-                //有子节点
-                Element next = (Element) iterator.next();
-                printNodeMessage(next, element);
-            } else {
-                //没有子节点
-                System.out.println("节点名：" + element.getName());
-                System.out.println("节点值：" + parentElement.elementText(element.getQName()));
-            }
-        }
+        return "success";
     }
 }

@@ -4,9 +4,9 @@ import cn.hutool.http.HttpRequest;
 import com.alibaba.fastjson.JSONObject;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.yyx.wx.acount.qrcode.service.IQRCodeService;
 import org.yyx.wx.acount.qrcode.config.WxQRCodeConfig;
-import org.yyx.wx.commons.vo.pubnum.reponse.AccessToken;
+import org.yyx.wx.acount.qrcode.service.IQRCodeService;
+import org.yyx.wx.commons.vo.pubnum.reponse.BaseAccessToken;
 import org.yyx.wx.commons.vo.pubnum.reponse.qrcode.TicketResponse;
 import org.yyx.wx.commons.vo.pubnum.request.qrcode.QRCodeWxRequest;
 
@@ -26,7 +26,7 @@ import static org.yyx.wx.commons.constant.CacheKeyConstant.ACCESS_TOKEN_NO_OPENI
 public class QRCodeServiceImpl implements IQRCodeService {
 
     @Resource
-    private RedisTemplate<String, AccessToken> redisTemplate;
+    private RedisTemplate<String, BaseAccessToken> redisTemplate;
 
     /**
      * 二维码配置对象
@@ -93,10 +93,10 @@ public class QRCodeServiceImpl implements IQRCodeService {
      * @return Ticket
      */
     private TicketResponse createTicket(QRCodeWxRequest qrCodeWxRequest) {
-        // 获取 AccessToken
-        AccessToken accessToken = redisTemplate.opsForValue().get(ACCESS_TOKEN_NO_OPENID);
+        // 获取 BaseAccessToken
+        BaseAccessToken baseAccessToken = redisTemplate.opsForValue().get(ACCESS_TOKEN_NO_OPENID);
         // 拼接请求创建Ticket的URL
-        String urlCreateTicket = qrCodeConfig.getUrlCreateTicket() + accessToken.getAccess_token();
+        String urlCreateTicket = qrCodeConfig.getUrlCreateTicket() + baseAccessToken.getAccess_token();
         String qrCodeRequestBody = JSONObject.toJSONString(qrCodeWxRequest);
         String ticketResponseStr = HttpRequest
                 .post(urlCreateTicket)
