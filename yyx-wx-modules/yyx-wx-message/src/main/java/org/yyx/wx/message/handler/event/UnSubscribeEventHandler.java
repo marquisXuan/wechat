@@ -3,26 +3,25 @@ package org.yyx.wx.message.handler.event;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
+import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
 import org.yyx.wx.commons.util.XmlToObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
-import org.yyx.wx.commons.vo.pubnum.reponse.message.TextMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRequest;
 
 
 /**
- * 订阅[关注]事件处理器
+ * 取消关注公众号事件处理器
  * <p>
  *
  * @author 叶云轩 at tdg_yyx@foxmail.com
  * @date 2018/8/25-20:02
  */
-public class SubscribeEventHandler extends BaseSubscribeEventHandler {
+public class UnSubscribeEventHandler extends BaseEventHandler {
 
     /**
      * SubscribeEventHandler日志输出
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(SubscribeEventHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UnSubscribeEventHandler.class);
 
     /**
      * 实际处理任务
@@ -32,27 +31,19 @@ public class SubscribeEventHandler extends BaseSubscribeEventHandler {
      */
     @Override
     protected BaseMessageAndEvent dealTask(Element element) {
-        LOGGER.info("[订阅[关注]事件处理器]");
-        // region 订阅公众号的逻辑
+        LOGGER.info("[取消订阅[关注]事件处理器]");
+        // region 业务逻辑
         SubscribeAndUnSubscribeEventRequest subscribeAndUnSubscribeEventRequest;
         try {
+            // todo 取消公众号时的逻辑
             subscribeAndUnSubscribeEventRequest
                     = XmlToObjectUtil.xmlToObject(element, SubscribeAndUnSubscribeEventRequest.class);
+            LOGGER.info("[用户取消关注公众号] {}", subscribeAndUnSubscribeEventRequest);
         } catch (IllegalAccessException | InstantiationException e) {
             return null;
         }
-//        WebSocketUtil.sendMessageToUser();
-        // todo 给页面发送消息。此处调用webSocket处理
-        // 订阅后发送欢迎语
-        TextMessageResponse textMessageResponse = new TextMessageResponse();
-        textMessageResponse.setCreateTime(System.currentTimeMillis());
-        textMessageResponse.setMsgId(1);
-        textMessageResponse.setToUserName(subscribeAndUnSubscribeEventRequest.getFromUserName());
-        textMessageResponse.setFromUserName(subscribeAndUnSubscribeEventRequest.getToUserName());
-        textMessageResponse.setMsgType(MessageTypeEnum.text.toString());
-        textMessageResponse.setContent("欢迎使用 [叶云轩公众号测试号] ");
         // endregion
-        return textMessageResponse;
+        return null;
     }
 
     /**
@@ -62,6 +53,6 @@ public class SubscribeEventHandler extends BaseSubscribeEventHandler {
      */
     @Override
     protected String getHandlerLevel() {
-        return null;
+        return EventTypeEnum.unsubscribe.toString();
     }
 }

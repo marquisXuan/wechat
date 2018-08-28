@@ -54,8 +54,13 @@ public class WxPublicNumAuthConfig {
     @Value("${wx.url.refresh_token}")
     private String urlRefreshToken;
     /**
-     * 获取用户信息的访问路径
+     * 授权时获取用户信息的访问路径
      */
     @Value("${wx.url.user_info}")
     private String urlUserInfo;
+    /**
+     * 获取用户基本信息
+     */
+    @Value("${wx.url.base_user_info}")
+    private String urlBaseUserInfo;
 }

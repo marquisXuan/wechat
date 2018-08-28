@@ -39,51 +39,51 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
      */
     @Resource
     private WxPublicNumAuthConfig wxPublicNumAuthConfig;
+    /**
+     * 缓存工具
+     */
     @Resource
     private RedisTemplate<String, Object> redisTemplate;
 
+    /**
+     * 获取认证授权的AccessToken
+     *
+     * @param code  微信返回code
+     * @param state 业务参数
+     */
     @Override
     public void getAuthAccessToken(String code, String state) {
         String appID = wxPublicNumAuthConfig.getAppID();
         String appSecret = wxPublicNumAuthConfig.getAppSecret();
-        // 从缓存中获取AccessToken
-        AuthAccessToken cacheAuthToken = (AuthAccessToken) redisTemplate.opsForValue().get(AUTH_ACCESS_TOKEN);
-        if (cacheAuthToken == null) {
-            // 说明过期了。使用RefreshToken刷新
-            String refreshToken = (String) redisTemplate.opsForValue().get(REFRESH_AUTH_ACCESS_TOKEN);
-            if (StrUtil.hasEmpty(refreshToken)) {
-                // RefreshToken过期，重新授权
-                // https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
-                String urlCodeToToken =
-                        wxPublicNumAuthConfig.getUrlCodeToAuthAccessToken() + appID
-                                + "&secret=" + appSecret
-                                + "&code=" + code
-                                + "&grant_type=authorization_code";
-                String responseMessage = HttpUtil.get(urlCodeToToken);
-                // 用于认证授权的AccessToken
-                cacheAuthToken = JSONObject.parseObject(responseMessage, AuthAccessToken.class);
-                LOGGER.info("[请求获取的AccessToken] {}", cacheAuthToken);
-                cacheData(cacheAuthToken);
-            } else {
-                getAuthAccessToken(refreshToken);
-            }
+        // 从缓存中获取OpenID
+        String openId = (String) redisTemplate.opsForValue().get("user_" + state);
+        // 从缓存中获取AuthAccessToken
+        AuthAccessToken cacheAuthToken = (AuthAccessToken) redisTemplate.opsForValue().get(openId + AUTH_ACCESS_TOKEN);
+        if (cacheAuthToken != null) {
+            LOGGER.info("[缓存的AuthAccessToken] {}, [openID] {}", cacheAuthToken, cacheAuthToken.getOpenid());
         }
-    }
+        LOGGER.info("[缓存过期，使用RefreshToken更新]");
+        // 说明过期了。使用RefreshToken刷新
+        String refreshToken = (String) redisTemplate.opsForValue().get(openId + REFRESH_AUTH_ACCESS_TOKEN);
+        if (StrUtil.hasEmpty(refreshToken)) {
+            // RefreshToken过期，重新授权
+            LOGGER.info("[RefreshToken过期，重新授权]");
+            // https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
+            String urlCodeToToken =
+                    wxPublicNumAuthConfig.getUrlCodeToAuthAccessToken() + appID
+                            + "&secret=" + appSecret
+                            + "&code=" + code
+                            + "&grant_type=authorization_code";
+            LOGGER.info("[授权URL] {}", urlCodeToToken);
+            String responseMessage = HttpUtil.get(urlCodeToToken);
+            // 用于认证授权的AccessToken
+            cacheAuthToken = JSONObject.parseObject(responseMessage, AuthAccessToken.class);
+            LOGGER.info("[授权获取的AuthAccessToken] {}, [openID] {}", cacheAuthToken, cacheAuthToken.getOpenid());
+            cacheData(cacheAuthToken, state);
+        } else {
+            getAuthAccessToken(refreshToken, state);
+        }
 
-    /**
-     * 缓存数据
-     *
-     * @param cacheAuthToken 待缓存数据
-     */
-    private void cacheData(AuthAccessToken cacheAuthToken) {
-        // 缓存刷新Token
-        redisTemplate.opsForValue().set(REFRESH_AUTH_ACCESS_TOKEN, cacheAuthToken.getRefresh_token());
-        // 设置失效时长为29天
-        redisTemplate.expire(REFRESH_AUTH_ACCESS_TOKEN, 29, TimeUnit.DAYS);
-        // 缓存认证Token
-        redisTemplate.opsForValue().set(AUTH_ACCESS_TOKEN, cacheAuthToken);
-        // 设置失效时长
-        redisTemplate.expire(AUTH_ACCESS_TOKEN, cacheAuthToken.getExpires_in(), TimeUnit.SECONDS);
     }
 
     /**
@@ -93,11 +93,14 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
      * @return 认证授权Token
      */
     @Override
-    public AuthAccessToken getAuthAccessToken(String refreshToken) {
+    public AuthAccessToken getAuthAccessTokenByRefreshToken(String refreshToken, String userName) {
         if (StrUtil.hasEmpty(refreshToken)) {
             return null;
         }
-        AuthAccessToken cacheAuthToken = (AuthAccessToken) redisTemplate.opsForValue().get(AUTH_ACCESS_TOKEN);
+        // 从缓存中获取OpenID
+        String openId = (String) redisTemplate.opsForValue().get("user_" + userName);
+        AuthAccessToken cacheAuthToken = (AuthAccessToken) redisTemplate.opsForValue().get(openId + AUTH_ACCESS_TOKEN);
+        LOGGER.info("[缓存中的认证Token] {}", cacheAuthToken);
         if (cacheAuthToken != null) {
             return cacheAuthToken;
         }
@@ -110,9 +113,27 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
         String responseMessage = HttpUtil.get(urlRefreshToken);
         // 用于认证授权的AccessToken
         cacheAuthToken = JSONObject.parseObject(responseMessage, AuthAccessToken.class);
-        LOGGER.info("[刷新获取的AccessToken] {}", cacheAuthToken);
-        cacheData(cacheAuthToken);
+        LOGGER.info("[刷新获取的AccessToken] {}, [openID] {}", cacheAuthToken, cacheAuthToken.getOpenid());
+        cacheData(cacheAuthToken, userName);
         return cacheAuthToken;
+    }
+
+    /**
+     * 缓存数据
+     *
+     * @param cacheAuthToken 待缓存数据
+     */
+    private void cacheData(AuthAccessToken cacheAuthToken, String userName) {
+        String openid = cacheAuthToken.getOpenid();
+        redisTemplate.opsForValue().set(userName, openid);
+        // 缓存刷新Token
+        redisTemplate.opsForValue().set(openid + REFRESH_AUTH_ACCESS_TOKEN, cacheAuthToken.getRefresh_token());
+        // 设置失效时长为29天
+        redisTemplate.expire(openid + REFRESH_AUTH_ACCESS_TOKEN, 29, TimeUnit.DAYS);
+        // 缓存认证Token
+        redisTemplate.opsForValue().set(openid + AUTH_ACCESS_TOKEN, cacheAuthToken);
+        // 设置失效时长
+        redisTemplate.expire(openid + AUTH_ACCESS_TOKEN, cacheAuthToken.getExpires_in(), TimeUnit.SECONDS);
     }
 
     /**
@@ -122,20 +143,27 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
      */
     @Override
     public BaseAccessToken getBaseAccessToken() {
+        // 从缓存中获取AccessToken
         BaseAccessToken baseAccessToken = (BaseAccessToken) redisTemplate.opsForValue().get(ACCESS_TOKEN_NO_OPENID);
+        LOGGER.info("[缓存中的基础AccessToken] {}", baseAccessToken);
         if (baseAccessToken != null) {
             return baseAccessToken;
         }
         String appID = wxPublicNumAuthConfig.getAppID();
         String appSecret = wxPublicNumAuthConfig.getAppSecret();
         String urlGetAccessToken = wxPublicNumAuthConfig.getUrlGetAccessToken();
-        // 获取accessToken
+        // 向微信服务器索取accessToken
         String accessTokenJson = HttpUtil.get(urlGetAccessToken + appID + "&secret=" + appSecret);
         if (StrUtil.hasEmpty(accessTokenJson)) {
             return null;
         }
         // 将AccessToken转换成对象
         baseAccessToken = JSONObject.parseObject(accessTokenJson, BaseAccessToken.class);
+        if (baseAccessToken.getErrcode() != 0L) {
+            // 请求出错
+            LOGGER.error("[异常信息] code: {} errmsg: {}", baseAccessToken.getErrcode(), baseAccessToken.getErrmsg());
+        }
+        LOGGER.info("[请求到的基础AccessToken] {}", baseAccessToken);
         // 存入缓存中
         redisTemplate.opsForValue().set(ACCESS_TOKEN_NO_OPENID, baseAccessToken);
         // 设置超时时间

@@ -20,7 +20,7 @@ public class XmlToObjectUtil {
     }
 
     /**
-     * 反射给对象设值
+     * 对象设值
      *
      * @param clazz 类对象
      * @param name  标识要给哪个字段赋值
@@ -62,18 +62,20 @@ public class XmlToObjectUtil {
     }
 
     /**
-     * @param element
-     * @param parentElement
-     * @param clazz
-     * @param t
-     * @param <T>
-     * @return
+     * xml对象转Object方法
+     *
+     * @param element       xml对象根节点信息
+     * @param parentElement 父节点信息
+     * @param clazz         待转类对象
+     * @param obj           泛型对象
+     * @param <T>           对象
+     * @return 对象
      * @throws IllegalAccessException
      */
     private static <T> T xmlToObject(final Element element,
                                      final Element parentElement,
                                      final Class<T> clazz,
-                                     final T t) throws IllegalAccessException {
+                                     final T obj) throws IllegalAccessException {
         if (element.isRootElement()) {
             // 当前节点是根节点,遍历当前节点
             Iterator iterator = element.elementIterator();
@@ -81,7 +83,7 @@ public class XmlToObjectUtil {
                 // 根节点下是否有元素
                 while (iterator.hasNext()) {
                     Element next = (Element) iterator.next();
-                    xmlToObject(next, element, clazz, t);
+                    xmlToObject(next, element, clazz, obj);
                 }
             }
         } else {
@@ -91,15 +93,15 @@ public class XmlToObjectUtil {
             if (iterator.hasNext()) {
                 //有子节点
                 Element next = (Element) iterator.next();
-                xmlToObject(next, element, clazz, t);
+                xmlToObject(next, element, clazz, obj);
             } else {
                 //没有子节点
                 String name = element.getName();
                 String value = parentElement.elementText(element.getQName());
-                setValue(clazz, name, value, t);
+                setValue(clazz, name, value, obj);
             }
         }
-        return t;
+        return obj;
     }
 
     /**

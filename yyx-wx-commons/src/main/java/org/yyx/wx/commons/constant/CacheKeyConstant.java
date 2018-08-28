@@ -17,7 +17,6 @@ public class CacheKeyConstant {
      * 用于认证的AccessToken
      */
     public static final String AUTH_ACCESS_TOKEN = "authAccessToken";
-
     /**
      * 用于刷新认证的AccessToken的AccessToken
      */

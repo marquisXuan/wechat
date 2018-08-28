@@ -1,6 +1,8 @@
 package org.yyx.wx.message.handler.message;
 
 import org.dom4j.Element;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.XmlToObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.TextMessageResponse;
@@ -16,14 +18,9 @@ import org.yyx.wx.message.handler.AbstractMessageHandler;
  */
 public class TextMessageHandler extends AbstractMessageHandler {
     /**
-     * 获取文本消息处理器级别
-     *
-     * @return 文本消息处理器级别
+     * TextMessageHandler日志输出
      */
-    @Override
-    protected String getHandlerLevel() {
-        return MessageTypeEnum.text.toString();
-    }
+    private static final Logger LOGGER = LoggerFactory.getLogger(TextMessageHandler.class);
 
     /**
      * 文本消息处理器
@@ -33,6 +30,7 @@ public class TextMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected TextMessageResponse dealTask(Element element) {
+        LOGGER.info("[进入文本消息处理器]");
         // 强转成文本消息
         TextMessageRequest textMessageRequest;
         try {
@@ -51,5 +49,15 @@ public class TextMessageHandler extends AbstractMessageHandler {
         textMessageResponse.setMsgId(textMessageRequest.getMsgId());
         textMessageResponse.setCreateTime(System.currentTimeMillis());
         return textMessageResponse;
+    }
+
+    /**
+     * 获取文本消息处理器级别
+     *
+     * @return 文本消息处理器级别
+     */
+    @Override
+    protected String getHandlerLevel() {
+        return MessageTypeEnum.text.toString();
     }
 }

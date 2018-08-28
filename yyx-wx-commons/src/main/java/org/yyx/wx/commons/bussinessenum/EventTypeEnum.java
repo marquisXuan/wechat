@@ -19,6 +19,10 @@ public enum EventTypeEnum {
      */
     unsubscribe,
     /**
+     * 扫描带参数二维码事件,用户未关注时的事件推送标识
+     */
+    qrscene_,
+    /**
      * 扫描带参数二维码事件,用户已关注时的事件推送
      */
     SCAN,

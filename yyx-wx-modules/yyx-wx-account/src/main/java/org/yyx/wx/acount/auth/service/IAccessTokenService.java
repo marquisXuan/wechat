@@ -27,7 +27,7 @@ public interface IAccessTokenService {
      * @param refreshToken 刷新Token
      * @return 认证授权Token
      */
-    AuthAccessToken getAuthAccessToken(String refreshToken);
+    AuthAccessToken getAuthAccessTokenByRefreshToken(String refreshToken, String userName);
 
     /**
      * 获取AccessToken的方法

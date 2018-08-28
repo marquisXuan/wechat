@@ -111,8 +111,9 @@
                 <directory>src/main/resources</directory>
                 <includes>
                     <include>**.yml</include>
-                    <include>**.txt</include>
+                    <include>**/*.txt</include>
                     <include>**/*.html</include>
+                    <include>static/*.txt</include>
                 </includes>
             </resource>
         </resources>

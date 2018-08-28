@@ -13,12 +13,8 @@ import lombok.EqualsAndHashCode;
 
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class VideoMessageRequest extends BaseMessageRequest {
+public class VideoMessageRequest extends MultiMediaRequest {
 
-    /**
-     * 视频消息媒体id，可以调用多媒体文件下载接口拉取数据。
-     */
-    private String MediaId;
     /**
      * 视频消息缩略图的媒体id，可以调用多媒体文件下载接口拉取数据。
      */

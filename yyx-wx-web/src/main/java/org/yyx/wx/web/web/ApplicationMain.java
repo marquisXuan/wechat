@@ -7,15 +7,17 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.XmlToObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.BaseMessage;
-import org.yyx.wx.message.handler.event.ScanSubscribeEventHandler;
+import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
 import org.yyx.wx.message.handler.event.SubscribeEventHandler;
+import org.yyx.wx.message.handler.event.SubscribeScanEventHandler;
+import org.yyx.wx.message.handler.event.UnSubscribeEventHandler;
 import org.yyx.wx.message.handler.message.TextMessageHandler;
 import org.yyx.wx.web.util.ValidateWeChat;
 
@@ -43,6 +45,10 @@ public class ApplicationMain {
      */
     @Resource
     private ValidateWeChat validateWeChat;
+
+    @Resource
+    private RedisTemplate<String, Object> redisTemplate;
+
 
     /**
      * 验证消息来自微信服务器方法
@@ -88,19 +94,24 @@ public class ApplicationMain {
                 // 获取xml中根节点
                 Element rootElement = document.getRootElement();
                 // 解析成BaseMessage对象
-                BaseMessage baseMessage = XmlToObjectUtil.xmlToObject(rootElement, BaseMessage.class);
+                BaseMessageAndEvent baseMessage = XmlToObjectUtil.xmlToObject(rootElement, BaseMessageAndEvent.class);
+                // todo 可以优化
+                // 扫码未关注公众号事件处理器
+                SubscribeScanEventHandler subscribeScanEventHandler = new SubscribeScanEventHandler();
                 // 订阅事件处理器
                 SubscribeEventHandler subscribeEventHandler = new SubscribeEventHandler();
-                // todo 可以优化
                 // 文本消息处理器
                 TextMessageHandler textMessageHandler = new TextMessageHandler();
-                // 扫码未关注公众号事件处理器
-                ScanSubscribeEventHandler scanSubscribeEventHandler = new ScanSubscribeEventHandler();
+                // 取消订阅事件处理器
+                UnSubscribeEventHandler unSubscribeEventHandler = new UnSubscribeEventHandler();
 
-                scanSubscribeEventHandler.setNextHandler(subscribeEventHandler);
-                subscribeEventHandler.setNextHandler(textMessageHandler);
-                BaseMessage baseMessageResponse = scanSubscribeEventHandler.handleMessage(baseMessage, rootElement);
+                subscribeEventHandler.setNextHandler(subscribeScanEventHandler);
+                textMessageHandler.setNextHandler(subscribeEventHandler);
+                unSubscribeEventHandler.setNextHandler(textMessageHandler);
 
+                unSubscribeEventHandler.setRedisTemplate(redisTemplate);
+                BaseMessageAndEvent baseMessageResponse = unSubscribeEventHandler.handleMessage(baseMessage, rootElement);
+                LOGGER.info("[返回信息] {}", baseMessageResponse);
                 /*创建一个document*/
                 Document documentResponse = DocumentHelper.createDocument();
                 /*生成根节点*/
@@ -115,10 +126,7 @@ public class ApplicationMain {
                 MsgType.addCDATA(MessageTypeEnum.text.toString());
                 Element content = rootElementResponse.addElement("Content");
                 content.addCDATA("这是叶云轩开发的程序返回的,用来测试");
-
                 String s = documentResponse.asXML();
-                System.out.println(s);
-
                 return s;
             } catch (DocumentException | InstantiationException e) {
                 e.printStackTrace();

@@ -4,6 +4,7 @@ import cn.hutool.http.HttpUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,14 +12,12 @@ import org.springframework.web.bind.annotation.RestController;
 import org.yyx.wx.acount.auth.config.WxPublicNumAuthConfig;
 import org.yyx.wx.acount.auth.service.IAccessTokenService;
 import org.yyx.wx.commons.bussinessenum.AuthScopeEnum;
-import org.yyx.wx.commons.vo.pubnum.reponse.auth.AuthAccessToken;
+import org.yyx.wx.commons.vo.pubnum.reponse.BaseAccessToken;
 import org.yyx.wx.message.websocket.WebSocketUtil;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-
-import static org.yyx.wx.commons.constant.CacheKeyConstant.REFRESH_AUTH_ACCESS_TOKEN;
 
 /**
  * 授权Controller
@@ -29,6 +28,7 @@ import static org.yyx.wx.commons.constant.CacheKeyConstant.REFRESH_AUTH_ACCESS_T
  */
 @RestController
 @RequestMapping("api")
+@CrossOrigin
 public class AuthController {
     /**
      * AuthController日志输出
@@ -43,20 +43,16 @@ public class AuthController {
 
     @GetMapping("user/info")
     public String getUserInfo() {
-        String refreshToken = (String) redisTemplate.opsForValue().get(REFRESH_AUTH_ACCESS_TOKEN);
-        AuthAccessToken authAccessToken = accessTokenService.getAuthAccessToken(refreshToken);
-        if (authAccessToken == null) {
-            return "AccessToken Exception";
-        }
-        String authAccessTokenUrl;
-        authAccessTokenUrl = authAccessToken.getAccess_token();
+        // 基础AccessToken
+        BaseAccessToken baseAccessToken = accessTokenService.getBaseAccessToken();
         // https://api.weixin.qq.com/cgi-bin/user/info?access_token=
         // ACCESS_TOKEN&openid=OPENID&lang=zh_CN
         String userInfoUrl =
-                wxPublicNumAuthConfig.getUrlUserInfo()
-                        + authAccessTokenUrl + "&openid="
-                        + authAccessToken.getOpenid()
+                wxPublicNumAuthConfig.getUrlBaseUserInfo()
+                        + baseAccessToken.getAccess_token() + "&openid="
+                        + "oPuhG03YiRn3KLSuiOnRufEGMFpY"
                         + "&lang=zh_CN";
+        LOGGER.info("[查询用户信息URL] {}", userInfoUrl);
         String userInfoStr = HttpUtil.get(userInfoUrl);
         LOGGER.info("[用户信息] {}", userInfoStr);
         return userInfoStr;
@@ -68,6 +64,8 @@ public class AuthController {
      * &response_type=code
      * &scope=SCOPE
      * &state=STATE#wechat_redirect
+     * <p>
+     * 此处我将state用作唯一用户名来处理，用在缓存AccessToken
      *
      * @param scope auto 静默授权
      */
@@ -111,7 +109,7 @@ public class AuthController {
      */
     @GetMapping("auth/token")
     public void useCodeGetAuthAccessToken(String code, String state) {
-        LOGGER.info("[微信返回code码] {}", code);
+        LOGGER.info("[微信返回code码] {} [state] {}", code, state);
         accessTokenService.getAuthAccessToken(code, state);
         try {
             WebSocketUtil.sendMessageToUser(state, "user_info");

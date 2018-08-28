@@ -3,15 +3,14 @@ package org.yyx.wx.commons.vo.pubnum;
 import lombok.Data;
 
 /**
- * 基础消息抽象类
+ * 微信请求过来的消息和事件的父类
  * <p>
  *
  * @author 叶云轩 at tdg_yyx@foxmail.com
  * @date 2018/8/25-10:21
  */
 @Data
-public class BaseMessage {
-
+public class BaseMessageAndEvent {
     /**
      * 开发者微信号
      */

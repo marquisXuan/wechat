@@ -28,8 +28,8 @@ public class RedisConfig {
                 new FastJsonRedisSerializer(Object.class);
         redisTemplate.setValueSerializer(fastJsonRedisSerializer);
         redisTemplate.setHashValueSerializer(fastJsonRedisSerializer);
-        redisTemplate.setKeySerializer(new StringRedisSerializer());
-        redisTemplate.setHashKeySerializer(new StringRedisSerializer());
+        redisTemplate.setKeySerializer(fastJsonRedisSerializer);
+        redisTemplate.setHashKeySerializer(fastJsonRedisSerializer);
         redisTemplate.setConnectionFactory(redisConnectionFactory);
         return redisTemplate;
     }

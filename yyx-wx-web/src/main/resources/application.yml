@@ -12,7 +12,7 @@ wx:
   url:
     # 获取AccessToken的URL 此AccessToken不能用于获取OPENID
     get_access_token: https://api.weixin.qq.com/cgi-bin/token?grant_type=client_credential&appid=
-    # 创建Ticket的URL
+    # 创建二维码Ticket的URL
     create_ticket: https://api.weixin.qq.com/cgi-bin/qrcode/create?access_token=
     # 通过Ticket换取二维码的URL
     get_qr_code: https://mp.weixin.qq.com/cgi-bin/showqrcode?ticket=
@@ -22,5 +22,9 @@ wx:
     code_to_auth_token: https://api.weixin.qq.com/sns/oauth2/access_token?appid=
     # 使用refreshToken的请求路径
     refresh_token: https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=
-    # 用户信息
-    user_info: https://api.weixin.qq.com/cgi-bin/user/info?access_token=
+    # 网页授权时拉取用户信息(需scope为 snsapi_userinfo)
+    user_info: https://api.weixin.qq.com/sns/userinfo?access_token=
+    # 检验授权凭证（access_token）是否有效 https://api.weixin.qq.com/sns/auth?access_token=ACCESS_TOKEN&openid=OPENID
+    check_auth_access_token: https://api.weixin.qq.com/sns/auth?access_token=
+    # 获取用户基本信息 https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
+    base_user_info: https://api.weixin.qq.com/cgi-bin/user/info?access_token=
