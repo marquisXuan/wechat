@@ -51,6 +51,7 @@ public class MessageWebSocket {
     public void onError(Session session, Throwable error) {
         LOGGER.error("[错误]");
         error.printStackTrace();
+        WebSocketUtil.removeUser(session);
     }
 
     /**

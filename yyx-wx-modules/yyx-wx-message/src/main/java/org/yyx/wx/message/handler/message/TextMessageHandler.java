@@ -4,7 +4,7 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
-import org.yyx.wx.commons.util.XmlToObjectUtil;
+import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.TextMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.TextMessageRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
@@ -34,7 +34,7 @@ public class TextMessageHandler extends AbstractMessageHandler {
         // 强转成文本消息
         TextMessageRequest textMessageRequest;
         try {
-            textMessageRequest = XmlToObjectUtil.xmlToObject(element, TextMessageRequest.class);
+            textMessageRequest = WxXmlAndObjectUtil.xmlToObject(element, TextMessageRequest.class);
         } catch (IllegalAccessException | InstantiationException e) {
             return null;
         }

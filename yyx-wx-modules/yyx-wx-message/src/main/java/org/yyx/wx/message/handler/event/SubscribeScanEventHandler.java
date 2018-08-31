@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
-import org.yyx.wx.commons.util.XmlToObjectUtil;
+import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.TextMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeScanEventRequest;
@@ -42,7 +42,7 @@ public class SubscribeScanEventHandler extends BaseSubscribeEventHandler {
         try {
             // xml数据转换成扫描带参数二维码事件请求实体对象
             subscribeAndUnSubscribeScanEventRequest =
-                    XmlToObjectUtil.xmlToObject(element, SubscribeAndUnSubscribeScanEventRequest.class);
+                    WxXmlAndObjectUtil.xmlToObject(element, SubscribeAndUnSubscribeScanEventRequest.class);
         } catch (IllegalAccessException | InstantiationException e) {
             return null;
         }

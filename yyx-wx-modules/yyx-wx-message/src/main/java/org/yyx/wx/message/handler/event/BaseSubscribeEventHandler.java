@@ -4,7 +4,7 @@ import cn.hutool.core.util.StrUtil;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yyx.wx.commons.util.XmlToObjectUtil;
+import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeScanEventRequest;
 
@@ -35,7 +35,7 @@ public abstract class BaseSubscribeEventHandler extends BaseEventHandler {
         // 都使用扫码事件实体来接收
         SubscribeAndUnSubscribeScanEventRequest subscribeAndUnSubscribeScanEventRequest;
         try {
-            subscribeAndUnSubscribeScanEventRequest = XmlToObjectUtil.xmlToObject(element, SubscribeAndUnSubscribeScanEventRequest.class);
+            subscribeAndUnSubscribeScanEventRequest = WxXmlAndObjectUtil.xmlToObject(element, SubscribeAndUnSubscribeScanEventRequest.class);
         } catch (IllegalAccessException | InstantiationException e) {
             return baseMessage;
         }

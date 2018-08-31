@@ -4,7 +4,7 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
-import org.yyx.wx.commons.util.XmlToObjectUtil;
+import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.TextMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRequest;
@@ -37,7 +37,7 @@ public class SubscribeEventHandler extends BaseSubscribeEventHandler {
         SubscribeAndUnSubscribeEventRequest subscribeAndUnSubscribeEventRequest;
         try {
             subscribeAndUnSubscribeEventRequest
-                    = XmlToObjectUtil.xmlToObject(element, SubscribeAndUnSubscribeEventRequest.class);
+                    = WxXmlAndObjectUtil.xmlToObject(element, SubscribeAndUnSubscribeEventRequest.class);
         } catch (IllegalAccessException | InstantiationException e) {
             return null;
         }

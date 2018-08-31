@@ -3,7 +3,7 @@ package org.yyx.wx.message.handler.event;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yyx.wx.commons.util.XmlToObjectUtil;
+import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
 import org.yyx.wx.commons.vo.pubnum.request.event.BaseEventRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
@@ -34,7 +34,7 @@ public abstract class BaseEventHandler extends AbstractMessageHandler {
         BaseMessageAndEvent baseMessage;
         BaseEventRequest baseEventRequest;
         try {
-            baseEventRequest = XmlToObjectUtil.xmlToObject(element, BaseEventRequest.class);
+            baseEventRequest = WxXmlAndObjectUtil.xmlToObject(element, BaseEventRequest.class);
         } catch (IllegalAccessException | InstantiationException e) {
             return null;
         }

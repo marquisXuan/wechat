@@ -12,11 +12,11 @@ import java.util.Iterator;
  * @author 叶云轩 at tdg_yyx@foxmail.com
  * @date 2018/8/25-08:47
  */
-public class XmlToObjectUtil {
+public class WxXmlAndObjectUtil {
     /**
      * 私有构造
      */
-    private XmlToObjectUtil() {
+    private WxXmlAndObjectUtil() {
     }
 
     /**

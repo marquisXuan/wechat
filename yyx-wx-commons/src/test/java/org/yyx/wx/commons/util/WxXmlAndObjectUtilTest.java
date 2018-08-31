@@ -6,7 +6,7 @@ import org.dom4j.Element;
 import org.junit.Test;
 import org.yyx.wx.commons.vo.pubnum.request.message.ImageMessageRequest;
 
-public class XmlToObjectUtilTest {
+public class WxXmlAndObjectUtilTest {
 
     @Test
     public void xmlToObject() throws InstantiationException, IllegalAccessException {
@@ -25,7 +25,7 @@ public class XmlToObjectUtilTest {
         Element content = rootElement.addElement("Content");
         content.addCDATA("这是手写的");
 
-        ImageMessageRequest baseMessage = XmlToObjectUtil.xmlToObject(rootElement, ImageMessageRequest.class);
+        ImageMessageRequest baseMessage = WxXmlAndObjectUtil.xmlToObject(rootElement, ImageMessageRequest.class);
         System.out.println(baseMessage + ": " + baseMessage.getFromUserName());
     }
 }

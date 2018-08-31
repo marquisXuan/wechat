@@ -4,7 +4,7 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
-import org.yyx.wx.commons.util.XmlToObjectUtil;
+import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRequest;
 
@@ -37,7 +37,7 @@ public class UnSubscribeEventHandler extends BaseEventHandler {
         try {
             // todo 取消公众号时的逻辑
             subscribeAndUnSubscribeEventRequest
-                    = XmlToObjectUtil.xmlToObject(element, SubscribeAndUnSubscribeEventRequest.class);
+                    = WxXmlAndObjectUtil.xmlToObject(element, SubscribeAndUnSubscribeEventRequest.class);
             LOGGER.info("[用户取消关注公众号] {}", subscribeAndUnSubscribeEventRequest);
         } catch (IllegalAccessException | InstantiationException e) {
             return null;

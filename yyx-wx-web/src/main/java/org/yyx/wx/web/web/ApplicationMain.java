@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
-import org.yyx.wx.commons.util.XmlToObjectUtil;
+import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
 import org.yyx.wx.message.handler.event.SubscribeEventHandler;
 import org.yyx.wx.message.handler.event.SubscribeScanEventHandler;
@@ -94,7 +94,7 @@ public class ApplicationMain {
                 // 获取xml中根节点
                 Element rootElement = document.getRootElement();
                 // 解析成BaseMessage对象
-                BaseMessageAndEvent baseMessage = XmlToObjectUtil.xmlToObject(rootElement, BaseMessageAndEvent.class);
+                BaseMessageAndEvent baseMessage = WxXmlAndObjectUtil.xmlToObject(rootElement, BaseMessageAndEvent.class);
                 // todo 可以优化
                 // 扫码未关注公众号事件处理器
                 SubscribeScanEventHandler subscribeScanEventHandler = new SubscribeScanEventHandler();
