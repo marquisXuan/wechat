@@ -5,6 +5,8 @@ import org.dom4j.Element;
 import java.lang.reflect.Field;
 import java.util.Iterator;
 
+import static org.yyx.wx.commons.constant.ClassConstant.JAVA_LANG_OBJECT;
+
 /**
  * 微信XML转对象工具类
  * <p>
@@ -26,15 +28,16 @@ public class WxXmlAndObjectUtil {
      * @param name  标识要给哪个字段赋值
      * @param value 实际值
      * @param t     对象
-     * @throws IllegalAccessException 设值异常
+     * @throws IllegalAccessException 一般是权限异常 权限修饰符
      */
-    private static void setValue(final Class clazz, final String name, final String value, final Object t) throws IllegalAccessException {
+    private static void setValue(final Class clazz, final String name, final String value, final Object t)
+            throws IllegalAccessException {
         // 获取当前类对象的父类对象
         Class superclass = clazz.getSuperclass();
         // 获取父类对象名
         String superclassName = superclass.getName();
         // 判断是不是Object类
-        if (!"java.lang.Object".equals(superclassName)) {
+        if (!JAVA_LANG_OBJECT.equals(superclassName)) {
             // 递归
             setValue(superclass, name, value, t);
         }
@@ -70,7 +73,7 @@ public class WxXmlAndObjectUtil {
      * @param obj           泛型对象
      * @param <T>           对象
      * @return 对象
-     * @throws IllegalAccessException
+     * @throws IllegalAccessException 一般是权限异常 权限修饰符
      */
     private static <T> T xmlToObject(final Element element,
                                      final Element parentElement,

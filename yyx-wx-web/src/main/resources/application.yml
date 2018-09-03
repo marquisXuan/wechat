@@ -7,6 +7,7 @@ spring:
     encoding:
       charset: utf-8
   profiles:
+    # 默认加载application-test.yml配置
     active: test
 wx:
   url:
@@ -28,3 +29,9 @@ wx:
     check_auth_access_token: https://api.weixin.qq.com/sns/auth?access_token=
     # 获取用户基本信息 https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN
     base_user_info: https://api.weixin.qq.com/cgi-bin/user/info?access_token=
+    # 设置公众号所属行业URL - 暂时未开发 POST https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=ACCESS_TOKEN
+    set_industry: https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=
+    # 获取设置的行业信息URL - 暂时未开发 GET https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=ACCESS_TOKEN
+    get_industry: https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=
+    # 发送模板消息接口 POST https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=AccessToken
+    send_model_message: https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=

@@ -1,4 +1,4 @@
-package org.yyx.wx.web.web;
+package org.yyx.wx.web.web.test;
 
 import cn.hutool.http.HttpUtil;
 import org.slf4j.Logger;
@@ -70,7 +70,8 @@ public class AuthController {
      * @param scope auto 静默授权
      */
     @GetMapping("code/{scope}/{state}")
-    public void requestCodeSilent(HttpServletResponse response, @PathVariable("scope") String scope, @PathVariable("state") String state) {
+    public void requestCodeSilent(HttpServletResponse response,
+                                  @PathVariable("scope") String scope, @PathVariable("state") String state) {
         String redirectUri = wxPublicNumAuthConfig.getRedirectUri();
         String appID = wxPublicNumAuthConfig.getAppID();
         String paramScope;

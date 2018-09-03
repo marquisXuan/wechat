@@ -15,26 +15,27 @@ import java.io.IOException;
 
 
 /**
- * 用户关注时扫描二维码事件处理器
+ * 用户未关注时扫描二维码事件处理器
+ * 用户未关注时，进行关注后的事件推送
  * <p>
  *
  * @author 叶云轩 at tdg_yyx@foxmail.com
  * @date 2018/8/25-20:02
  */
-public class SubscribeScanEventHandler extends BaseSubscribeEventHandler {
+public class UnSubscribeScanEventHandler extends BaseSubscribeEventHandler {
     /**
      * SubscribeEventHandler日志输出
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(SubscribeScanEventHandler.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(UnSubscribeScanEventHandler.class);
     /**
      * 创建对象
      */
-    private static final SubscribeScanEventHandler SUBSCRIBE_SCAN_EVENT_HANDLER = new SubscribeScanEventHandler();
+    private static final UnSubscribeScanEventHandler SUBSCRIBE_SCAN_EVENT_HANDLER = new UnSubscribeScanEventHandler();
 
     /**
      * 私有构造
      */
-    private SubscribeScanEventHandler() {
+    private UnSubscribeScanEventHandler() {
     }
 
     /**
@@ -42,7 +43,7 @@ public class SubscribeScanEventHandler extends BaseSubscribeEventHandler {
      *
      * @return 返回对象
      */
-    public static SubscribeScanEventHandler getInstance() {
+    public static UnSubscribeScanEventHandler getInstance() {
         return SUBSCRIBE_SCAN_EVENT_HANDLER;
     }
 
@@ -54,7 +55,7 @@ public class SubscribeScanEventHandler extends BaseSubscribeEventHandler {
      */
     @Override
     protected BaseMessageAndEvent dealTask(Element element) {
-        LOGGER.info("进入用户关注时，进入扫描二维码事件处理器]");
+        LOGGER.info("进入用户未关注时，进入扫描二维码事件处理器]");
         SubscribeAndUnSubscribeScanEventRequest subscribeAndUnSubscribeScanEventRequest = this.modelMethod(element);
         LOGGER.info("[扫描带参数二维码事件请求详情] {}", subscribeAndUnSubscribeScanEventRequest);
         // region 业务逻辑

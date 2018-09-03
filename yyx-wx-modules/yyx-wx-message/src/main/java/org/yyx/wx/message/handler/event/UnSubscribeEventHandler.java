@@ -17,6 +17,23 @@ import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRe
  * @date 2018/8/25-20:02
  */
 public class UnSubscribeEventHandler extends BaseEventHandler {
+    /**
+     * 创建对象
+     */
+    private static final UnSubscribeEventHandler UN_SUBSCRIBE_EVENT_HANDLER = new UnSubscribeEventHandler();
+
+    /**
+     * 私有构造
+     */
+    private UnSubscribeEventHandler(){}
+
+    /**
+     * 创建对象
+     * @return 获取对象
+     */
+    public static UnSubscribeEventHandler getInstance() {
+        return UN_SUBSCRIBE_EVENT_HANDLER;
+    }
 
     /**
      * SubscribeEventHandler日志输出
@@ -32,18 +49,8 @@ public class UnSubscribeEventHandler extends BaseEventHandler {
     @Override
     protected BaseMessageAndEvent dealTask(Element element) {
         LOGGER.info("[取消订阅[关注]事件处理器]");
-        // region 业务逻辑
-        SubscribeAndUnSubscribeEventRequest subscribeAndUnSubscribeEventRequest;
-        try {
-            // todo 取消公众号时的逻辑
-            subscribeAndUnSubscribeEventRequest
-                    = WxXmlAndObjectUtil.xmlToObject(element, SubscribeAndUnSubscribeEventRequest.class);
-            LOGGER.info("[用户取消关注公众号] {}", subscribeAndUnSubscribeEventRequest);
-        } catch (IllegalAccessException | InstantiationException e) {
-            return null;
-        }
-        // endregion
-        return null;
+        SubscribeAndUnSubscribeEventRequest subscribeAndUnSubscribeEventRequest = this.modelMethod(element);
+        return subscribeAndUnSubscribeEventRequest;
     }
 
     /**
@@ -54,5 +61,18 @@ public class UnSubscribeEventHandler extends BaseEventHandler {
     @Override
     protected String getHandlerLevel() {
         return EventTypeEnum.unsubscribe.toString();
+    }
+
+    @Override
+    protected SubscribeAndUnSubscribeEventRequest modelMethod(Element element) {
+        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element);
+        SubscribeAndUnSubscribeEventRequest subscribeAndUnSubscribeEventRequest;
+        try {
+            subscribeAndUnSubscribeEventRequest
+                    = WxXmlAndObjectUtil.xmlToObject(element, SubscribeAndUnSubscribeEventRequest.class);
+        } catch (IllegalAccessException | InstantiationException e) {
+            return null;
+        }
+        return subscribeAndUnSubscribeEventRequest;
     }
 }

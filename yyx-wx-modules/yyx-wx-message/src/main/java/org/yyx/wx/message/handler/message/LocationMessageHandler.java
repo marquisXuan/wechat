@@ -6,30 +6,30 @@ import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.TextMessageResponse;
-import org.yyx.wx.commons.vo.pubnum.request.message.TextMessageRequest;
+import org.yyx.wx.commons.vo.pubnum.request.message.LocationMessageRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 
 /**
- * 文本消息处理器
+ * 地理位置消息处理器
  * <p>
  *
  * @author 叶云轩 at tdg_yyx@foxmail.com
  * @date 2018/8/25-19:45
  */
-public class TextMessageHandler extends AbstractMessageHandler {
-    /**
-     * TextMessageHandler日志输出
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(TextMessageHandler.class);
+public class LocationMessageHandler extends AbstractMessageHandler {
     /**
      * 创建对象
      */
-    private static final TextMessageHandler TEXT_MESSAGE_HANDLER = new TextMessageHandler();
+    private static final LocationMessageHandler LOCATION_MESSAGE_HANDLER = new LocationMessageHandler();
+    /**
+     * TextMessageHandler日志输出
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(LocationMessageHandler.class);
 
     /**
      * 私有构造
      */
-    private TextMessageHandler() {
+    private LocationMessageHandler() {
     }
 
     /**
@@ -37,8 +37,8 @@ public class TextMessageHandler extends AbstractMessageHandler {
      *
      * @return 返回对象
      */
-    public static TextMessageHandler getInstance() {
-        return TEXT_MESSAGE_HANDLER;
+    public static LocationMessageHandler getInstance() {
+        return LOCATION_MESSAGE_HANDLER;
     }
 
     /**
@@ -49,18 +49,16 @@ public class TextMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected TextMessageResponse dealTask(Element element) {
-        LOGGER.info("[进入文本消息处理器]");
-        // 强转成文本消息
-        TextMessageRequest textMessageRequest = this.modelMethod(element);
+        LOGGER.info("[进入地理位置消息处理器]");
+        LocationMessageRequest locationMessageRequest = this.modelMethod(element);
         // 封装返回消息实体
         TextMessageResponse textMessageResponse = new TextMessageResponse();
         // 发送者是请求者对象中的接收者
-        textMessageResponse.setFromUserName(textMessageRequest.getToUserName());
+        textMessageResponse.setFromUserName(locationMessageRequest.getToUserName());
         // 接收者是请求者对象中的发送者
-        textMessageResponse.setToUserName(textMessageRequest.getFromUserName());
-        textMessageResponse.setContent("我是叶云轩的服务器，我返回的内容是：[你发的消息内容是]"
-                + textMessageRequest.getContent() + "\n 今后补写富文本消息，<a href='https://my.oschina.net/yzwjyw/'>我的博客</a>");
-        textMessageResponse.setMsgId(textMessageRequest.getMsgId());
+        textMessageResponse.setToUserName(locationMessageRequest.getFromUserName());
+        textMessageResponse.setContent("你发送了一条地理位置信息");
+        textMessageResponse.setMsgId(locationMessageRequest.getMsgId());
         textMessageResponse.setCreateTime(System.currentTimeMillis());
         return textMessageResponse;
     }
@@ -72,7 +70,7 @@ public class TextMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected String getHandlerLevel() {
-        return MessageTypeEnum.text.toString();
+        return MessageTypeEnum.location.toString();
     }
 
     /**
@@ -82,14 +80,14 @@ public class TextMessageHandler extends AbstractMessageHandler {
      * @return xml转换之后的实体对象 有可能为空
      */
     @Override
-    protected TextMessageRequest modelMethod(Element element) {
+    protected LocationMessageRequest modelMethod(Element element) {
         LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element);
-        TextMessageRequest textMessageRequest;
+        LocationMessageRequest locationMessageRequest;
         try {
-            textMessageRequest = WxXmlAndObjectUtil.xmlToObject(element, TextMessageRequest.class);
+            locationMessageRequest = WxXmlAndObjectUtil.xmlToObject(element, LocationMessageRequest.class);
         } catch (IllegalAccessException | InstantiationException e) {
             return null;
         }
-        return textMessageRequest;
+        return locationMessageRequest;
     }
 }

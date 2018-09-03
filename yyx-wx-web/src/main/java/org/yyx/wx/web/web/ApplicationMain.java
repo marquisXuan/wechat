@@ -15,16 +15,15 @@ import org.springframework.web.bind.annotation.RestController;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
-import org.yyx.wx.message.handler.event.SubscribeEventHandler;
-import org.yyx.wx.message.handler.event.SubscribeScanEventHandler;
-import org.yyx.wx.message.handler.event.UnSubscribeEventHandler;
-import org.yyx.wx.message.handler.message.TextMessageHandler;
+import org.yyx.wx.message.handler.AbstractMessageHandler;
 import org.yyx.wx.web.util.ValidateWeChat;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
+
+import static org.yyx.wx.message.factory.MessageEventHandlerFactory.getMessageHandler;
 
 /**
  * 接入微信服务器入口
@@ -47,7 +46,7 @@ public class ApplicationMain {
     private ValidateWeChat validateWeChat;
 
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private RedisTemplate<Object, Object> redisTemplate;
 
 
     /**
@@ -95,22 +94,8 @@ public class ApplicationMain {
                 Element rootElement = document.getRootElement();
                 // 解析成BaseMessage对象
                 BaseMessageAndEvent baseMessage = WxXmlAndObjectUtil.xmlToObject(rootElement, BaseMessageAndEvent.class);
-                // todo 可以优化
-                // 扫码未关注公众号事件处理器
-                SubscribeScanEventHandler subscribeScanEventHandler = new SubscribeScanEventHandler();
-                // 订阅事件处理器
-                SubscribeEventHandler subscribeEventHandler = new SubscribeEventHandler();
-                // 文本消息处理器
-                TextMessageHandler textMessageHandler = new TextMessageHandler();
-                // 取消订阅事件处理器
-                UnSubscribeEventHandler unSubscribeEventHandler = new UnSubscribeEventHandler();
-
-                subscribeEventHandler.setNextHandler(subscribeScanEventHandler);
-                textMessageHandler.setNextHandler(subscribeEventHandler);
-                unSubscribeEventHandler.setNextHandler(textMessageHandler);
-
-                unSubscribeEventHandler.setRedisTemplate(redisTemplate);
-                BaseMessageAndEvent baseMessageResponse = unSubscribeEventHandler.handleMessage(baseMessage, rootElement);
+                AbstractMessageHandler messageHandler = getMessageHandler(redisTemplate, null);
+                BaseMessageAndEvent baseMessageResponse = messageHandler.handleMessage(baseMessage, rootElement);
                 LOGGER.info("[返回信息] {}", baseMessageResponse);
                 /*创建一个document*/
                 Document documentResponse = DocumentHelper.createDocument();
@@ -136,8 +121,6 @@ public class ApplicationMain {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
         return "success";
     }
 }

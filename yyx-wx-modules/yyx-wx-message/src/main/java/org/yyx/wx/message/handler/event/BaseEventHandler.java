@@ -25,12 +25,11 @@ public abstract class BaseEventHandler extends AbstractMessageHandler {
     /**
      * 事件处理器的模板方法
      *
-     * @param baseMessageRequest 处理器
+     * @param baseMessageRequest 处理实体父类
      * @return 消息
      */
     @Override
     public BaseMessageAndEvent handleMessage(BaseMessageAndEvent baseMessageRequest, Element element) {
-        LOGGER.info("[事件分发器] ");
         BaseMessageAndEvent baseMessage;
         BaseEventRequest baseEventRequest;
         try {
@@ -38,8 +37,7 @@ public abstract class BaseEventHandler extends AbstractMessageHandler {
         } catch (IllegalAccessException | InstantiationException e) {
             return null;
         }
-        LOGGER.info("[此次微信请求的事件级别是] {}", baseEventRequest.getEvent());
-        LOGGER.info("[当前处理器的处理级别是] {}", this.getHandlerLevel());
+        LOGGER.info("[微信推送事件分发器]\n[微信请求的事件类型]：{}\n[当前处理器的处理级别是]：{}", baseEventRequest.getEvent(), this.getHandlerLevel());
         if (this.getHandlerLevel().equals(baseEventRequest.getEvent())) {
             baseMessage = this.dealTask(element);
         } else {

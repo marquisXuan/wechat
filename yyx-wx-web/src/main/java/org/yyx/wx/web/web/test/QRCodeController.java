@@ -1,4 +1,4 @@
-package org.yyx.wx.web.web;
+package org.yyx.wx.web.web.test;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -15,10 +15,14 @@ import org.yyx.wx.commons.vo.pubnum.reponse.BaseAccessToken;
 import org.yyx.wx.commons.vo.pubnum.reponse.qrcode.TicketResponse;
 import org.yyx.wx.commons.vo.pubnum.request.qrcode.ActionInfoWxRequest;
 import org.yyx.wx.commons.vo.pubnum.request.qrcode.QRCodeWxRequest;
+import org.yyx.wx.commons.vo.pull.model.ModelMessageVO;
+import org.yyx.wx.message.service.IMessageService;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * DemoController
@@ -46,6 +50,8 @@ public class QRCodeController {
     @Resource
     private WxQRCodeConfig wxQRCodeConfig;
     private QRCodeWxRequest qrCodeWxRequest = new QRCodeWxRequest();
+    @Resource
+    private IMessageService messageService;
 
     {
         qrCodeWxRequest.setExpire_seconds(30L);
@@ -87,4 +93,34 @@ public class QRCodeController {
         }
     }
 
+    @GetMapping("push")
+    public void testPushMessage() {
+        ModelMessageVO modelMessageVO = new ModelMessageVO();
+        // 叶云轩的OPENID
+        modelMessageVO.setTouser("oPuhG03YiRn3KLSuiOnRufEGMFpY");
+        Map<String, ModelMessageVO.DataVO> map = new HashMap<>();
+
+        ModelMessageVO.DataVO firstData = modelMessageVO.new DataVO();
+        firstData.setValue("yyx-first");
+        map.put("first", firstData);
+
+        ModelMessageVO.DataVO keyWord1Data = modelMessageVO.new DataVO();
+        keyWord1Data.setValue("yyx-key-word-1");
+        map.put("keyword1", keyWord1Data);
+
+        ModelMessageVO.DataVO keyWord2Data = modelMessageVO.new DataVO();
+        keyWord2Data.setValue("yyx-key-word-2");
+        map.put("keyword2", keyWord2Data);
+
+        ModelMessageVO.DataVO remarkData = modelMessageVO.new DataVO();
+        remarkData.setValue("yyx-remark");
+        map.put("remark", remarkData);
+
+        modelMessageVO.setData(map);
+        modelMessageVO.setTemplate_id("j-997y_XEDuinwkhrcvg0bI4vh876-S27B7wrqnI7bA");
+        boolean b = messageService.pushModelService(modelMessageVO);
+        if (b) {
+            LOGGER.info("[success] {}", b);
+        }
+    }
 }
