@@ -8,6 +8,7 @@ import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.VoiceMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.VoiceMessageRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
+import org.yyx.wx.message.proxy.message.VoiceMessageHandlerProxy;
 
 /**
  * 语音消息处理器
@@ -21,7 +22,7 @@ public class VoiceMessageHandler extends AbstractMessageHandler {
      * TextMessageHandler日志输出
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(VoiceMessageHandler.class);
-/**
+    /**
      * 创建对象
      */
     private static final VoiceMessageHandler VOICE_MESSAGE_HANDLER = new VoiceMessageHandler();
@@ -63,6 +64,19 @@ public class VoiceMessageHandler extends AbstractMessageHandler {
     @Override
     protected String getHandlerLevel() {
         return MessageTypeEnum.voice.toString();
+    }
+
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    @Override
+    protected boolean isMineProxy() {
+        if (baseMessageHandlerProxy instanceof VoiceMessageHandlerProxy) {
+            return true;
+        }
+        return false;
     }
 
     /**

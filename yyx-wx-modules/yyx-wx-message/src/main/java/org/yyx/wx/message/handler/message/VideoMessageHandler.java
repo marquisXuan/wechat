@@ -8,6 +8,7 @@ import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.VideoMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.VideoMessageRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
+import org.yyx.wx.message.proxy.message.VideoMessageHandlerProxy;
 
 /**
  * 视频消息处理器
@@ -25,7 +26,6 @@ public class VideoMessageHandler extends AbstractMessageHandler {
      * 创建对象
      */
     private static final VideoMessageHandler VIDEO_MESSAGE_HANDLER = new VideoMessageHandler();
-
     /**
      * 私有构造
      */
@@ -62,6 +62,19 @@ public class VideoMessageHandler extends AbstractMessageHandler {
     @Override
     protected String getHandlerLevel() {
         return MessageTypeEnum.video.toString();
+    }
+
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    @Override
+    protected boolean isMineProxy() {
+        if (baseMessageHandlerProxy instanceof VideoMessageHandlerProxy) {
+            return true;
+        }
+        return false;
     }
 
     /**

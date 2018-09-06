@@ -5,9 +5,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
 import org.yyx.wx.commons.exception.CreateObjectException;
+import org.yyx.wx.commons.exception.proxy.WrongProxyObjectException;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRequest;
+import org.yyx.wx.message.proxy.event.UnSubscribeEventHandlerProxy;
 
 
 /**
@@ -18,6 +20,7 @@ import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRe
  * @date 2018/8/25-20:02
  */
 public class UnSubscribeEventHandler extends BaseEventHandler {
+
     /**
      * SubscribeEventHandler日志输出
      */
@@ -26,7 +29,6 @@ public class UnSubscribeEventHandler extends BaseEventHandler {
      * 创建对象
      */
     private static final UnSubscribeEventHandler UN_SUBSCRIBE_EVENT_HANDLER = new UnSubscribeEventHandler();
-
     /**
      * 私有构造
      */
@@ -52,7 +54,10 @@ public class UnSubscribeEventHandler extends BaseEventHandler {
     protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[取消订阅[关注]事件处理器]");
         SubscribeAndUnSubscribeEventRequest subscribeAndUnSubscribeEventRequest = this.modelMethod(element);
-        return iMessageHandler.dealMessage(subscribeAndUnSubscribeEventRequest);
+        if(!isMineProxy()){
+            throw new WrongProxyObjectException();
+        }
+        return baseMessageHandlerProxy.dealMessage(subscribeAndUnSubscribeEventRequest);
     }
 
     /**
@@ -63,6 +68,19 @@ public class UnSubscribeEventHandler extends BaseEventHandler {
     @Override
     protected String getHandlerLevel() {
         return EventTypeEnum.unsubscribe.toString();
+    }
+
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    @Override
+    protected boolean isMineProxy() {
+        if (baseMessageHandlerProxy instanceof UnSubscribeEventHandlerProxy) {
+            return true;
+        }
+        return false;
     }
 
     /**

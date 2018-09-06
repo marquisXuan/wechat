@@ -8,6 +8,7 @@ import org.yyx.wx.commons.exception.handler.NoSuitedHandlerException;
 import org.yyx.wx.commons.exception.handler.OutOfOverMaxHandlerException;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse;
+import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 
 import static org.yyx.wx.commons.constant.HandlerConstant.MAX_HANDLER_COUNT;
 
@@ -36,7 +37,7 @@ public abstract class AbstractMessageHandler {
     /**
      * 业务Service
      */
-    protected IMessageHandler iMessageHandler;
+    protected BaseMessageHandlerProxy baseMessageHandlerProxy;
 
     /**
      * 每个处理器都必须要重写的方法
@@ -82,12 +83,28 @@ public abstract class AbstractMessageHandler {
     }
 
     /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    protected abstract boolean isMineProxy();
+
+    /**
      * 模板方法
      *
      * @param element 微信请求过来的消息:xml
      * @return xml转换之后的实体对象
      */
     protected abstract BaseMessageAndEventRequestAndResponse modelMethod(Element element);
+
+    /**
+     * 注入业务处理器
+     *
+     * @param baseMessageHandlerProxy 业务处理器
+     */
+    public void setBaseMessageHandlerProxy(BaseMessageHandlerProxy baseMessageHandlerProxy) {
+        this.baseMessageHandlerProxy = baseMessageHandlerProxy;
+    }
 
     /**
      * 设置下个类型的任务处理器
@@ -101,14 +118,5 @@ public abstract class AbstractMessageHandler {
             throw new OutOfOverMaxHandlerException(MAX_HANDLER_COUNT - maxHandlerCount);
         }
         this.nextHandler = nextHandler;
-    }
-
-    /**
-     * 注入业务处理器
-     *
-     * @param iMessageHandler 业务处理器
-     */
-    public void setiMessageHandler(IMessageHandler iMessageHandler) {
-        this.iMessageHandler = iMessageHandler;
     }
 }

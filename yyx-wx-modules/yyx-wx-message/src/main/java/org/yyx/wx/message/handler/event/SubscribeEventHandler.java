@@ -3,9 +3,11 @@ package org.yyx.wx.message.handler.event;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yyx.wx.commons.exception.proxy.WrongProxyObjectException;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRequest;
+import org.yyx.wx.message.proxy.event.SubscribeEventHandlerProxy;
 
 
 /**
@@ -51,7 +53,10 @@ public class SubscribeEventHandler extends BaseSubscribeEventHandler {
     protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[订阅[关注]事件处理器]");
         SubscribeAndUnSubscribeEventRequest subscribeAndUnSubscribeEventRequest = this.modelMethod(element);
-        return iMessageHandler.dealMessage(subscribeAndUnSubscribeEventRequest);
+        if (!isMineProxy()) {
+            throw new WrongProxyObjectException();
+        }
+        return baseMessageHandlerProxy.dealMessage(subscribeAndUnSubscribeEventRequest);
     }
 
     /**
@@ -62,6 +67,19 @@ public class SubscribeEventHandler extends BaseSubscribeEventHandler {
     @Override
     protected String getHandlerLevel() {
         return null;
+    }
+
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    @Override
+    protected boolean isMineProxy() {
+        if (baseMessageHandlerProxy instanceof SubscribeEventHandlerProxy) {
+            return true;
+        }
+        return false;
     }
 
     @Override
@@ -76,4 +94,5 @@ public class SubscribeEventHandler extends BaseSubscribeEventHandler {
         }
         return subscribeAndUnSubscribeEventRequest;
     }
+
 }

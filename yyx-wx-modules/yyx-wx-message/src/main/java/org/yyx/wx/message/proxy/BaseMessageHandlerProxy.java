@@ -1,4 +1,4 @@
-package org.yyx.wx.message.handler;
+package org.yyx.wx.message.proxy;
 
 import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse;
@@ -10,7 +10,7 @@ import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndRespons
  * @author 叶云轩 at tdg_yyx@foxmail.com
  * @date 2018/9/6-12:00
  */
-public interface IMessageHandler {
+public interface BaseMessageHandlerProxy {
 
     /**
      * 处理消息的方法

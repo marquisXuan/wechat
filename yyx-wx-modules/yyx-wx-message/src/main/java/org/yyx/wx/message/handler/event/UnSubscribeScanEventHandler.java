@@ -4,9 +4,11 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
+import org.yyx.wx.commons.exception.proxy.WrongProxyObjectException;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeScanEventRequest;
+import org.yyx.wx.message.proxy.event.UnSubscribeScanEventHandlerProxy;
 
 
 /**
@@ -53,7 +55,10 @@ public class UnSubscribeScanEventHandler extends BaseSubscribeEventHandler {
         LOGGER.info("进入用户未关注时，进入扫描二维码事件处理器]");
         SubscribeAndUnSubscribeScanEventRequest subscribeAndUnSubscribeScanEventRequest = this.modelMethod(element);
         LOGGER.info("[扫描带参数二维码事件请求详情] {}", subscribeAndUnSubscribeScanEventRequest);
-        return iMessageHandler.dealMessage(subscribeAndUnSubscribeScanEventRequest);
+        if (!isMineProxy()) {
+            throw new WrongProxyObjectException();
+        }
+        return baseMessageHandlerProxy.dealMessage(subscribeAndUnSubscribeScanEventRequest);
     }
 
     /**
@@ -64,6 +69,19 @@ public class UnSubscribeScanEventHandler extends BaseSubscribeEventHandler {
     @Override
     protected String getHandlerLevel() {
         return EventTypeEnum.qrscene_.toString();
+    }
+
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    @Override
+    protected boolean isMineProxy() {
+        if (baseMessageHandlerProxy instanceof UnSubscribeScanEventHandlerProxy) {
+            return true;
+        }
+        return false;
     }
 
     @Override

@@ -4,10 +4,12 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
+import org.yyx.wx.commons.exception.proxy.WrongProxyObjectException;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.ImageMessageRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
+import org.yyx.wx.message.proxy.message.ImageMessageHandlerProxy;
 
 /**
  * 图片消息处理器
@@ -39,11 +41,27 @@ public class ImageMessageHandler extends AbstractMessageHandler {
         return IMAGE_MESSAGE_HANDLER;
     }
 
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    @Override
+    protected boolean isMineProxy() {
+        if (baseMessageHandlerProxy instanceof ImageMessageHandlerProxy) {
+            return true;
+        }
+        return false;
+    }
+
     @Override
     protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[进入链接消息处理器]");
         ImageMessageRequest imageMessageRequest = this.modelMethod(element);
-        return iMessageHandler.dealMessage(imageMessageRequest);
+        if(!isMineProxy()){
+            throw new WrongProxyObjectException();
+        }
+        return baseMessageHandlerProxy.dealMessage(imageMessageRequest);
     }
 
     @Override

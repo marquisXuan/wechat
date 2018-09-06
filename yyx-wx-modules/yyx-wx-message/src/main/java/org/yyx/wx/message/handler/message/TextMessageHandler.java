@@ -8,6 +8,7 @@ import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.TextMessageRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
+import org.yyx.wx.message.proxy.message.TextMessageHandlerProxy;
 
 /**
  * 文本消息处理器
@@ -52,7 +53,7 @@ public class TextMessageHandler extends AbstractMessageHandler {
         LOGGER.info("[进入文本消息处理器]");
         // 强转成文本消息
         TextMessageRequest textMessageRequest = this.modelMethod(element);
-        return iMessageHandler.dealMessage(textMessageRequest);
+        return baseMessageHandlerProxy.dealMessage(textMessageRequest);
     }
 
     /**
@@ -63,6 +64,19 @@ public class TextMessageHandler extends AbstractMessageHandler {
     @Override
     protected String getHandlerLevel() {
         return MessageTypeEnum.text.toString();
+    }
+
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    @Override
+    protected boolean isMineProxy() {
+        if (baseMessageHandlerProxy instanceof TextMessageHandlerProxy) {
+            return true;
+        }
+        return false;
     }
 
     /**

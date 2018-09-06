@@ -14,7 +14,7 @@ import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
-import org.yyx.wx.message.handler.IMessageHandler;
+import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.web.util.ValidateWeChat;
 
 import javax.annotation.Resource;
@@ -45,7 +45,7 @@ public class ApplicationMain {
     private ValidateWeChat validateWeChat;
 
     @Resource
-    private IMessageHandler iMessageHandler;
+    private BaseMessageHandlerProxy baseMessageHandlerProxy;
 
 
     /**
@@ -94,7 +94,7 @@ public class ApplicationMain {
                 // 解析成BaseMessage对象
                 BaseMessageAndEventRequestAndResponse baseMessage = WxXmlAndObjectUtil.xmlToObject(rootElement, BaseMessageAndEventRequestAndResponse.class);
                 AbstractMessageHandler messageHandler = getMessageHandler();
-                messageHandler.setiMessageHandler(iMessageHandler);
+                messageHandler.setBaseMessageHandlerProxy(baseMessageHandlerProxy);
                 BaseMessageResponse baseMessageResponse = messageHandler.handleMessage(baseMessage, rootElement);
                 LOGGER.info("[返回信息] {}", baseMessageResponse);
                 return WxXmlAndObjectUtil.objectToxml(baseMessageResponse);
