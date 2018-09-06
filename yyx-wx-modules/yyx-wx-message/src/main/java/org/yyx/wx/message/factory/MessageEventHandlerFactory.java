@@ -1,7 +1,5 @@
 package org.yyx.wx.message.factory;
 
-import org.springframework.context.ApplicationContext;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 import org.yyx.wx.message.handler.event.SubscribeEventHandler;
 import org.yyx.wx.message.handler.event.SubscribeScanEventHandler;
@@ -15,6 +13,8 @@ import org.yyx.wx.message.handler.message.TextMessageHandler;
 import org.yyx.wx.message.handler.message.VideoMessageHandler;
 import org.yyx.wx.message.handler.message.VoiceMessageHandler;
 
+import static org.yyx.wx.commons.constant.HandlerConstant.MAX_HANDLER_COUNT;
+
 /**
  * 消息事件处理器工厂
  * <p>
@@ -26,7 +26,7 @@ public class MessageEventHandlerFactory {
     /**
      * 创建一个事件处理器集合
      */
-    public static final AbstractMessageHandler[] ABSTRACT_MESSAGE_HANDLERS = new AbstractMessageHandler[11];
+    public static final AbstractMessageHandler[] ABSTRACT_MESSAGE_HANDLERS = new AbstractMessageHandler[MAX_HANDLER_COUNT - 11];
     /**
      * 创建对象
      */
@@ -54,12 +54,9 @@ public class MessageEventHandlerFactory {
      * -> 链接消息处理器 -> 图片消息处理器 -> 语音消息处理器 -> 小视频消息处理器
      * -> 视频消息处理器 -> 地理位置消息处理器 -> 取消订阅[关注]公众号事件处理器
      *
-     * @param redisTemplate      注入Redis缓存，有待优化
-     * @param applicationContext 注入Spring容器，有待优化
      * @return 事件处理器
      */
-    public static AbstractMessageHandler getMessageHandler(RedisTemplate<Object, Object> redisTemplate,
-                                                           ApplicationContext applicationContext) {
+    public static AbstractMessageHandler getMessageHandler() {
         // 订阅[关注]事件处理器
         SubscribeEventHandler subscribeEventHandler = SubscribeEventHandler.getInstance();
         // 关注过扫描二维码事件处理器
@@ -82,17 +79,19 @@ public class MessageEventHandlerFactory {
         VideoMessageHandler videoMessageHandler = VideoMessageHandler.getInstance();
         // 语音消息处理器
         VoiceMessageHandler voiceMessageHandler = VoiceMessageHandler.getInstance();
-        for (int i = 0; i < ABSTRACT_MESSAGE_HANDLERS.length; i++) {
+        // 添加自定义消息处理器
+        for (int i = ABSTRACT_MESSAGE_HANDLERS.length; i > 0; i--) {
             AbstractMessageHandler abstractMessageHandler = ABSTRACT_MESSAGE_HANDLERS[i];
-            // 下一个
-            if (i < ABSTRACT_MESSAGE_HANDLERS.length - 1) {
-                AbstractMessageHandler nextAbstractMessageHandler = ABSTRACT_MESSAGE_HANDLERS[i + 1];
-                abstractMessageHandler.setNextHandler(nextAbstractMessageHandler);
+            if (abstractMessageHandler == null) {
+                break;
             }
+            // 下一个自定义消息处理器
+            AbstractMessageHandler nextAbstractMessageHandler = ABSTRACT_MESSAGE_HANDLERS[i - 1];
+            abstractMessageHandler.setNextHandler(nextAbstractMessageHandler);
         }
+        // 获取第一个消息处理器，主要用于添加到基本消息处理器中
         AbstractMessageHandler lastAbstractMessageHandler = ABSTRACT_MESSAGE_HANDLERS[0];
         // 设置链条
-        unSubscribeEventHandler.setNextHandler(lastAbstractMessageHandler);
         locationMessageHandler.setNextHandler(unSubscribeEventHandler);
         videoMessageHandler.setNextHandler(locationMessageHandler);
         shortVideoMessageHandler.setNextHandler(videoMessageHandler);
@@ -103,12 +102,8 @@ public class MessageEventHandlerFactory {
         subscribeEventHandler.setNextHandler(textMessageHandler);
         subscribeScanEventHandler.setNextHandler(subscribeEventHandler);
         unSubscribeScanEventHandler.setNextHandler(subscribeScanEventHandler);
-        if (redisTemplate != null) {
-            unSubscribeScanEventHandler.setRedisTemplate(redisTemplate);
-        }
-        if (applicationContext != null) {
-            unSubscribeScanEventHandler.setStaticApplicationContext(applicationContext);
-        }
-        return unSubscribeScanEventHandler;
+        lastAbstractMessageHandler.setNextHandler(unSubscribeScanEventHandler);
+        // 优先自定义消息处理器
+        return lastAbstractMessageHandler;
     }
 }

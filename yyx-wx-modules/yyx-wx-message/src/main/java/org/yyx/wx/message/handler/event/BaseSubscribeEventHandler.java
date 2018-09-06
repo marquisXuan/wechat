@@ -5,7 +5,8 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
+import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeScanEventRequest;
 
 /**
@@ -29,9 +30,9 @@ public abstract class BaseSubscribeEventHandler extends BaseEventHandler {
      * @return 消息
      */
     @Override
-    public final BaseMessageAndEvent handleMessage(BaseMessageAndEvent baseMessageRequest, Element element) {
+    public final BaseMessageResponse handleMessage(BaseMessageAndEventRequestAndResponse baseMessageRequest, Element element) {
         LOGGER.info("[订阅事件分发器] ");
-        BaseMessageAndEvent baseMessage = null;
+        BaseMessageResponse baseMessage = null;
         // 都使用扫码事件实体来接收
         SubscribeAndUnSubscribeScanEventRequest subscribeAndUnSubscribeScanEventRequest;
         try {

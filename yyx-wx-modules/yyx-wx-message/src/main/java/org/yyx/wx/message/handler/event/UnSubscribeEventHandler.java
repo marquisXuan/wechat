@@ -4,8 +4,9 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
+import org.yyx.wx.commons.exception.CreateObjectException;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
+import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRequest;
 
 
@@ -18,6 +19,10 @@ import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRe
  */
 public class UnSubscribeEventHandler extends BaseEventHandler {
     /**
+     * SubscribeEventHandler日志输出
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(UnSubscribeEventHandler.class);
+    /**
      * 创建对象
      */
     private static final UnSubscribeEventHandler UN_SUBSCRIBE_EVENT_HANDLER = new UnSubscribeEventHandler();
@@ -25,20 +30,17 @@ public class UnSubscribeEventHandler extends BaseEventHandler {
     /**
      * 私有构造
      */
-    private UnSubscribeEventHandler(){}
+    private UnSubscribeEventHandler() {
+    }
 
     /**
      * 创建对象
+     *
      * @return 获取对象
      */
     public static UnSubscribeEventHandler getInstance() {
         return UN_SUBSCRIBE_EVENT_HANDLER;
     }
-
-    /**
-     * SubscribeEventHandler日志输出
-     */
-    private static final Logger LOGGER = LoggerFactory.getLogger(UnSubscribeEventHandler.class);
 
     /**
      * 实际处理任务
@@ -47,10 +49,10 @@ public class UnSubscribeEventHandler extends BaseEventHandler {
      * @return 处理后封装的消息
      */
     @Override
-    protected BaseMessageAndEvent dealTask(Element element) {
+    protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[取消订阅[关注]事件处理器]");
         SubscribeAndUnSubscribeEventRequest subscribeAndUnSubscribeEventRequest = this.modelMethod(element);
-        return subscribeAndUnSubscribeEventRequest;
+        return iMessageHandler.dealMessage(subscribeAndUnSubscribeEventRequest);
     }
 
     /**
@@ -63,6 +65,12 @@ public class UnSubscribeEventHandler extends BaseEventHandler {
         return EventTypeEnum.unsubscribe.toString();
     }
 
+    /**
+     * 封装处理事件对应的实体的方法
+     *
+     * @param element 微信请求过来的消息:xml
+     * @return 取消关注公众号事件实体
+     */
     @Override
     protected SubscribeAndUnSubscribeEventRequest modelMethod(Element element) {
         LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element);
@@ -71,7 +79,7 @@ public class UnSubscribeEventHandler extends BaseEventHandler {
             subscribeAndUnSubscribeEventRequest
                     = WxXmlAndObjectUtil.xmlToObject(element, SubscribeAndUnSubscribeEventRequest.class);
         } catch (IllegalAccessException | InstantiationException e) {
-            return null;
+            throw new CreateObjectException("解析成[SubscribeAndUnSubscribeEventRequest|取消关注公众号事件实体]失败。");
         }
         return subscribeAndUnSubscribeEventRequest;
     }

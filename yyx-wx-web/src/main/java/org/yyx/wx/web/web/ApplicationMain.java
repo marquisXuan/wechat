@@ -2,20 +2,19 @@ package org.yyx.wx.web.web;
 
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
-import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
+import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
+import org.yyx.wx.message.handler.IMessageHandler;
 import org.yyx.wx.web.util.ValidateWeChat;
 
 import javax.annotation.Resource;
@@ -46,7 +45,7 @@ public class ApplicationMain {
     private ValidateWeChat validateWeChat;
 
     @Resource
-    private RedisTemplate<Object, Object> redisTemplate;
+    private IMessageHandler iMessageHandler;
 
 
     /**
@@ -93,29 +92,13 @@ public class ApplicationMain {
                 // 获取xml中根节点
                 Element rootElement = document.getRootElement();
                 // 解析成BaseMessage对象
-                BaseMessageAndEvent baseMessage = WxXmlAndObjectUtil.xmlToObject(rootElement, BaseMessageAndEvent.class);
-                AbstractMessageHandler messageHandler = getMessageHandler(redisTemplate, null);
-                BaseMessageAndEvent baseMessageResponse = messageHandler.handleMessage(baseMessage, rootElement);
+                BaseMessageAndEventRequestAndResponse baseMessage = WxXmlAndObjectUtil.xmlToObject(rootElement, BaseMessageAndEventRequestAndResponse.class);
+                AbstractMessageHandler messageHandler = getMessageHandler();
+                messageHandler.setiMessageHandler(iMessageHandler);
+                BaseMessageResponse baseMessageResponse = messageHandler.handleMessage(baseMessage, rootElement);
                 LOGGER.info("[返回信息] {}", baseMessageResponse);
-                /*创建一个document*/
-                Document documentResponse = DocumentHelper.createDocument();
-                /*生成根节点*/
-                Element rootElementResponse = documentResponse.addElement("xml");
-                Element toUserName = rootElementResponse.addElement("ToUserName");
-                toUserName.addCDATA(baseMessage.getFromUserName());
-                Element fromUserName = rootElementResponse.addElement("FromUserName");
-                fromUserName.addCDATA(baseMessage.getToUserName());
-                Element cdata = rootElementResponse.addElement("CreateTime");
-                cdata.addCDATA(System.currentTimeMillis() + "");
-                Element MsgType = rootElementResponse.addElement("MsgType");
-                MsgType.addCDATA(MessageTypeEnum.text.toString());
-                Element content = rootElementResponse.addElement("Content");
-                content.addCDATA("这是叶云轩开发的程序返回的,用来测试");
-                String s = documentResponse.asXML();
-                return s;
-            } catch (DocumentException | InstantiationException e) {
-                e.printStackTrace();
-            } catch (IllegalAccessException e) {
+                return WxXmlAndObjectUtil.objectToxml(baseMessageResponse);
+            } catch (DocumentException | InstantiationException | IllegalAccessException e) {
                 e.printStackTrace();
             }
         } catch (IOException e) {

@@ -3,10 +3,8 @@ package org.yyx.wx.message.handler.event;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
-import org.yyx.wx.commons.vo.pubnum.reponse.message.TextMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRequest;
 
 
@@ -50,19 +48,10 @@ public class SubscribeEventHandler extends BaseSubscribeEventHandler {
      * @return 处理后封装的消息
      */
     @Override
-    protected BaseMessageAndEvent dealTask(Element element) {
+    protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[订阅[关注]事件处理器]");
         SubscribeAndUnSubscribeEventRequest subscribeAndUnSubscribeEventRequest = this.modelMethod(element);
-        // region 订阅公众号的逻辑
-        TextMessageResponse textMessageResponse = new TextMessageResponse();
-        textMessageResponse.setCreateTime(System.currentTimeMillis());
-        textMessageResponse.setMsgId(1);
-        textMessageResponse.setToUserName(subscribeAndUnSubscribeEventRequest.getFromUserName());
-        textMessageResponse.setFromUserName(subscribeAndUnSubscribeEventRequest.getToUserName());
-        textMessageResponse.setMsgType(MessageTypeEnum.text.toString());
-        textMessageResponse.setContent("欢迎使用 [叶云轩公众号测试号] ");
-        // endregion
-        return textMessageResponse;
+        return iMessageHandler.dealMessage(subscribeAndUnSubscribeEventRequest);
     }
 
     /**

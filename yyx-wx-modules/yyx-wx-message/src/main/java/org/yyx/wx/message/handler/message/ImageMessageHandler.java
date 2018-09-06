@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.reponse.message.ImageMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.ImageMessageRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 
@@ -40,20 +40,10 @@ public class ImageMessageHandler extends AbstractMessageHandler {
     }
 
     @Override
-    protected ImageMessageResponse dealTask(Element element) {
+    protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[进入链接消息处理器]");
         ImageMessageRequest imageMessageRequest = this.modelMethod(element);
-        // 封装返回消息实体
-        ImageMessageResponse imageMessageResponse = new ImageMessageResponse();
-        // 发送者是请求者对象中的接收者
-        imageMessageResponse.setFromUserName(imageMessageRequest.getToUserName());
-        // 接收者是请求者对象中的发送者
-        imageMessageResponse.setToUserName(imageMessageRequest.getFromUserName());
-        imageMessageResponse.setPicUrl("http://file.happyqing.com/xuan/index.jpg");
-        imageMessageResponse.setMsgType(MessageTypeEnum.image.toString());
-        imageMessageResponse.setMsgId(imageMessageRequest.getMsgId());
-        imageMessageResponse.setCreateTime(System.currentTimeMillis());
-        return imageMessageResponse;
+        return iMessageHandler.dealMessage(imageMessageRequest);
     }
 
     @Override

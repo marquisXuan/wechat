@@ -4,6 +4,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.junit.Test;
+import org.yyx.wx.commons.vo.pubnum.reponse.message.TextMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.ImageMessageRequest;
 
 public class WxXmlAndObjectUtilTest {
@@ -27,5 +28,16 @@ public class WxXmlAndObjectUtilTest {
 
         ImageMessageRequest baseMessage = WxXmlAndObjectUtil.xmlToObject(rootElement, ImageMessageRequest.class);
         System.out.println(baseMessage + ": " + baseMessage.getFromUserName());
+    }
+
+    @Test
+    public void testObjectToXml() throws IllegalAccessException {
+        TextMessageResponse baseMessage = new TextMessageResponse();
+        baseMessage.setContent("1111");
+        baseMessage.setCreateTime(System.currentTimeMillis());
+        baseMessage.setFromUserName("123");
+        baseMessage.setMsgId(1);
+        String s = WxXmlAndObjectUtil.objectToxml(baseMessage);
+        System.out.println(s);
     }
 }

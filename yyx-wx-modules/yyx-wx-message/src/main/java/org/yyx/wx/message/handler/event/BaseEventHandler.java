@@ -3,8 +3,11 @@ package org.yyx.wx.message.handler.event;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yyx.wx.commons.exception.CreateObjectException;
+import org.yyx.wx.commons.exception.handler.NoSuitedHandlerException;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
+import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.BaseEventRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 
@@ -29,24 +32,22 @@ public abstract class BaseEventHandler extends AbstractMessageHandler {
      * @return 消息
      */
     @Override
-    public BaseMessageAndEvent handleMessage(BaseMessageAndEvent baseMessageRequest, Element element) {
-        BaseMessageAndEvent baseMessage;
+    public BaseMessageResponse handleMessage(BaseMessageAndEventRequestAndResponse baseMessageRequest, Element element) {
+        BaseMessageResponse baseMessage;
         BaseEventRequest baseEventRequest;
         try {
             baseEventRequest = WxXmlAndObjectUtil.xmlToObject(element, BaseEventRequest.class);
         } catch (IllegalAccessException | InstantiationException e) {
-            return null;
+            throw new CreateObjectException("解析成[BaseEventRequest|基础事件消息父类]失败");
         }
-        LOGGER.info("[微信推送事件分发器]\n[微信请求的事件类型]：{}\n[当前处理器的处理级别是]：{}", baseEventRequest.getEvent(), this.getHandlerLevel());
+        LOGGER.info("[微信推送事件分发器]");
         if (this.getHandlerLevel().equals(baseEventRequest.getEvent())) {
             baseMessage = this.dealTask(element);
         } else {
             if (nextHandler != null) {
                 baseMessage = nextHandler.handleMessage(baseMessageRequest, element);
             } else {
-                // todo do something
-                LOGGER.error("[没有可以处理该类型事件的处理器]");
-                return null;
+                throw new NoSuitedHandlerException("没有可以处理该类型事件的处理器");
             }
         }
         return baseMessage;

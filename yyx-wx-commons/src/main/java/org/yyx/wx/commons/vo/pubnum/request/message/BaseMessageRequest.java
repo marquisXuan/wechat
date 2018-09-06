@@ -2,7 +2,7 @@ package org.yyx.wx.commons.vo.pubnum.request.message;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
+import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse;
 
 /**
  * 微信请求过来的基础消息父类
@@ -12,7 +12,7 @@ import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class BaseMessageRequest extends BaseMessageAndEvent {
+public class BaseMessageRequest extends BaseMessageAndEventRequestAndResponse {
     /**
      * 消息id，64位整型
      */

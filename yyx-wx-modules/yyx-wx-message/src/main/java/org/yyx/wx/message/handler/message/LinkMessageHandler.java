@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.reponse.message.LinkMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.LinkMessageRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 
@@ -48,21 +48,10 @@ public class LinkMessageHandler extends AbstractMessageHandler {
      * @return 处理后的消息
      */
     @Override
-    protected LinkMessageResponse dealTask(Element element) {
+    protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[进入链接消息处理器]");
         LinkMessageRequest linkMessageRequest = this.modelMethod(element);
-        // 封装返回消息实体
-        LinkMessageResponse linkMessageResponse = new LinkMessageResponse();
-        // 发送者是请求者对象中的接收者
-        linkMessageResponse.setFromUserName(linkMessageRequest.getToUserName());
-        // 接收者是请求者对象中的发送者
-        linkMessageResponse.setToUserName(linkMessageRequest.getFromUserName());
-        linkMessageResponse.setTitle("服务器返回消息");
-        linkMessageResponse.setUrl("https://my.oschina.net/yzwjyw/");
-        linkMessageResponse.setDescription("你发送了一条链接消息");
-        linkMessageResponse.setMsgId(linkMessageRequest.getMsgId());
-        linkMessageResponse.setCreateTime(System.currentTimeMillis());
-        return linkMessageResponse;
+        return iMessageHandler.dealMessage(linkMessageRequest);
     }
 
     /**

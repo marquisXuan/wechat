@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.reponse.message.TextMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.LocationMessageRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 
@@ -48,19 +48,10 @@ public class LocationMessageHandler extends AbstractMessageHandler {
      * @return 处理后的消息
      */
     @Override
-    protected TextMessageResponse dealTask(Element element) {
+    protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[进入地理位置消息处理器]");
         LocationMessageRequest locationMessageRequest = this.modelMethod(element);
-        // 封装返回消息实体
-        TextMessageResponse textMessageResponse = new TextMessageResponse();
-        // 发送者是请求者对象中的接收者
-        textMessageResponse.setFromUserName(locationMessageRequest.getToUserName());
-        // 接收者是请求者对象中的发送者
-        textMessageResponse.setToUserName(locationMessageRequest.getFromUserName());
-        textMessageResponse.setContent("你发送了一条地理位置信息");
-        textMessageResponse.setMsgId(locationMessageRequest.getMsgId());
-        textMessageResponse.setCreateTime(System.currentTimeMillis());
-        return textMessageResponse;
+        return iMessageHandler.dealMessage(locationMessageRequest);
     }
 
     /**

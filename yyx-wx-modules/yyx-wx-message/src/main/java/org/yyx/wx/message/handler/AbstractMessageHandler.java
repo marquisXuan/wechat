@@ -3,9 +3,13 @@ package org.yyx.wx.message.handler;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.context.ApplicationContext;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
+import org.yyx.wx.commons.exception.handler.HandlerException;
+import org.yyx.wx.commons.exception.handler.NoSuitedHandlerException;
+import org.yyx.wx.commons.exception.handler.OutOfOverMaxHandlerException;
+import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse;
+
+import static org.yyx.wx.commons.constant.HandlerConstant.MAX_HANDLER_COUNT;
 
 
 /**
@@ -22,28 +26,17 @@ public abstract class AbstractMessageHandler {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(AbstractMessageHandler.class);
     /**
-     * 缓存工具
+     * 设置最大处理器链数，防止出现超长链，破坏系统性能
      */
-    protected static RedisTemplate<Object, Object> redisTemplate;
-    /**
-     * Spring容器
-     */
-    protected static ApplicationContext staticApplicationContext;
+    private static Integer maxHandlerCount = MAX_HANDLER_COUNT;
     /**
      * 下一个消息处理器
      */
     protected AbstractMessageHandler nextHandler;
-
     /**
-     * 注入Spring容器，如果处理器中使用spring管理的依赖的话，可以直接getBean
-     *
-     * @param staticApplicationContext spring容器
+     * 业务Service
      */
-    public void setStaticApplicationContext(ApplicationContext staticApplicationContext) {
-        if (AbstractMessageHandler.staticApplicationContext == null) {
-            AbstractMessageHandler.staticApplicationContext = staticApplicationContext;
-        }
-    }
+    protected IMessageHandler iMessageHandler;
 
     /**
      * 每个处理器都必须要重写的方法
@@ -51,7 +44,7 @@ public abstract class AbstractMessageHandler {
      * @param element 实际处理器要处理的数据
      * @return 给微信的消息实体
      */
-    protected abstract BaseMessageAndEvent dealTask(Element element);
+    protected abstract BaseMessageResponse dealTask(Element element);
 
     /**
      * 获取该处理器的处理级别
@@ -67,20 +60,22 @@ public abstract class AbstractMessageHandler {
      *
      * @param baseMessageRequest 微信请求过来的消息和事件的父类
      * @return 消息
+     * @throws HandlerException 处理器异常
      */
-    public BaseMessageAndEvent handleMessage(BaseMessageAndEvent baseMessageRequest, Element element) {
-        BaseMessageAndEvent baseMessage;
+    public BaseMessageResponse handleMessage(BaseMessageAndEventRequestAndResponse baseMessageRequest
+            , Element element)
+            throws HandlerException {
+        BaseMessageResponse baseMessage;
         String msgType = baseMessageRequest.getMsgType();
-        LOGGER.info("[消息事件总线处理器]\n[微信请求的事件类型]：{}\n[当前处理器的处理级别是]：{}", msgType, this.getHandlerLevel());
+        LOGGER.info("[消息总线处理器]\n[当前微信请求的事件处理级别]：{}\n[当前处理器的处理级别是]：{}", msgType, this.getHandlerLevel());
         if (this.getHandlerLevel().equals(msgType)) {
             baseMessage = this.dealTask(element);
         } else {
             if (nextHandler != null) {
                 baseMessage = this.nextHandler.handleMessage(baseMessageRequest, element);
             } else {
-                // todo do something
                 LOGGER.error("[没有可以处理该类型事件的处理器]");
-                return null;
+                throw new NoSuitedHandlerException();
             }
         }
         return baseMessage;
@@ -92,25 +87,28 @@ public abstract class AbstractMessageHandler {
      * @param element 微信请求过来的消息:xml
      * @return xml转换之后的实体对象
      */
-    protected abstract BaseMessageAndEvent modelMethod(Element element);
+    protected abstract BaseMessageAndEventRequestAndResponse modelMethod(Element element);
 
     /**
      * 设置下个类型的任务处理器
      *
      * @param nextHandler 下个类型的任务处理器
+     * @throws OutOfOverMaxHandlerException 当前链条超出最大链条
      */
     public void setNextHandler(AbstractMessageHandler nextHandler) {
+        maxHandlerCount--;
+        if (maxHandlerCount == 0) {
+            throw new OutOfOverMaxHandlerException(MAX_HANDLER_COUNT - maxHandlerCount);
+        }
         this.nextHandler = nextHandler;
     }
 
     /**
-     * 注入缓存工具
+     * 注入业务处理器
      *
-     * @param redisTemplate 缓存工具
+     * @param iMessageHandler 业务处理器
      */
-    public void setRedisTemplate(RedisTemplate<Object, Object> redisTemplate) {
-        if (AbstractMessageHandler.redisTemplate == null) {
-            AbstractMessageHandler.redisTemplate = redisTemplate;
-        }
+    public void setiMessageHandler(IMessageHandler iMessageHandler) {
+        this.iMessageHandler = iMessageHandler;
     }
 }

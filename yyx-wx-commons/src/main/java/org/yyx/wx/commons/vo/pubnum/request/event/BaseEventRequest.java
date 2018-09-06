@@ -2,7 +2,7 @@ package org.yyx.wx.commons.vo.pubnum.request.event;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
+import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse;
 
 /**
  * 基础事件消息父类
@@ -13,7 +13,7 @@ import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEvent;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class BaseEventRequest extends BaseMessageAndEvent {
+public class BaseEventRequest extends BaseMessageAndEventRequestAndResponse {
 
     /**
      * 事件类型

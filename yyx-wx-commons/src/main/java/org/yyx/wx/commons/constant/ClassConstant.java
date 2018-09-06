@@ -16,5 +16,9 @@ public class ClassConstant {
     /**
      * lang类型
      */
-    public static final String LANG = "lang";
+    public static final String LONG = "long";
+    /**
+     * 微信对接消息父类
+     */
+    public static final String BASE_MESSAGE_EVENT_RESPONSE="org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse";
 }

@@ -1,4 +1,4 @@
-package org.yyx.wx.commons.vo.pubnum;
+package org.yyx.wx.commons.vo.pubnum.request;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import lombok.Data;
  * @date 2018/8/25-10:21
  */
 @Data
-public class BaseMessageAndEvent {
+public class BaseMessageAndEventRequestAndResponse {
     /**
      * 开发者微信号
      */

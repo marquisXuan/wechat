@@ -7,7 +7,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.yyx.wx.acount.auth.service.IAccessTokenService;
 import org.yyx.wx.commons.vo.pubnum.reponse.BaseAccessToken;
-import org.yyx.wx.commons.vo.pull.model.ModelMessageVO;
+import org.yyx.wx.commons.vo.pubnum.reponse.model.ModelMessageResponse;
 import org.yyx.wx.message.config.WxModelMessageConfig;
 import org.yyx.wx.message.service.IMessageService;
 
@@ -41,11 +41,11 @@ public class MessageServiceImpl implements IMessageService {
     /**
      * 推送模板消息业务
      *
-     * @param modelMessageVO 封装的模板消息
+     * @param modelMessageResponse 封装的模板消息
      * @return 推送状态是否成功（不代表一定推送成功，只有接收到微信回调才肯定推送成功）
      */
     @Override
-    public boolean pushModelService(ModelMessageVO modelMessageVO) {
+    public boolean pushModelService(ModelMessageResponse modelMessageResponse) {
         BaseAccessToken baseAccessToken = accessTokenService.getBaseAccessToken();
         if (baseAccessToken == null) {
             // 报错
@@ -54,7 +54,7 @@ public class MessageServiceImpl implements IMessageService {
         // POST请求URL
         String urlSendModelMessage = wxModelMessageConfig.getUrlSendModelMessage()
                 + baseAccessToken.getAccess_token();
-        String modelMessageJson = JSONObject.toJSONString(modelMessageVO);
+        String modelMessageJson = JSONObject.toJSONString(modelMessageResponse);
         LOGGER.info("[推送消息] {}", modelMessageJson);
         String post = HttpUtil.post(urlSendModelMessage, modelMessageJson);
         JSONObject jsonObject = JSONObject.parseObject(post);

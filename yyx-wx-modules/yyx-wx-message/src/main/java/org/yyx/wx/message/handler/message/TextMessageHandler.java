@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.reponse.message.TextMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.TextMessageRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 
@@ -48,21 +48,11 @@ public class TextMessageHandler extends AbstractMessageHandler {
      * @return 处理后的消息
      */
     @Override
-    protected TextMessageResponse dealTask(Element element) {
+    protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[进入文本消息处理器]");
         // 强转成文本消息
         TextMessageRequest textMessageRequest = this.modelMethod(element);
-        // 封装返回消息实体
-        TextMessageResponse textMessageResponse = new TextMessageResponse();
-        // 发送者是请求者对象中的接收者
-        textMessageResponse.setFromUserName(textMessageRequest.getToUserName());
-        // 接收者是请求者对象中的发送者
-        textMessageResponse.setToUserName(textMessageRequest.getFromUserName());
-        textMessageResponse.setContent("我是叶云轩的服务器，我返回的内容是：[你发的消息内容是]"
-                + textMessageRequest.getContent() + "\n 今后补写富文本消息，<a href='https://my.oschina.net/yzwjyw/'>我的博客</a>");
-        textMessageResponse.setMsgId(textMessageRequest.getMsgId());
-        textMessageResponse.setCreateTime(System.currentTimeMillis());
-        return textMessageResponse;
+        return iMessageHandler.dealMessage(textMessageRequest);
     }
 
     /**

@@ -1,4 +1,4 @@
-package org.yyx.wx.commons.vo.pull.model;
+package org.yyx.wx.commons.vo.pubnum.reponse.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -19,7 +19,7 @@ import java.util.Map;
  */
 @Data
 @NoArgsConstructor
-public class ModelMessageVO {
+public class ModelMessageResponse {
     /**
      * 接收者openid
      */
@@ -39,18 +39,19 @@ public class ModelMessageVO {
     /**
      * 跳小程序所需数据，不需跳小程序可不用传该数据
      */
-    private MiniProgramVO miniprogram;
+    private MiniProgramResponse miniprogram;
     /**
      * 模板数据
      */
     @NonNull
-    private Map<String, DataVO> data;
+    private Map<String, ModelDataResponse> data;
 
     /**
      * 跳小程序所需数据，不需跳小程序可不用传该数据
      */
     @Data
-    public class MiniProgramVO {
+    @NoArgsConstructor
+    public class MiniProgramResponse {
         /**
          * 所需跳转到的小程序appid（该小程序appid必须与发模板消息的公众号是绑定关联关系，暂不支持小游戏)
          */
@@ -68,7 +69,7 @@ public class ModelMessageVO {
      */
     @NoArgsConstructor
     @Data
-    public class DataVO {
+    public class ModelDataResponse {
         @NonNull
         private String value;
         /**
