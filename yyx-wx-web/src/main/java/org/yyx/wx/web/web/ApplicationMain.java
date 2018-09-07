@@ -22,7 +22,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-import static org.yyx.wx.message.factory.MessageEventHandlerFactory.getMessageHandler;
+import static org.yyx.wx.message.builder.MessageEventHandlerBuilder.getMessageHandler;
 
 /**
  * 接入微信服务器入口

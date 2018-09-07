@@ -1,4 +1,4 @@
-package org.yyx.wx.message.factory;
+package org.yyx.wx.message.builder;
 
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 import org.yyx.wx.message.handler.event.SubscribeEventHandler;
@@ -16,13 +16,13 @@ import org.yyx.wx.message.handler.message.VoiceMessageHandler;
 import static org.yyx.wx.commons.constant.HandlerConstant.MAX_HANDLER_COUNT;
 
 /**
- * 消息事件处理器工厂
+ * 消息事件处理器建造者
  * <p>
  *
  * @author 叶云轩 at tdg_yyx@foxmail.com
  * @date 2018/9/3-16:28
  */
-public class MessageEventHandlerFactory {
+public class MessageEventHandlerBuilder {
     /**
      * 创建一个事件处理器集合
      */
@@ -30,12 +30,12 @@ public class MessageEventHandlerFactory {
     /**
      * 创建对象
      */
-    private static final MessageEventHandlerFactory MESSAGE_EVENT_HANDLER_FACTORY = new MessageEventHandlerFactory();
+    private static final MessageEventHandlerBuilder MESSAGE_EVENT_HANDLER_FACTORY = new MessageEventHandlerBuilder();
 
     /**
      * 私有构造
      */
-    private MessageEventHandlerFactory() {
+    private MessageEventHandlerBuilder() {
     }
 
     /**
@@ -43,7 +43,7 @@ public class MessageEventHandlerFactory {
      *
      * @return 返回对象
      */
-    public static MessageEventHandlerFactory getInstance() {
+    public static MessageEventHandlerBuilder getInstance() {
         return MESSAGE_EVENT_HANDLER_FACTORY;
     }
 
