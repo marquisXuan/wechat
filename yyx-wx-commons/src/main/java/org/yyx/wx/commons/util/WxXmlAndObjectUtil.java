@@ -19,8 +19,6 @@ import static org.yyx.wx.commons.constant.ClassConstant.LONG;
  * @date 2018/8/25-08:47
  */
 public class WxXmlAndObjectUtil {
-    private BaseMessageResponse baseMessageResponse;
-
     /**
      * 私有构造
      */

@@ -47,9 +47,18 @@ public class QRCodeController {
      */
     @Resource
     private IAccessTokenService accessTokenService;
+    /**
+     *
+     */
     @Resource
     private WxQRCodeConfig wxQRCodeConfig;
+    /**
+     *
+     */
     private QRCodeWxRequest qrCodeWxRequest = new QRCodeWxRequest();
+    /**
+     *
+     */
     @Resource
     private IMessageService messageService;
 

@@ -20,13 +20,11 @@ public class WxPublicNumAuthConfig {
      */
     @Value("${wx.public_number.app_id}")
     private String appID;
-
     /**
      * appSecret
      */
     @Value("${wx.public_number.app_secret}")
     private String appSecret;
-
     /**
      * 获取AccessToken的访问路径
      */
@@ -42,7 +40,6 @@ public class WxPublicNumAuthConfig {
      */
     @Value("${wx.url.auth_code}")
     private String urlAuthCode;
-
     /**
      * Code获取AuthAccessToken的访问路径
      */

@@ -8,4 +8,10 @@ package org.yyx.wx.web;
  */
 public class QRCodeTests {
 
+
 }
+
+
+
+
+

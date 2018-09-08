@@ -1,13 +1,8 @@
 package org.yyx.wx.commons.config;
 
-import com.alibaba.fastjson.support.spring.FastJsonRedisSerializer;
-import org.springframework.context.annotation.Bean;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.connection.RedisConnectionFactory;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.data.redis.serializer.StringRedisSerializer;
-import org.yyx.wx.commons.vo.pubnum.reponse.BaseAccessToken;
-import org.yyx.wx.commons.vo.pubnum.reponse.auth.AuthAccessToken;
 
 /**
  * Redis缓存配置类
@@ -19,18 +14,10 @@ import org.yyx.wx.commons.vo.pubnum.reponse.auth.AuthAccessToken;
 @Configuration
 public class RedisConfig {
 
-    @Bean
-    @SuppressWarnings("unchecked")
-    public RedisTemplate<String, Object> redisTemplate(
-            RedisConnectionFactory redisConnectionFactory) {
-        RedisTemplate<String, Object> redisTemplate = new RedisTemplate<>();
-        FastJsonRedisSerializer fastJsonRedisSerializer =
-                new FastJsonRedisSerializer(Object.class);
-        redisTemplate.setValueSerializer(fastJsonRedisSerializer);
-        redisTemplate.setHashValueSerializer(fastJsonRedisSerializer);
-        redisTemplate.setKeySerializer(fastJsonRedisSerializer);
-        redisTemplate.setHashKeySerializer(fastJsonRedisSerializer);
-        redisTemplate.setConnectionFactory(redisConnectionFactory);
-        return redisTemplate;
-    }
+    /**
+     * RedisConfig日志输出
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(RedisConfig.class);
+
+
 }

@@ -10,8 +10,8 @@ import org.springframework.context.annotation.ComponentScans;
 @SpringBootApplication
 @ComponentScans({
         @ComponentScan("org.yyx.wx.acount.*")
-        , @ComponentScan("org.yyx.wx.web.config.swagger")
-        , @ComponentScan("org.yyx.wx.message.websocket")
+        , @ComponentScan("org.yyx.wx.message.*")
+        , @ComponentScan("org.yyx.wx.commons.*")
 })
 public class WebApplication extends SpringBootServletInitializer {
 

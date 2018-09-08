@@ -5,15 +5,14 @@ import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 import org.yyx.wx.acount.auth.config.WxPublicNumAuthConfig;
 import org.yyx.wx.acount.auth.service.IAccessTokenService;
+import org.yyx.wx.commons.util.CacheService;
 import org.yyx.wx.commons.vo.pubnum.reponse.BaseAccessToken;
 import org.yyx.wx.commons.vo.pubnum.reponse.auth.AuthAccessToken;
 
 import javax.annotation.Resource;
-import java.util.concurrent.TimeUnit;
 
 import static org.yyx.wx.commons.constant.CacheKeyConstant.ACCESS_TOKEN_NO_OPENID;
 import static org.yyx.wx.commons.constant.CacheKeyConstant.AUTH_ACCESS_TOKEN;
@@ -43,7 +42,7 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
      * 缓存工具
      */
     @Resource
-    private RedisTemplate<String, Object> redisTemplate;
+    private CacheService<String, Object> cacheService;
 
     /**
      * 获取认证授权的AccessToken
@@ -56,15 +55,15 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
         String appID = wxPublicNumAuthConfig.getAppID();
         String appSecret = wxPublicNumAuthConfig.getAppSecret();
         // 从缓存中获取OpenID
-        String openId = (String) redisTemplate.opsForValue().get("user_" + state);
+        String openId = (String) cacheService.getValue("user_" + state);
         // 从缓存中获取AuthAccessToken
-        AuthAccessToken cacheAuthToken = (AuthAccessToken) redisTemplate.opsForValue().get(openId + AUTH_ACCESS_TOKEN);
+        AuthAccessToken cacheAuthToken = (AuthAccessToken) cacheService.getValue(openId + AUTH_ACCESS_TOKEN);
         if (cacheAuthToken != null) {
             LOGGER.info("[缓存的AuthAccessToken] {}, [openID] {}", cacheAuthToken, cacheAuthToken.getOpenid());
         }
         LOGGER.info("[缓存过期，使用RefreshToken更新]");
         // 说明过期了。使用RefreshToken刷新
-        String refreshToken = (String) redisTemplate.opsForValue().get(openId + REFRESH_AUTH_ACCESS_TOKEN);
+        String refreshToken = (String) cacheService.getValue(openId + REFRESH_AUTH_ACCESS_TOKEN);
         if (StrUtil.hasEmpty(refreshToken)) {
             // RefreshToken过期，重新授权
             LOGGER.info("[RefreshToken过期，重新授权]");
@@ -98,8 +97,8 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
             return null;
         }
         // 从缓存中获取OpenID
-        String openId = (String) redisTemplate.opsForValue().get("user_" + userName);
-        AuthAccessToken cacheAuthToken = (AuthAccessToken) redisTemplate.opsForValue().get(openId + AUTH_ACCESS_TOKEN);
+        String openId = (String) cacheService.getValue("user_" + userName);
+        AuthAccessToken cacheAuthToken = (AuthAccessToken) cacheService.getValue(openId + AUTH_ACCESS_TOKEN);
         LOGGER.info("[缓存中的认证Token] {}", cacheAuthToken);
         if (cacheAuthToken != null) {
             return cacheAuthToken;
@@ -125,15 +124,12 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
      */
     private void cacheData(AuthAccessToken cacheAuthToken, String userName) {
         String openid = cacheAuthToken.getOpenid();
-        redisTemplate.opsForValue().set(userName, openid);
+        cacheService.cacheValue(userName, openid);
+        int cacheTime = 29 * 24 * 3600;
         // 缓存刷新Token
-        redisTemplate.opsForValue().set(openid + REFRESH_AUTH_ACCESS_TOKEN, cacheAuthToken.getRefresh_token());
-        // 设置失效时长为29天
-        redisTemplate.expire(openid + REFRESH_AUTH_ACCESS_TOKEN, 29, TimeUnit.DAYS);
+        cacheService.cacheValue(openid + REFRESH_AUTH_ACCESS_TOKEN, cacheAuthToken.getRefresh_token(), cacheTime);
         // 缓存认证Token
-        redisTemplate.opsForValue().set(openid + AUTH_ACCESS_TOKEN, cacheAuthToken);
-        // 设置失效时长
-        redisTemplate.expire(openid + AUTH_ACCESS_TOKEN, cacheAuthToken.getExpires_in(), TimeUnit.SECONDS);
+        cacheService.cacheValue(openid + AUTH_ACCESS_TOKEN, cacheAuthToken, cacheAuthToken.getExpires_in());
     }
 
     /**
@@ -144,7 +140,7 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
     @Override
     public BaseAccessToken getBaseAccessToken() {
         // 从缓存中获取AccessToken
-        BaseAccessToken baseAccessToken = (BaseAccessToken) redisTemplate.opsForValue().get(ACCESS_TOKEN_NO_OPENID);
+        BaseAccessToken baseAccessToken = (BaseAccessToken) cacheService.getValue(ACCESS_TOKEN_NO_OPENID);
         LOGGER.info("[缓存中的基础AccessToken] {}", baseAccessToken);
         if (baseAccessToken != null) {
             return baseAccessToken;
@@ -158,16 +154,14 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
             return null;
         }
         // 将AccessToken转换成对象
-        baseAccessToken = JSONObject.parseObject(accessTokenJson, BaseAccessToken.class);
-        if (baseAccessToken.getErrcode() != 0L) {
+        BaseAccessToken accessToken = JSONObject.parseObject(accessTokenJson, BaseAccessToken.class);
+        if (accessToken.getErrcode() != 0L) {
             // 请求出错
-            LOGGER.error("[异常信息] code: {} errmsg: {}", baseAccessToken.getErrcode(), baseAccessToken.getErrmsg());
+            LOGGER.error("[异常信息] code: {} errmsg: {}", accessToken.getErrcode(), accessToken.getErrmsg());
         }
-        LOGGER.info("[请求到的基础AccessToken] {}", baseAccessToken);
+        LOGGER.info("[请求到的基础AccessToken] {}", accessToken);
         // 存入缓存中
-        redisTemplate.opsForValue().set(ACCESS_TOKEN_NO_OPENID, baseAccessToken);
-        // 设置超时时间
-        redisTemplate.expire(ACCESS_TOKEN_NO_OPENID, baseAccessToken.getExpires_in(), TimeUnit.SECONDS);
-        return baseAccessToken;
+        cacheService.cacheValue(ACCESS_TOKEN_NO_OPENID, accessToken, accessToken.getExpires_in());
+        return accessToken;
     }
 }

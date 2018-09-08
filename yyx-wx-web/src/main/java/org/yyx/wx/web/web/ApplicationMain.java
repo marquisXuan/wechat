@@ -44,7 +44,6 @@ public class ApplicationMain {
     @Resource
     private ValidateWeChat validateWeChat;
 
-    @Resource
     private BaseMessageHandlerProxy baseMessageHandlerProxy;
 
 
