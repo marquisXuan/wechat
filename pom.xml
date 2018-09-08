@@ -32,7 +32,7 @@
     <modules>
         <module>yyx-wx-commons</module>
         <module>yyx-wx-modules</module>
-        <module>yyx-wx-web</module>
+        <module>yyx-wx-demo</module>
     </modules>
 
     <dependencies>
@@ -83,6 +83,17 @@
                 </configuration>
             </plugin>
         </plugins>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**.yml</include>
+                    <include>**/*.txt</include>
+                    <include>**/*.html</include>
+                    <include>static/*.txt</include>
+                </includes>
+            </resource>
+        </resources>
     </build>
 
 

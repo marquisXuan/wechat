@@ -35,4 +35,17 @@
         </dependency>
     </dependencies>
 
+
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**</include>
+                    <include>config/application.yml</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
 </project>

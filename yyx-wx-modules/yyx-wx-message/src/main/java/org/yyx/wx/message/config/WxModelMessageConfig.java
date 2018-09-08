@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
  * @author 叶云轩 at tdg_yyx@foxmail.com
  * @date 2018/9/1-09:45
  */
-@Component
 @Data
+@Component
 public class WxModelMessageConfig {
 
     @Value("${wx.url.send_model_message}")

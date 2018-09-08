@@ -1,0 +1,13 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /
+spring:
+  http:
+    encoding:
+      charset: utf-8
+  profiles:
+    # 默认加载application-test.yml配置
+    active: test
+  config:
+    location: classpath*:/config/application.yml

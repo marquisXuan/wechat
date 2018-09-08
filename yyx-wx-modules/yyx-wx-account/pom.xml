@@ -24,4 +24,16 @@
         <java.version>1.8</java.version>
     </properties>
 
+    <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <includes>
+                    <include>**</include>
+                    <include>config/application.yml</include>
+                </includes>
+            </resource>
+        </resources>
+    </build>
+
 </project>

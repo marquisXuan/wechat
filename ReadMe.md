@@ -9,7 +9,7 @@
     - [微信公众号模块父级](./yyx-wx-modules/README.md)
         - [本地与微信公众号消息对接模块](./yyx-wx-modules/yyx-wx-message/README.md)
         - [本地与微信公众号用户相关对接模块](./yyx-wx-modules/yyx-wx-account/README.md)
-    - [微信公众号接入入口](./yyx-wx-web/README.md)
+    - [微信公众号使用案例](./yyx-wx-demo/README.md)
 ## 项目使用方法
 > 配置好项目使用环境后即可，每个模块可单独引用，每个模块中包含自己模块的使用方法。
 ## 项目使用环境
