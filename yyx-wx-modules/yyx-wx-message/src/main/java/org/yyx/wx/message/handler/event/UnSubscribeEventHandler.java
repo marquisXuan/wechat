@@ -5,10 +5,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
 import org.yyx.wx.commons.exception.CreateObjectException;
-import org.yyx.wx.commons.exception.proxy.WrongProxyObjectException;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRequest;
+import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.event.UnSubscribeEventHandlerProxy;
 
 
@@ -29,6 +29,7 @@ public class UnSubscribeEventHandler extends BaseEventHandler {
      * 创建对象
      */
     private static final UnSubscribeEventHandler UN_SUBSCRIBE_EVENT_HANDLER = new UnSubscribeEventHandler();
+
     /**
      * 私有构造
      */
@@ -54,9 +55,6 @@ public class UnSubscribeEventHandler extends BaseEventHandler {
     protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[取消订阅[关注]事件处理器]");
         SubscribeAndUnSubscribeEventRequest subscribeAndUnSubscribeEventRequest = this.modelMethod(element);
-        if(!isMineProxy()){
-            throw new WrongProxyObjectException();
-        }
         return baseMessageHandlerProxy.dealMessage(subscribeAndUnSubscribeEventRequest);
     }
 
@@ -68,19 +66,6 @@ public class UnSubscribeEventHandler extends BaseEventHandler {
     @Override
     protected String getHandlerLevel() {
         return EventTypeEnum.unsubscribe.toString();
-    }
-
-    /**
-     * 检查是否是自己的代理类
-     *
-     * @return true / false
-     */
-    @Override
-    protected boolean isMineProxy() {
-        if (baseMessageHandlerProxy instanceof UnSubscribeEventHandlerProxy) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -100,5 +85,19 @@ public class UnSubscribeEventHandler extends BaseEventHandler {
             throw new CreateObjectException("解析成[SubscribeAndUnSubscribeEventRequest|取消关注公众号事件实体]失败。");
         }
         return subscribeAndUnSubscribeEventRequest;
+    }
+
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    @Override
+    protected boolean isMineProxy(BaseMessageHandlerProxy baseMessageHandlerProxy) {
+        if (baseMessageHandlerProxy instanceof UnSubscribeEventHandlerProxy) {
+            this.baseMessageHandlerProxy = baseMessageHandlerProxy;
+            return true;
+        }
+        return false;
     }
 }

@@ -69,11 +69,14 @@ public class WxXmlAndObjectUtil {
      * @return 符合微信要求的xml字符串
      */
     public static String objectToxml(BaseMessageResponse baseMessageResponse) throws IllegalAccessException {
+        if (baseMessageResponse == null) {
+            return null;
+        }
         /*创建一个document*/
         Document documentResponse = DocumentHelper.createDocument();
         // 根节点
         Element rootElementResponse = documentResponse.addElement("xml");
-        rootElementResponse = getSuperClassValue(baseMessageResponse, baseMessageResponse.getClass(), rootElementResponse);
+        getSuperClassValue(baseMessageResponse, baseMessageResponse.getClass(), rootElementResponse);
         return documentResponse.asXML();
     }
 

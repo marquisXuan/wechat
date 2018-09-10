@@ -1,4 +1,4 @@
-package org.yyx.wx.web.web.test;
+package org.yyx.wx.test;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

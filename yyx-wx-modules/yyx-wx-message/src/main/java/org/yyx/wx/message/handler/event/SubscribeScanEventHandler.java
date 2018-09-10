@@ -4,10 +4,10 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
-import org.yyx.wx.commons.exception.proxy.WrongProxyObjectException;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeScanEventRequest;
+import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.event.SubscribeScanEventHandlerProxy;
 
 
@@ -54,9 +54,6 @@ public class SubscribeScanEventHandler extends BaseSubscribeEventHandler {
         LOGGER.info("进入用户关注时，进入扫描二维码事件处理器]");
         SubscribeAndUnSubscribeScanEventRequest subscribeAndUnSubscribeScanEventRequest = this.modelMethod(element);
         LOGGER.info("[扫描带参数二维码事件请求详情] {}", subscribeAndUnSubscribeScanEventRequest);
-        if (!isMineProxy()) {
-            throw new WrongProxyObjectException();
-        }
         return baseMessageHandlerProxy.dealMessage(subscribeAndUnSubscribeScanEventRequest);
     }
 
@@ -76,8 +73,9 @@ public class SubscribeScanEventHandler extends BaseSubscribeEventHandler {
      * @return true / false
      */
     @Override
-    protected boolean isMineProxy() {
+   protected boolean isMineProxy(BaseMessageHandlerProxy baseMessageHandlerProxy) {
         if (baseMessageHandlerProxy instanceof SubscribeScanEventHandlerProxy) {
+            this.baseMessageHandlerProxy = baseMessageHandlerProxy;
             return true;
         }
         return false;

@@ -81,13 +81,14 @@ public abstract class AbstractMessageHandler {
         }
         return baseMessage;
     }
-
     /**
-     * 检查是否是自己的代理类
+     * 是否有下个处理器
      *
-     * @return true / false
+     * @return 有：true 没有：false
      */
-    protected abstract boolean isMineProxy();
+    public boolean hasNext() {
+        return nextHandler != null;
+    }
 
     /**
      * 模板方法
@@ -102,9 +103,23 @@ public abstract class AbstractMessageHandler {
      *
      * @param baseMessageHandlerProxy 业务处理器
      */
-    public void setBaseMessageHandlerProxy(BaseMessageHandlerProxy baseMessageHandlerProxy) {
-        this.baseMessageHandlerProxy = baseMessageHandlerProxy;
+    public void setBaseMessageHandlerProxy(BaseMessageHandlerProxy[] baseMessageHandlerProxy) {
+        if (this.baseMessageHandlerProxy == null) {
+            for (int i = 0; i < baseMessageHandlerProxy.length; i++) {
+                if (isMineProxy(baseMessageHandlerProxy[i])) {
+                    break;
+                }
+            }
+        }
     }
+
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @param baseMessageHandlerProxy 业务注入
+     * @return true / false
+     */
+    protected abstract boolean isMineProxy(BaseMessageHandlerProxy baseMessageHandlerProxy);
 
     /**
      * 设置下个类型的任务处理器

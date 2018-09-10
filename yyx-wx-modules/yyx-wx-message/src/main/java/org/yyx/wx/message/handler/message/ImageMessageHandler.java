@@ -4,11 +4,11 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
-import org.yyx.wx.commons.exception.proxy.WrongProxyObjectException;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.ImageMessageRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
+import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.ImageMessageHandlerProxy;
 
 /**
@@ -19,7 +19,9 @@ import org.yyx.wx.message.proxy.message.ImageMessageHandlerProxy;
  * @date 2018/9/3-14:54
  */
 public class ImageMessageHandler extends AbstractMessageHandler {
-
+    /**
+     * 创建对象
+     */
     private static final ImageMessageHandler IMAGE_MESSAGE_HANDLER = new ImageMessageHandler();
     /**
      * ImageMessageHandler日志输出
@@ -41,26 +43,10 @@ public class ImageMessageHandler extends AbstractMessageHandler {
         return IMAGE_MESSAGE_HANDLER;
     }
 
-    /**
-     * 检查是否是自己的代理类
-     *
-     * @return true / false
-     */
-    @Override
-    protected boolean isMineProxy() {
-        if (baseMessageHandlerProxy instanceof ImageMessageHandlerProxy) {
-            return true;
-        }
-        return false;
-    }
-
     @Override
     protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[进入链接消息处理器]");
         ImageMessageRequest imageMessageRequest = this.modelMethod(element);
-        if(!isMineProxy()){
-            throw new WrongProxyObjectException();
-        }
         return baseMessageHandlerProxy.dealMessage(imageMessageRequest);
     }
 
@@ -79,5 +65,19 @@ public class ImageMessageHandler extends AbstractMessageHandler {
             return null;
         }
         return imageMessageRequest;
+    }
+
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    @Override
+    protected boolean isMineProxy(BaseMessageHandlerProxy baseMessageHandlerProxy) {
+        if (baseMessageHandlerProxy instanceof ImageMessageHandlerProxy) {
+            this.baseMessageHandlerProxy = baseMessageHandlerProxy;
+            return true;
+        }
+        return false;
     }
 }

@@ -4,10 +4,10 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
-import org.yyx.wx.commons.exception.proxy.WrongProxyObjectException;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeScanEventRequest;
+import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.event.UnSubscribeScanEventHandlerProxy;
 
 
@@ -55,9 +55,6 @@ public class UnSubscribeScanEventHandler extends BaseSubscribeEventHandler {
         LOGGER.info("进入用户未关注时，进入扫描二维码事件处理器]");
         SubscribeAndUnSubscribeScanEventRequest subscribeAndUnSubscribeScanEventRequest = this.modelMethod(element);
         LOGGER.info("[扫描带参数二维码事件请求详情] {}", subscribeAndUnSubscribeScanEventRequest);
-        if (!isMineProxy()) {
-            throw new WrongProxyObjectException();
-        }
         return baseMessageHandlerProxy.dealMessage(subscribeAndUnSubscribeScanEventRequest);
     }
 
@@ -71,19 +68,6 @@ public class UnSubscribeScanEventHandler extends BaseSubscribeEventHandler {
         return EventTypeEnum.qrscene_.toString();
     }
 
-    /**
-     * 检查是否是自己的代理类
-     *
-     * @return true / false
-     */
-    @Override
-    protected boolean isMineProxy() {
-        if (baseMessageHandlerProxy instanceof UnSubscribeScanEventHandlerProxy) {
-            return true;
-        }
-        return false;
-    }
-
     @Override
     protected SubscribeAndUnSubscribeScanEventRequest modelMethod(Element element) {
         LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element);
@@ -95,5 +79,19 @@ public class UnSubscribeScanEventHandler extends BaseSubscribeEventHandler {
             return null;
         }
         return subscribeAndUnSubscribeScanEventRequest;
+    }
+
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    @Override
+    protected boolean isMineProxy(BaseMessageHandlerProxy baseMessageHandlerProxy) {
+        if (baseMessageHandlerProxy instanceof UnSubscribeScanEventHandlerProxy) {
+            this.baseMessageHandlerProxy = baseMessageHandlerProxy;
+            return true;
+        }
+        return false;
     }
 }

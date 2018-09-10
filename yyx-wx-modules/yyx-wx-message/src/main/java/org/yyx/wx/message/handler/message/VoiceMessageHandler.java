@@ -8,6 +8,7 @@ import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.VoiceMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.VoiceMessageRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
+import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.VoiceMessageHandlerProxy;
 
 /**
@@ -67,19 +68,6 @@ public class VoiceMessageHandler extends AbstractMessageHandler {
     }
 
     /**
-     * 检查是否是自己的代理类
-     *
-     * @return true / false
-     */
-    @Override
-    protected boolean isMineProxy() {
-        if (baseMessageHandlerProxy instanceof VoiceMessageHandlerProxy) {
-            return true;
-        }
-        return false;
-    }
-
-    /**
      * 模板方法
      *
      * @param element 微信请求过来的消息:xml
@@ -95,5 +83,19 @@ public class VoiceMessageHandler extends AbstractMessageHandler {
             return null;
         }
         return voiceMessageRequest;
+    }
+
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    @Override
+    protected boolean isMineProxy(BaseMessageHandlerProxy baseMessageHandlerProxy) {
+        if (baseMessageHandlerProxy instanceof VoiceMessageHandlerProxy) {
+            this.baseMessageHandlerProxy = baseMessageHandlerProxy;
+            return true;
+        }
+        return false;
     }
 }

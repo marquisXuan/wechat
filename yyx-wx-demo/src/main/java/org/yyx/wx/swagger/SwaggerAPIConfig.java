@@ -1,4 +1,4 @@
-package org.yyx.wx.web.config.swagger;
+package org.yyx.wx.swagger;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

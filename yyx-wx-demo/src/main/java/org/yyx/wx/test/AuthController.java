@@ -1,4 +1,4 @@
-package org.yyx.wx.web.web.test;
+package org.yyx.wx.test;
 
 import cn.hutool.http.HttpUtil;
 import org.slf4j.Logger;

@@ -1,5 +1,6 @@
 package org.yyx.wx.web.web.controller;
 
+import cn.hutool.core.util.ArrayUtil;
 import org.dom4j.Document;
 import org.dom4j.DocumentException;
 import org.dom4j.Element;
@@ -8,6 +9,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
@@ -15,6 +17,17 @@ import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
+import org.yyx.wx.message.proxy.event.SubscribeEventHandlerProxy;
+import org.yyx.wx.message.proxy.event.SubscribeScanEventHandlerProxy;
+import org.yyx.wx.message.proxy.event.UnSubscribeEventHandlerProxy;
+import org.yyx.wx.message.proxy.event.UnSubscribeScanEventHandlerProxy;
+import org.yyx.wx.message.proxy.message.ImageMessageHandlerProxy;
+import org.yyx.wx.message.proxy.message.LinkMessageHandlerProxy;
+import org.yyx.wx.message.proxy.message.LocationMessageHandlerProxy;
+import org.yyx.wx.message.proxy.message.ShortVideoMessageHandlerProxy;
+import org.yyx.wx.message.proxy.message.TextMessageHandlerProxy;
+import org.yyx.wx.message.proxy.message.VideoMessageHandlerProxy;
+import org.yyx.wx.message.proxy.message.VoiceMessageHandlerProxy;
 import org.yyx.wx.web.util.ValidateWeChat;
 
 import javax.annotation.Resource;
@@ -31,8 +44,10 @@ import static org.yyx.wx.message.builder.MessageEventHandlerBuilder.getMessageHa
  * @date 2018/8/24 - 18:27
  */
 @RestController
+@RequestMapping("wx")
 public class ApplicationMain {
 
+    // region 依赖注入
     /**
      * AccessEntrance日志输出
      */
@@ -43,9 +58,62 @@ public class ApplicationMain {
      */
     @Resource
     private ValidateWeChat validateWeChat;
-
-    private BaseMessageHandlerProxy baseMessageHandlerProxy;
-
+    /**
+     * 关注事件代理
+     */
+    @Resource
+    private SubscribeEventHandlerProxy subscribeEventHandlerProxy;
+    /**
+     * 用户关注时扫描二维码事件处理器
+     */
+    @Resource
+    private SubscribeScanEventHandlerProxy subscribeScanEventHandlerProxy;
+    /**
+     * 取消关注公众号事件处理器
+     */
+    @Resource
+    private UnSubscribeEventHandlerProxy unSubscribeEventHandlerProxy;
+    /**
+     * 用户未关注时扫描二维码事件处理器
+     */
+    @Resource
+    private UnSubscribeScanEventHandlerProxy unSubscribeScanEventHandlerProxy;
+    /**
+     * 图片消息处理器代理
+     */
+    @Resource
+    private ImageMessageHandlerProxy imageMessageHandlerProxy;
+    /**
+     * 链接消息处理器代理
+     */
+    @Resource
+    private LinkMessageHandlerProxy linkMessageHandlerProxy;
+    /**
+     * 地理位置消息处理器代理
+     */
+    @Resource
+    private LocationMessageHandlerProxy locationMessageHandlerProxy;
+    /**
+     * 小视频消息处理器代理
+     */
+    @Resource
+    private ShortVideoMessageHandlerProxy shortVideoMessageHandlerProxy;
+    /**
+     * 文本消息处理器代理
+     */
+    @Resource
+    private TextMessageHandlerProxy textMessageHandlerProxy;
+    /**
+     * 视频消息处理器代理
+     */
+    @Resource
+    private VideoMessageHandlerProxy videoMessageHandlerProxy;
+    /**
+     * 语音消息处理器代理
+     */
+    @Resource
+    private VoiceMessageHandlerProxy voiceMessageHandlerProxy;
+    // endregion
 
     /**
      * 验证消息来自微信服务器方法
@@ -92,8 +160,8 @@ public class ApplicationMain {
                 Element rootElement = document.getRootElement();
                 // 解析成BaseMessage对象
                 BaseMessageAndEventRequestAndResponse baseMessage = WxXmlAndObjectUtil.xmlToObject(rootElement, BaseMessageAndEventRequestAndResponse.class);
-                AbstractMessageHandler messageHandler = getMessageHandler();
-                messageHandler.setBaseMessageHandlerProxy(baseMessageHandlerProxy);
+                BaseMessageHandlerProxy[] baseMessageHandlerProxies = getBaseMessageHandlerProxies();
+                AbstractMessageHandler messageHandler = getMessageHandler(baseMessageHandlerProxies);
                 BaseMessageResponse baseMessageResponse = messageHandler.handleMessage(baseMessage, rootElement);
                 LOGGER.info("[返回信息] {}", baseMessageResponse);
                 return WxXmlAndObjectUtil.objectToxml(baseMessageResponse);
@@ -104,5 +172,23 @@ public class ApplicationMain {
             e.printStackTrace();
         }
         return "success";
+    }
+
+    private BaseMessageHandlerProxy[] getBaseMessageHandlerProxies() {
+        final BaseMessageHandlerProxy[] baseMessageHandlerProxies = new BaseMessageHandlerProxy[11];
+        if (ArrayUtil.hasNull(baseMessageHandlerProxies)) {
+            baseMessageHandlerProxies[1] = subscribeEventHandlerProxy;
+            baseMessageHandlerProxies[2] = subscribeScanEventHandlerProxy;
+            baseMessageHandlerProxies[3] = unSubscribeEventHandlerProxy;
+            baseMessageHandlerProxies[4] = unSubscribeScanEventHandlerProxy;
+            baseMessageHandlerProxies[5] = imageMessageHandlerProxy;
+            baseMessageHandlerProxies[6] = linkMessageHandlerProxy;
+            baseMessageHandlerProxies[7] = locationMessageHandlerProxy;
+            baseMessageHandlerProxies[8] = shortVideoMessageHandlerProxy;
+            baseMessageHandlerProxies[9] = textMessageHandlerProxy;
+            baseMessageHandlerProxies[10] = videoMessageHandlerProxy;
+            baseMessageHandlerProxies[0] = voiceMessageHandlerProxy;
+        }
+        return baseMessageHandlerProxies;
     }
 }

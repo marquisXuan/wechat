@@ -4,11 +4,11 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
-import org.yyx.wx.commons.exception.proxy.WrongProxyObjectException;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.VideoMessageRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
+import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.ShortVideoMessageHandlerProxy;
 
 /**
@@ -53,9 +53,6 @@ public class ShortVideoMessageHandler extends AbstractMessageHandler {
     protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[进入小视频消息处理器]");
         VideoMessageRequest videoMessageRequest = this.modelMethod(element);
-        if(!isMineProxy()){
-            throw new WrongProxyObjectException();
-        }
         return baseMessageHandlerProxy.dealMessage(videoMessageRequest);
     }
 
@@ -67,19 +64,6 @@ public class ShortVideoMessageHandler extends AbstractMessageHandler {
     @Override
     protected String getHandlerLevel() {
         return MessageTypeEnum.shortvideo.toString();
-    }
-
-    /**
-     * 检查是否是自己的代理类
-     *
-     * @return true / false
-     */
-    @Override
-    protected boolean isMineProxy() {
-        if (baseMessageHandlerProxy instanceof ShortVideoMessageHandlerProxy) {
-            return true;
-        }
-        return false;
     }
 
     /**
@@ -98,5 +82,19 @@ public class ShortVideoMessageHandler extends AbstractMessageHandler {
             return null;
         }
         return videoMessageRequest;
+    }
+
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    @Override
+    protected boolean isMineProxy(BaseMessageHandlerProxy baseMessageHandlerProxy) {
+        if (baseMessageHandlerProxy instanceof ShortVideoMessageHandlerProxy) {
+            this.baseMessageHandlerProxy = baseMessageHandlerProxy;
+            return true;
+        }
+        return false;
     }
 }
