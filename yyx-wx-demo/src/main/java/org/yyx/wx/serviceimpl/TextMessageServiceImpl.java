@@ -25,7 +25,7 @@ public class TextMessageServiceImpl implements TextMessageHandlerProxy {
         textMessageResponse.setToUserName(baseMessageAndEventRequest.getFromUserName());
         textMessageResponse.setFromUserName(baseMessageAndEventRequest.getToUserName());
         textMessageResponse.setMsgType(MessageTypeEnum.text.toString());
-        textMessageResponse.setContent("[DEMO] 这是我的自定义业务逻辑代码：" + textMessageRequest.getContent());
+        textMessageResponse.setContent("[DEMO] 这是我的自定义文本消息推送业务逻辑代码：" + textMessageRequest.getContent());
         // endregion
         return textMessageResponse;
     }
