@@ -45,7 +45,7 @@ public class CustomerTextMessageHandler extends TextMessageHandler{
 ### 注：写好的 *CustomerTextMessageHandler* 等自定义业务逻辑的消息处理器需要添加到*MessageEventHandlerFactory* 的 *ABSTRACT_MESSAGE_HANDLERS* 数组中。使用时直接调用*MessageEventHandlerFactory.getMessageHandler();* 即可，方法返回已经组装好处理器链的处理器对象，优先使用自定义消息处理器来处理。
 
 ```java
-	/**
+    /**
      * 获取事件处理器，最大支持11个额外链条
      * 链条设置
      * 自定义消息处理器 -> 未关注扫描二维码 -> 关注过扫描二维码 -> 订阅[关注]消息处理器

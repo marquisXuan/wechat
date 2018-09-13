@@ -1,8 +1,13 @@
 package org.yyx.wx.acount.auth.config;
 
 import lombok.Data;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import java.io.UnsupportedEncodingException;
+import java.net.URLEncoder;
 
 /**
  * 微信公众号配置类
@@ -13,7 +18,11 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-public class WxPublicNumAuthConfig  {
+public class WxPublicNumAuthConfig {
+    /**
+     * WxPublicNumAuthConfig日志输出
+     */
+    private static final Logger LOGGER = LoggerFactory.getLogger(WxPublicNumAuthConfig.class);
     /**
      * appId
      */
@@ -59,4 +68,13 @@ public class WxPublicNumAuthConfig  {
      */
     @Value("${wx.url.base_user_info}")
     private String urlBaseUserInfo;
+
+    public void setRedirectUri(String redirectUri) {
+        try {
+            this.redirectUri = URLEncoder.encode(redirectUri, "utf-8");
+        } catch (UnsupportedEncodingException e) {
+            LOGGER.error("[处理URL失败] {}", e.getMessage());
+        }
+    }
+
 }

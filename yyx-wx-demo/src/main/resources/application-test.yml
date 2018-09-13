@@ -1,6 +1,6 @@
 wx:
   url:
-    redirect_uri: http%3a%2f%2fyyx.sunlinka.com%2fapi%2fauth%2ftoken
+    redirect_uri: http://tdgyyx.sunlinka.com/api/auth/token
   public_number:
     app_id: wx01aef8db5f5ffb0f
     app_secret: 4f2add778b4ab69de8e10652daf238de

@@ -81,6 +81,7 @@ public abstract class AbstractMessageHandler {
         }
         return baseMessage;
     }
+
     /**
      * 是否有下个处理器
      *
