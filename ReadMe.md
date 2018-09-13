@@ -30,7 +30,7 @@
     ```yml
     wx:
       url:
-        redirect_uri: URI地址
+        redirect_uri: URI地址(http://domain/api/xx)
       public_number:
         app_id: appID
         app_secret: appSecret
@@ -38,7 +38,7 @@
     ```
     - properties
     ```properties
-    wx.url.redirect_uri地址
+    wx.url.redirect_uri=URI地址(http://domain/api/xx)
     wx.public_number.app_id=appID
     wx.public_number.app_secret=appSecret
     wx.public_number.config_token=开发者自定配置的token
