@@ -6,10 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Condition;
 import org.springframework.context.annotation.ConditionContext;
 import org.springframework.core.type.AnnotatedTypeMetadata;
-import org.springframework.stereotype.Component;
 import org.yyx.wx.commons.exception.config.ConfigException;
 import org.yyx.wx.commons.util.InterfaceUtil;
-import org.yyx.wx.message.proxy.message.TextMessageHandlerProxy;
+import org.yyx.wx.message.proxy.event.ModelMessagePushEventHandlerProxy;
 
 import java.io.IOException;
 import java.util.List;
@@ -18,18 +17,17 @@ import static org.yyx.wx.commons.bussinessenum.ResponseCodeFromWx.error_load_con
 import static org.yyx.wx.commons.constant.ConfigConstant.PACKAGE_INTERFACE;
 
 /**
- * 自定义文本业务实现类 - DEMO
+ * 模板消息事件推送处理器代理实现类
  * <p>
  *
  * @author 叶云轩 at tdg_yyx@foxmail.com
- * @date 2018/9/10-13:39
+ * @date 2018/9/15-01:22
  */
-@Component
-public class TextMessageServiceCondition implements Condition {
+public class ModelMessagePushEventServiceCondition implements Condition {
     /**
-     * TextMessageServiceCondition日志输出
+     * ModelMessagePushEventServiceCondition 日志输出
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(TextMessageServiceCondition.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(ModelMessagePushEventServiceCondition.class);
 
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
@@ -44,8 +42,8 @@ public class TextMessageServiceCondition implements Condition {
             for (int i = 0; i < interfaceSubClass.size(); i++) {
                 Class<?> aClass = interfaceSubClass.get(i);
                 Object o = aClass.newInstance();
-                // 存在另外一个文本消息处理器代理实现类
-                if (o instanceof TextMessageHandlerProxy) {
+                // 存在另外一个模板消息事件推送处理器代理实现类
+                if (o instanceof ModelMessagePushEventHandlerProxy) {
                     return false;
                 }
             }

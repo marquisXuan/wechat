@@ -3,8 +3,11 @@ package org.yyx.wx.message.config;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Conditional;
 import org.springframework.context.annotation.Configuration;
+import org.yyx.wx.message.condition.ModelMessagePushEventServiceCondition;
 import org.yyx.wx.message.condition.TextMessageServiceCondition;
+import org.yyx.wx.message.proxy.event.ModelMessagePushEventHandlerProxy;
 import org.yyx.wx.message.proxy.message.TextMessageHandlerProxy;
+import org.yyx.wx.message.service.impl.demo.event.DefaultModelMessagePushEventServiceImpl;
 import org.yyx.wx.message.service.impl.demo.message.DefaultTextMessageServiceImpl;
 
 /**
@@ -16,6 +19,17 @@ import org.yyx.wx.message.service.impl.demo.message.DefaultTextMessageServiceImp
  */
 @Configuration
 public class HandlerConditionConfig {
+
+    /**
+     * 初始化模板消息推送事件处理器
+     *
+     * @return 模板消息推送事件处理器
+     */
+    @Bean
+    @Conditional(ModelMessagePushEventServiceCondition.class)
+    public ModelMessagePushEventHandlerProxy modelMessagePushEventHandlerProxy() {
+        return new DefaultModelMessagePushEventServiceImpl();
+    }
 
     /**
      * 创建文本消息处理器

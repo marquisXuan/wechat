@@ -30,8 +30,17 @@ public enum ResponseCodeFromWx {
     // endregion
     // region 业务响应码
 
+    /**
+     * 配置加载异常
+     */
+    error_load_config(99997, "配置加载异常"),
+    /**
+     * OPENID不能为空
+     */
     no_open_id(99998, "OPENID不能为空"),
-
+    /**
+     * 没有找到对应的响应码
+     */
     error(99999, "没有找到对应的响应码");
     // endregion
 
