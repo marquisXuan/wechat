@@ -20,7 +20,7 @@ public class BaseRequest implements Serializable {
      */
     private String errmsg;
     /**
-     * 响应码
+     * 响应码 默认为0 表示成功
      */
-    private Integer errcode;
+    private Integer errcode = 0;
 }

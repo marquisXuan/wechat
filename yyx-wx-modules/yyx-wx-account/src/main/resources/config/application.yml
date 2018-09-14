@@ -22,4 +22,5 @@ wx:
     set_industry: https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=
     # 获取设置的行业信息URL - 暂时未开发 GET https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=ACCESS_TOKEN
     get_industry: https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=
+    # 发送模板消息
     send_model_message: https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=

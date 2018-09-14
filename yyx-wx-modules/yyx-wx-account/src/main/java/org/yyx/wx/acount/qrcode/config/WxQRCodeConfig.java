@@ -13,7 +13,6 @@ import org.springframework.stereotype.Component;
  */
 @Data
 @Component
-//@PropertySource("classpath:application.yml")
 public class WxQRCodeConfig {
     /**
      * 创建Ticket的URL

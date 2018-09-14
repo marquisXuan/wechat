@@ -31,7 +31,7 @@ public class DefaultSubscribeScanEventServiceImpl implements SubscribeScanEventH
      * @return 返回消息
      */
     @Override
-    public BaseMessageResponse dealMessage(BaseMessageAndEventRequestAndResponse baseMessageAndEventRequest) {
+    public final BaseMessageResponse dealMessage(BaseMessageAndEventRequestAndResponse baseMessageAndEventRequest) {
         LOGGER.info("[DEMO] 自定义扫码业务实现类");
         TextMessageResponse textMessageResponse = new TextMessageResponse();
         textMessageResponse.setCreateTime(System.currentTimeMillis());

@@ -6,17 +6,17 @@
 
 > 这个模块的主要功能是集成了微信公众号中的消息管理模块，但是目前只添加了明文模式，对于加密模式暂未处理。
 
-### 例：接收普通消息
+## 例：接收普通消息
 > 当普通微信用户向公众账号发消息时，微信服务器将POST消息的XML数据包到开发者填写的URL上。
 
 以下的每个处理器都是单例的。
 
-#### 文本消息
+### 文本消息
 > 目前接收到文本消息之后的处理逻辑为直接返回一条文本消息.
 > 
 > 如需实现自己的逻辑，只需要写一个文本消息的处理类继承TextMessageHandler并重写dealTask(Element element)方法即可。
 
-##### 介入方式例子一：
+#### 介入方式例子一：
 ```java
 /**
  * 自己业务的文本消息处理器
@@ -66,7 +66,7 @@ public class CustomerTextMessageHandler extends TextMessageHandler{
     public static AbstractMessageHandler getMessageHandler() {return null;}
 ```
 
-##### 介入方式例子二：
+#### 介入方式例子二：
 
 > 不写处理器，只写处理器中自己业务的具体实现
 
@@ -109,7 +109,7 @@ public class DemoTextMessageServiceImpl implements TextMessageHandlerProxy {
 
 **注：仅需要实现*TextMessageHandlerProxy*接口即可关注自己的业务。**
 
-### 附：处理器接口中参数与可强转的子类对应表
+## 附：处理器接口中参数与可强转的子类对应表
 
 |               接口                |              可强转的子类               |        说明        |
 | :-------------------------------: | :-------------------------------------: | :----------------: |

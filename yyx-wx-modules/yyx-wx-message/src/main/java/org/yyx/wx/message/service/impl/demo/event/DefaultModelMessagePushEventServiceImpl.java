@@ -10,6 +10,8 @@ import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.response.message.TextMessageResponse;
 import org.yyx.wx.message.proxy.event.ModelMessagePushEventHandlerProxy;
 
+import static org.yyx.wx.commons.constant.EventConstant.MODEL_MESSAGE_PUSH_FAILED_BY_OTHER;
+import static org.yyx.wx.commons.constant.EventConstant.MODEL_MESSAGE_PUSH_FAILED_BY_USER;
 import static org.yyx.wx.commons.constant.EventConstant.MODEL_MESSAGE_PUSH_SUCCESS;
 
 /**
@@ -26,6 +28,7 @@ public class DefaultModelMessagePushEventServiceImpl implements ModelMessagePush
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultModelMessagePushEventServiceImpl.class);
 
+
     /**
      * 模板消息业务处理
      *
@@ -33,17 +36,34 @@ public class DefaultModelMessagePushEventServiceImpl implements ModelMessagePush
      * @return 给公众号推送的消息
      */
     @Override
-    public BaseMessageResponse dealMessage(BaseMessageAndEventRequestAndResponse baseMessageAndEventRequest) {
-        ModelMessagePushEventRequest messageAndEventRequest = (ModelMessagePushEventRequest) baseMessageAndEventRequest;
+    public final BaseMessageResponse dealMessage(BaseMessageAndEventRequestAndResponse baseMessageAndEventRequest) {
         LOGGER.info("[DEMO] 自定义订阅[关注]业务实现类");
+        ModelMessagePushEventRequest messageAndEventRequest = (ModelMessagePushEventRequest) baseMessageAndEventRequest;
+        String status = messageAndEventRequest.getStatus();
+        String message = "[DEMO] 叶云轩自定义模板消息事件回复。此次推送结果:";
+        switch (status) {
+            case MODEL_MESSAGE_PUSH_SUCCESS:
+                LOGGER.info("[推送成功] {}", messageAndEventRequest.getMsgID());
+                message += "成功";
+                break;
+            case MODEL_MESSAGE_PUSH_FAILED_BY_OTHER:
+                LOGGER.info("[推送失败,未知原因] {}", messageAndEventRequest.getMsgID());
+                message += "推送失败,未知原因";
+                break;
+            case MODEL_MESSAGE_PUSH_FAILED_BY_USER:
+                LOGGER.info("[推送失败,用户拒绝] {}", messageAndEventRequest.getMsgID());
+                message += "推送失败,用户拒绝";
+                break;
+            default:
+                break;
+        }
         TextMessageResponse textMessageResponse = new TextMessageResponse();
         textMessageResponse.setCreateTime(System.currentTimeMillis());
         textMessageResponse.setMsgId(1L);
         textMessageResponse.setToUserName(baseMessageAndEventRequest.getFromUserName());
         textMessageResponse.setFromUserName(baseMessageAndEventRequest.getToUserName());
         textMessageResponse.setMsgType(MessageTypeEnum.text.toString());
-        textMessageResponse.setContent("[DEMO] 叶云轩自定义模板消息事件回复。此次推送结果:" + (
-                messageAndEventRequest.getStatus().equalsIgnoreCase(MODEL_MESSAGE_PUSH_SUCCESS) ? "成功" : "失败"));
+        textMessageResponse.setContent(message);
         return textMessageResponse;
     }
 }

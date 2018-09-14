@@ -8,12 +8,16 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.yyx.wx.acount.auth.config.WxPublicNumAuthConfig;
 import org.yyx.wx.acount.auth.service.IAccessTokenService;
+import org.yyx.wx.commons.bussinessenum.ResponseCodeFromWx;
+import org.yyx.wx.commons.exception.token.AccessTokenException;
 import org.yyx.wx.commons.util.CacheService;
-import org.yyx.wx.commons.vo.pubnum.request.auth.BaseAccessTokenRequest;
 import org.yyx.wx.commons.vo.pubnum.request.auth.AuthAccessTokenRequest;
+import org.yyx.wx.commons.vo.pubnum.request.auth.BaseAccessTokenRequest;
 
 import javax.annotation.Resource;
 
+import static org.yyx.wx.commons.bussinessenum.ResponseCodeFromWx.getCode;
+import static org.yyx.wx.commons.bussinessenum.ResponseCodeFromWx.isSuccess;
 import static org.yyx.wx.commons.constant.CacheKeyConstant.ACCESS_TOKEN_NO_OPENID;
 import static org.yyx.wx.commons.constant.CacheKeyConstant.AUTH_ACCESS_TOKEN;
 import static org.yyx.wx.commons.constant.CacheKeyConstant.REFRESH_AUTH_ACCESS_TOKEN;
@@ -136,9 +140,10 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
      * 获取BaseAccessToken的方法
      *
      * @return 微信返回的AccessToken
+     * @throws AccessTokenException AccessTokenException
      */
     @Override
-    public BaseAccessTokenRequest getBaseAccessToken() {
+    public BaseAccessTokenRequest getBaseAccessToken() throws AccessTokenException {
         // 从缓存中获取AccessToken
         BaseAccessTokenRequest baseAccessTokenRequest = (BaseAccessTokenRequest) cacheService.getValue(ACCESS_TOKEN_NO_OPENID);
         LOGGER.info("[缓存中的基础AccessToken] {}", baseAccessTokenRequest);
@@ -150,18 +155,17 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
         String urlGetAccessToken = wxPublicNumAuthConfig.getUrlGetAccessToken();
         // 向微信服务器索取accessToken
         String accessTokenJson = HttpUtil.get(urlGetAccessToken + appID + "&secret=" + appSecret);
-        if (StrUtil.hasEmpty(accessTokenJson)) {
-            return null;
-        }
         // 将AccessToken转换成对象
         BaseAccessTokenRequest accessToken = JSONObject.parseObject(accessTokenJson, BaseAccessTokenRequest.class);
-        if (accessToken.getErrcode() != 0L) {
-            // 请求出错
-            LOGGER.error("[异常信息] code: {} errmsg: {}", accessToken.getErrcode(), accessToken.getErrmsg());
+        Integer errcode = accessToken.getErrcode();
+        boolean success = isSuccess(errcode);
+        if (success) {
+            // 成功响应 将AccessToken存入缓存中
+            cacheService.cacheValue(ACCESS_TOKEN_NO_OPENID, accessToken, accessToken.getExpires_in());
+            return accessToken;
         }
-        LOGGER.info("[请求到的基础AccessToken] {}", accessToken);
-        // 存入缓存中
-        cacheService.cacheValue(ACCESS_TOKEN_NO_OPENID, accessToken, accessToken.getExpires_in());
-        return accessToken;
+        ResponseCodeFromWx code = getCode(errcode);
+        LOGGER.error(code.toString());
+        throw new AccessTokenException(code);
     }
 }

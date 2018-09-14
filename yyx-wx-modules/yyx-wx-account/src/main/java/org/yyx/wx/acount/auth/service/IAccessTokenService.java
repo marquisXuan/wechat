@@ -1,8 +1,9 @@
 package org.yyx.wx.acount.auth.service;
 
 
-import org.yyx.wx.commons.vo.pubnum.request.auth.BaseAccessTokenRequest;
+import org.yyx.wx.commons.exception.token.AccessTokenException;
 import org.yyx.wx.commons.vo.pubnum.request.auth.AuthAccessTokenRequest;
+import org.yyx.wx.commons.vo.pubnum.request.auth.BaseAccessTokenRequest;
 
 /**
  * IAccessTokenService
@@ -17,7 +18,6 @@ public interface IAccessTokenService {
      *
      * @param code  微信返回code
      * @param state 业务参数
-     * @return 微信返回的AccessToken
      */
     void getAuthAccessToken(String code, String state);
 
@@ -34,6 +34,7 @@ public interface IAccessTokenService {
      * <p>内含使用线程局部变量判断token是否失效</p>
      *
      * @return 微信返回的AccessToken
+     * @throws AccessTokenException AccessTokenException
      */
-    BaseAccessTokenRequest getBaseAccessToken();
+    BaseAccessTokenRequest getBaseAccessToken() throws AccessTokenException;
 }
