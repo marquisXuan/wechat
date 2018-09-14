@@ -10,6 +10,8 @@ import org.yyx.wx.message.proxy.message.TextMessageHandlerProxy;
 import java.io.IOException;
 import java.util.List;
 
+import static org.yyx.wx.commons.constant.ConfigConstant.PACKAGE_INTERFACE;
+
 /**
  * 自定义文本业务实现类 - DEMO
  * <p>
@@ -22,7 +24,7 @@ public class TextMessageServiceCondition implements Condition {
 
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
-        String servicePackageName = context.getEnvironment().getProperty("service.package");
+        String servicePackageName = context.getEnvironment().getProperty(PACKAGE_INTERFACE);
         try {
             List<Class<?>> interfaceSubClass = InterfaceUtil.getInterfaceSubClass(servicePackageName);
             for (int i = 0; i < interfaceSubClass.size(); i++) {

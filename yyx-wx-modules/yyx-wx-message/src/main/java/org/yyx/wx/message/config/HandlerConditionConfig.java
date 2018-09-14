@@ -17,6 +17,11 @@ import org.yyx.wx.message.service.impl.demo.DemoTextMessageServiceImpl;
 @Configuration
 public class HandlerConditionConfig {
 
+    /**
+     * 创建文本消息处理器
+     *
+     * @return 文本消息处理器
+     */
     @Bean
     @Conditional(TextMessageServiceCondition.class)
     public TextMessageHandlerProxy textMessageHandlerProxy() {
