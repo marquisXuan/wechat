@@ -70,12 +70,12 @@ public class InterfaceUtil {
     public static List<Class<?>> getInterfaceSubClass(String packageName) throws IOException, ClassNotFoundException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         String path = packageName.replace(".", "/");
-        LOGGER.info("[接口所在的包路径] {}", path);
+        LOGGER.info("[接口所在的包转为路径] {}", path);
         Enumeration<URL> resources = classLoader.getResources(path);
         List<Class<?>> classList = new ArrayList<>();
         while (resources.hasMoreElements()) {
             URL url = resources.nextElement();
-            LOGGER.info("[url] {} == {}", url.getProtocol(), url.getPath());
+            LOGGER.info("[接口所在的包绝对路径] {} == {}", url.getProtocol(), url.getPath());
             String protocol = url.getProtocol();
             if ("file".equals(protocol)) {
                 File file = new File(url.getFile());
@@ -85,6 +85,11 @@ public class InterfaceUtil {
         return classList;
     }
 
+    /**
+     * 获取实例
+     *
+     * @return 对象
+     */
     public InterfaceUtil getInstance() {
         return INTERFACE_UTIL;
     }

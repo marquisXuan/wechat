@@ -8,10 +8,7 @@ package org.yyx.wx.commons.bussinessenum;
  * @date 2018/8/24-20:36
  */
 public enum EventTypeEnum {
-    /**
-     * 纯订阅事件
-     */
-    DING_YUE,
+
     /**
      * 关注/取消关注事件，subscribe(订阅)
      * 扫描带参数二维码事件,用户未关注时，进行关注后的事件推送
