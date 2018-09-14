@@ -9,8 +9,8 @@ import org.springframework.stereotype.Service;
 import org.yyx.wx.acount.auth.config.WxPublicNumAuthConfig;
 import org.yyx.wx.acount.auth.service.IAccessTokenService;
 import org.yyx.wx.commons.util.CacheService;
-import org.yyx.wx.commons.vo.pubnum.reponse.BaseAccessToken;
-import org.yyx.wx.commons.vo.pubnum.reponse.auth.AuthAccessToken;
+import org.yyx.wx.commons.vo.pubnum.request.auth.BaseAccessTokenRequest;
+import org.yyx.wx.commons.vo.pubnum.request.auth.AuthAccessTokenRequest;
 
 import javax.annotation.Resource;
 
@@ -57,7 +57,7 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
         // 从缓存中获取OpenID
         String openId = (String) cacheService.getValue("user_" + state);
         // 从缓存中获取AuthAccessToken
-        AuthAccessToken cacheAuthToken = (AuthAccessToken) cacheService.getValue(openId + AUTH_ACCESS_TOKEN);
+        AuthAccessTokenRequest cacheAuthToken = (AuthAccessTokenRequest) cacheService.getValue(openId + AUTH_ACCESS_TOKEN);
         if (cacheAuthToken != null) {
             LOGGER.info("[缓存的AuthAccessToken] {}, [openID] {}", cacheAuthToken, cacheAuthToken.getOpenid());
         }
@@ -76,7 +76,7 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
             LOGGER.info("[授权URL] {}", urlCodeToToken);
             String responseMessage = HttpUtil.get(urlCodeToToken);
             // 用于认证授权的AccessToken
-            cacheAuthToken = JSONObject.parseObject(responseMessage, AuthAccessToken.class);
+            cacheAuthToken = JSONObject.parseObject(responseMessage, AuthAccessTokenRequest.class);
             LOGGER.info("[授权获取的AuthAccessToken] {}, [openID] {}", cacheAuthToken, cacheAuthToken.getOpenid());
             cacheData(cacheAuthToken, state);
         } else {
@@ -92,13 +92,13 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
      * @return 认证授权Token
      */
     @Override
-    public AuthAccessToken getAuthAccessTokenByRefreshToken(String refreshToken, String userName) {
+    public AuthAccessTokenRequest getAuthAccessTokenByRefreshToken(String refreshToken, String userName) {
         if (StrUtil.hasEmpty(refreshToken)) {
             return null;
         }
         // 从缓存中获取OpenID
         String openId = (String) cacheService.getValue("user_" + userName);
-        AuthAccessToken cacheAuthToken = (AuthAccessToken) cacheService.getValue(openId + AUTH_ACCESS_TOKEN);
+        AuthAccessTokenRequest cacheAuthToken = (AuthAccessTokenRequest) cacheService.getValue(openId + AUTH_ACCESS_TOKEN);
         LOGGER.info("[缓存中的认证Token] {}", cacheAuthToken);
         if (cacheAuthToken != null) {
             return cacheAuthToken;
@@ -111,7 +111,7 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
                         + refreshToken;
         String responseMessage = HttpUtil.get(urlRefreshToken);
         // 用于认证授权的AccessToken
-        cacheAuthToken = JSONObject.parseObject(responseMessage, AuthAccessToken.class);
+        cacheAuthToken = JSONObject.parseObject(responseMessage, AuthAccessTokenRequest.class);
         LOGGER.info("[刷新获取的AccessToken] {}, [openID] {}", cacheAuthToken, cacheAuthToken.getOpenid());
         cacheData(cacheAuthToken, userName);
         return cacheAuthToken;
@@ -122,7 +122,7 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
      *
      * @param cacheAuthToken 待缓存数据
      */
-    private void cacheData(AuthAccessToken cacheAuthToken, String userName) {
+    private void cacheData(AuthAccessTokenRequest cacheAuthToken, String userName) {
         String openid = cacheAuthToken.getOpenid();
         cacheService.cacheValue(userName, openid);
         int cacheTime = 29 * 24 * 3600;
@@ -138,12 +138,12 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
      * @return 微信返回的AccessToken
      */
     @Override
-    public BaseAccessToken getBaseAccessToken() {
+    public BaseAccessTokenRequest getBaseAccessToken() {
         // 从缓存中获取AccessToken
-        BaseAccessToken baseAccessToken = (BaseAccessToken) cacheService.getValue(ACCESS_TOKEN_NO_OPENID);
-        LOGGER.info("[缓存中的基础AccessToken] {}", baseAccessToken);
-        if (baseAccessToken != null) {
-            return baseAccessToken;
+        BaseAccessTokenRequest baseAccessTokenRequest = (BaseAccessTokenRequest) cacheService.getValue(ACCESS_TOKEN_NO_OPENID);
+        LOGGER.info("[缓存中的基础AccessToken] {}", baseAccessTokenRequest);
+        if (baseAccessTokenRequest != null) {
+            return baseAccessTokenRequest;
         }
         String appID = wxPublicNumAuthConfig.getAppID();
         String appSecret = wxPublicNumAuthConfig.getAppSecret();
@@ -154,7 +154,7 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
             return null;
         }
         // 将AccessToken转换成对象
-        BaseAccessToken accessToken = JSONObject.parseObject(accessTokenJson, BaseAccessToken.class);
+        BaseAccessTokenRequest accessToken = JSONObject.parseObject(accessTokenJson, BaseAccessTokenRequest.class);
         if (accessToken.getErrcode() != 0L) {
             // 请求出错
             LOGGER.error("[异常信息] code: {} errmsg: {}", accessToken.getErrcode(), accessToken.getErrmsg());

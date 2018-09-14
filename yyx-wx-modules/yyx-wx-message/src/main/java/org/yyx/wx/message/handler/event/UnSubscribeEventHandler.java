@@ -6,7 +6,7 @@ import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
 import org.yyx.wx.commons.exception.CreateObjectException;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRequest;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.event.UnSubscribeEventHandlerProxy;

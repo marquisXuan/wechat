@@ -6,8 +6,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.yyx.wx.acount.auth.service.IAccessTokenService;
-import org.yyx.wx.commons.vo.pubnum.reponse.BaseAccessToken;
-import org.yyx.wx.commons.vo.pubnum.reponse.model.ModelMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.request.auth.BaseAccessTokenRequest;
+import org.yyx.wx.commons.vo.pubnum.response.model.ModelMessageResponse;
 import org.yyx.wx.message.config.WxModelMessageConfig;
 import org.yyx.wx.message.service.IMessageService;
 
@@ -46,14 +46,14 @@ public class MessageServiceImpl implements IMessageService {
      */
     @Override
     public boolean pushModelService(ModelMessageResponse modelMessageResponse) {
-        BaseAccessToken baseAccessToken = accessTokenService.getBaseAccessToken();
-        if (baseAccessToken == null) {
+        BaseAccessTokenRequest baseAccessTokenRequest = accessTokenService.getBaseAccessToken();
+        if (baseAccessTokenRequest == null) {
             // 报错
             return false;
         }
         // POST请求URL
         String urlSendModelMessage = wxModelMessageConfig.getUrlSendModelMessage()
-                + baseAccessToken.getAccess_token();
+                + baseAccessTokenRequest.getAccess_token();
         String modelMessageJson = JSONObject.toJSONString(modelMessageResponse);
         LOGGER.info("[推送消息] {}", modelMessageJson);
         String post = HttpUtil.post(urlSendModelMessage, modelMessageJson);

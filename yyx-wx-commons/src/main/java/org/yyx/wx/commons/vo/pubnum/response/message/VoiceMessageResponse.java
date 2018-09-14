@@ -1,4 +1,4 @@
-package org.yyx.wx.commons.vo.pubnum.reponse.message;
+package org.yyx.wx.commons.vo.pubnum.response.message;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

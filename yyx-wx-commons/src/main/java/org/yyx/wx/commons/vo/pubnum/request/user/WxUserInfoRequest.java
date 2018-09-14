@@ -1,4 +1,4 @@
-package org.yyx.wx.commons.vo.pubnum;
+package org.yyx.wx.commons.vo.pubnum.request.user;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;

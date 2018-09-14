@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.yyx.wx.acount.auth.config.WxPublicNumAuthConfig;
 import org.yyx.wx.acount.auth.service.IAccessTokenService;
 import org.yyx.wx.commons.bussinessenum.AuthScopeEnum;
-import org.yyx.wx.commons.vo.pubnum.reponse.BaseAccessToken;
+import org.yyx.wx.commons.vo.pubnum.request.auth.BaseAccessTokenRequest;
 import org.yyx.wx.message.websocket.WebSocketUtil;
 
 import javax.annotation.Resource;
@@ -41,12 +41,12 @@ public class AuthController {
     @GetMapping("user/info")
     public String getUserInfo() {
         // 基础AccessToken
-        BaseAccessToken baseAccessToken = accessTokenService.getBaseAccessToken();
+        BaseAccessTokenRequest baseAccessTokenRequest = accessTokenService.getBaseAccessToken();
         // https://api.weixin.qq.com/cgi-bin/user/info?access_token=
         // ACCESS_TOKEN&openid=OPENID&lang=zh_CN
         String userInfoUrl =
                 wxPublicNumAuthConfig.getUrlBaseUserInfo()
-                        + baseAccessToken.getAccess_token() + "&openid="
+                        + baseAccessTokenRequest.getAccess_token() + "&openid="
                         + "oPuhG03YiRn3KLSuiOnRufEGMFpY"
                         + "&lang=zh_CN";
         LOGGER.info("[查询用户信息URL] {}", userInfoUrl);

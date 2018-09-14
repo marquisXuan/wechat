@@ -3,9 +3,9 @@ package org.yyx.wx.message.service.impl.demo;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
-import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
-import org.yyx.wx.commons.vo.pubnum.reponse.message.TextMessageResponse;
-import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.response.message.TextMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.TextMessageRequest;
 import org.yyx.wx.message.proxy.message.TextMessageHandlerProxy;
 

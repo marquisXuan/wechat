@@ -1,7 +1,8 @@
-package org.yyx.wx.commons.vo.pubnum.reponse;
+package org.yyx.wx.commons.vo.pubnum.request.auth;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
+import org.yyx.wx.commons.vo.pubnum.request.BaseRequest;
 
 import java.io.Serializable;
 
@@ -13,7 +14,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class BaseAccessToken extends BaseResponse implements Serializable {
+public class BaseAccessTokenRequest extends BaseRequest implements Serializable {
 
     /**
      * 序列化标识

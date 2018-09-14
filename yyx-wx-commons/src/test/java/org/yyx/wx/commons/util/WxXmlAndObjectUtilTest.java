@@ -4,7 +4,7 @@ import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
 import org.junit.Test;
-import org.yyx.wx.commons.vo.pubnum.reponse.message.TextMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.response.message.TextMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.ImageMessageRequest;
 
 public class WxXmlAndObjectUtilTest {

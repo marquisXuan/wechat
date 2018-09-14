@@ -2,7 +2,7 @@ package org.yyx.wx.commons.vo.pubnum.request.message;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse;
+import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
 
 /**
  * 微信请求过来的基础消息父类

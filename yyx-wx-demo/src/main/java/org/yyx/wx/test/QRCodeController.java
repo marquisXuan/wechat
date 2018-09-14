@@ -11,11 +11,11 @@ import org.springframework.web.bind.annotation.RestController;
 import org.yyx.wx.acount.auth.service.IAccessTokenService;
 import org.yyx.wx.acount.qrcode.config.WxQRCodeConfig;
 import org.yyx.wx.acount.qrcode.service.IQRCodeService;
-import org.yyx.wx.commons.vo.pubnum.reponse.BaseAccessToken;
-import org.yyx.wx.commons.vo.pubnum.reponse.qrcode.TicketResponse;
+import org.yyx.wx.commons.vo.pubnum.request.auth.BaseAccessTokenRequest;
+import org.yyx.wx.commons.vo.pubnum.request.qrcode.TicketRequest;
 import org.yyx.wx.commons.vo.pubnum.request.qrcode.ActionInfoWxRequest;
 import org.yyx.wx.commons.vo.pubnum.request.qrcode.QRCodeWxRequest;
-import org.yyx.wx.commons.vo.pubnum.reponse.model.ModelMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.response.model.ModelMessageResponse;
 import org.yyx.wx.message.service.IMessageService;
 
 import javax.annotation.Resource;
@@ -82,8 +82,8 @@ public class QRCodeController {
     @ApiOperation(httpMethod = "GET", value = "获取二维码的接口")
     public void getQRCodeDemo(HttpServletResponse response, @PathVariable("userName") String userName) {
         // 获取基础AccessToken
-        BaseAccessToken baseAccessToken = accessTokenService.getBaseAccessToken();
-        LOGGER.info("[BaseAccessToken] {}", baseAccessToken);
+        BaseAccessTokenRequest baseAccessTokenRequest = accessTokenService.getBaseAccessToken();
+        LOGGER.info("[BaseAccessTokenRequest] {}", baseAccessTokenRequest);
         // 封装请求临时带参数字符串二维码信息
         qrCodeWxRequest.setExpire_seconds(30L);
         ActionInfoWxRequest actionInfo = new ActionInfoWxRequest();
@@ -93,7 +93,7 @@ public class QRCodeController {
         actionInfo.setScene(scene);
         qrCodeWxRequest.setAction_info(actionInfo);
         // 请求Ticket
-        TicketResponse intTempTicket = iqrCodeService.createStrTempTicket(qrCodeWxRequest);
+        TicketRequest intTempTicket = iqrCodeService.createStrTempTicket(qrCodeWxRequest);
         try {
             // 跳转二维码页面
             response.sendRedirect(wxQRCodeConfig.getUrlQRCode() + intTempTicket.getTicket());

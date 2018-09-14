@@ -1,8 +1,8 @@
-package org.yyx.wx.commons.vo.pubnum.reponse.qrcode;
+package org.yyx.wx.commons.vo.pubnum.request.qrcode;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.yyx.wx.commons.vo.pubnum.reponse.BaseResponse;
+import org.yyx.wx.commons.vo.pubnum.request.BaseRequest;
 
 /**
  * 微信二维码返回值
@@ -13,8 +13,9 @@ import org.yyx.wx.commons.vo.pubnum.reponse.BaseResponse;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class TicketResponse extends BaseResponse {
+public class TicketRequest extends BaseRequest {
 
+    private static final long serialVersionUID = -488059214540676635L;
     /**
      * 获取的二维码ticket，凭借此ticket可以在有效时间内换取二维码。
      */

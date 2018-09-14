@@ -1,7 +1,7 @@
 package org.yyx.wx.message.service;
 
 
-import org.yyx.wx.commons.vo.pubnum.reponse.model.ModelMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.response.model.ModelMessageResponse;
 
 /**
  * 消息Service

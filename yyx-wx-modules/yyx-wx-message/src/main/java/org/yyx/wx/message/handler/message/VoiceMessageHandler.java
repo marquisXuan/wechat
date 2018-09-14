@@ -5,7 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.reponse.message.VoiceMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.response.message.VoiceMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.VoiceMessageRequest;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;

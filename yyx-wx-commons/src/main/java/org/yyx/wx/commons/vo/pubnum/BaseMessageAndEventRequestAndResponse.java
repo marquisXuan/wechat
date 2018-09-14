@@ -1,4 +1,4 @@
-package org.yyx.wx.commons.vo.pubnum.request;
+package org.yyx.wx.commons.vo.pubnum;
 
 import lombok.Data;
 

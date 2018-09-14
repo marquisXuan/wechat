@@ -3,7 +3,7 @@ package org.yyx.wx.commons.util;
 import org.dom4j.Document;
 import org.dom4j.DocumentHelper;
 import org.dom4j.Element;
-import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 
 import java.lang.reflect.Field;
 import java.util.Iterator;

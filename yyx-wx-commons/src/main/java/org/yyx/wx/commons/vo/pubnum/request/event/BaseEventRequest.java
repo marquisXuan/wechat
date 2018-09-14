@@ -2,7 +2,7 @@ package org.yyx.wx.commons.vo.pubnum.request.event;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse;
+import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
 
 /**
  * 基础事件消息父类

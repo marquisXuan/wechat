@@ -1,5 +1,6 @@
 package org.yyx.wx.commons.util;
 
+import cn.hutool.core.util.ArrayUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,6 +44,10 @@ public class InterfaceUtil {
             return classes;
         }
         File[] files = directory.listFiles();
+        boolean empty = ArrayUtil.isEmpty(files);
+        if (empty) {
+            throw new ClassNotFoundException("目录-[" + directory + "]下没有类文件");
+        }
         for (File file : files) {
             if (file.isDirectory()) {
                 assert !file.getName().contains(".");
@@ -54,10 +59,18 @@ public class InterfaceUtil {
         return classes;
     }
 
+    /**
+     * 根据包名查找接口的子类集合
+     *
+     * @param packageName 接口所在的包
+     * @return 接口的子类集合
+     * @throws IOException            ioException
+     * @throws ClassNotFoundException classNotFoundException
+     */
     public static List<Class<?>> getInterfaceSubClass(String packageName) throws IOException, ClassNotFoundException {
         ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
         String path = packageName.replace(".", "/");
-        LOGGER.info("[包路径] {}", path);
+        LOGGER.info("[接口所在的包路径] {}", path);
         Enumeration<URL> resources = classLoader.getResources(path);
         List<Class<?>> classList = new ArrayList<>();
         while (resources.hasMoreElements()) {

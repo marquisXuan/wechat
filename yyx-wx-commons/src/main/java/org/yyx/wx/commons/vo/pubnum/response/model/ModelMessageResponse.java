@@ -1,4 +1,4 @@
-package org.yyx.wx.commons.vo.pubnum.reponse.model;
+package org.yyx.wx.commons.vo.pubnum.response.model;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;

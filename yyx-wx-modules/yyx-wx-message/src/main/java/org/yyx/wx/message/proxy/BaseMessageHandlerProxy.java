@@ -1,7 +1,7 @@
 package org.yyx.wx.message.proxy;
 
-import org.yyx.wx.commons.vo.pubnum.reponse.message.BaseMessageResponse;
-import org.yyx.wx.commons.vo.pubnum.request.BaseMessageAndEventRequestAndResponse;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
 
 /**
  * 消息处理接口

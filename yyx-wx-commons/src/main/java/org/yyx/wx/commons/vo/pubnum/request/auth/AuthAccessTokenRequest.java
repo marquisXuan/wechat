@@ -1,8 +1,8 @@
-package org.yyx.wx.commons.vo.pubnum.reponse.auth;
+package org.yyx.wx.commons.vo.pubnum.request.auth;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
-import org.yyx.wx.commons.vo.pubnum.reponse.BaseResponse;
+import org.yyx.wx.commons.vo.pubnum.request.BaseRequest;
 
 import java.io.Serializable;
 
@@ -15,7 +15,7 @@ import java.io.Serializable;
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
-public class AuthAccessToken extends BaseResponse implements Serializable {
+public class AuthAccessTokenRequest extends BaseRequest implements Serializable {
 
     private static final long serialVersionUID = 704928868877582577L;
     /**

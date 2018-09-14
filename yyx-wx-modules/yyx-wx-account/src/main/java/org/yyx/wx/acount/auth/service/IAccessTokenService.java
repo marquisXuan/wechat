@@ -1,8 +1,8 @@
 package org.yyx.wx.acount.auth.service;
 
 
-import org.yyx.wx.commons.vo.pubnum.reponse.BaseAccessToken;
-import org.yyx.wx.commons.vo.pubnum.reponse.auth.AuthAccessToken;
+import org.yyx.wx.commons.vo.pubnum.request.auth.BaseAccessTokenRequest;
+import org.yyx.wx.commons.vo.pubnum.request.auth.AuthAccessTokenRequest;
 
 /**
  * IAccessTokenService
@@ -27,7 +27,7 @@ public interface IAccessTokenService {
      * @param refreshToken 刷新Token
      * @return 认证授权Token
      */
-    AuthAccessToken getAuthAccessTokenByRefreshToken(String refreshToken, String userName);
+    AuthAccessTokenRequest getAuthAccessTokenByRefreshToken(String refreshToken, String userName);
 
     /**
      * 获取AccessToken的方法
@@ -35,5 +35,5 @@ public interface IAccessTokenService {
      *
      * @return 微信返回的AccessToken
      */
-    BaseAccessToken getBaseAccessToken();
+    BaseAccessTokenRequest getBaseAccessToken();
 }
