@@ -1,4 +1,0 @@
-wx:
-  url:
-    # 发送模板消息https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=ACCESS_TOKEN
-    send_model_message: https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=

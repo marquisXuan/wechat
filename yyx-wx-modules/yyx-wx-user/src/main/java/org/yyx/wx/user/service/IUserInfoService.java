@@ -1,7 +1,11 @@
 package org.yyx.wx.user.service;
 
 import org.yyx.wx.commons.exception.user.NoOpenIDException;
+import org.yyx.wx.commons.vo.pubnum.request.user.BatchWxUserInfoRequest;
 import org.yyx.wx.commons.vo.pubnum.request.user.WxUserInfoRequest;
+import org.yyx.wx.commons.vo.pubnum.response.user.BatchUserResponse;
+
+import java.util.List;
 
 /**
  * 用户信息业务接口
@@ -20,4 +24,12 @@ public interface IUserInfoService {
      * @throws NoOpenIDException OPENID为空异常
      */
     WxUserInfoRequest getUserInfoByOpenID(String openID) throws NoOpenIDException;
+
+    /**
+     * 批量获取用户基本信息 一次最多100条
+     *
+     * @param userResponseList 用户openId集合
+     * @return 用户基本信息集合
+     */
+    BatchWxUserInfoRequest getUsersInfoByOpenIDs(List<BatchUserResponse> userResponseList);
 }

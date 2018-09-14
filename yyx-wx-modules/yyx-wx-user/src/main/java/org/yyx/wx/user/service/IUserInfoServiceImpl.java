@@ -1,6 +1,7 @@
 package org.yyx.wx.user.service;
 
 import cn.hutool.core.util.StrUtil;
+import cn.hutool.http.HttpRequest;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
@@ -11,10 +12,13 @@ import org.yyx.wx.commons.exception.token.AccessTokenException;
 import org.yyx.wx.commons.exception.user.NoOpenIDException;
 import org.yyx.wx.commons.exception.user.WxUserException;
 import org.yyx.wx.commons.vo.pubnum.request.auth.BaseAccessTokenRequest;
+import org.yyx.wx.commons.vo.pubnum.request.user.BatchWxUserInfoRequest;
 import org.yyx.wx.commons.vo.pubnum.request.user.WxUserInfoRequest;
+import org.yyx.wx.commons.vo.pubnum.response.user.BatchUserResponse;
 import org.yyx.wx.user.config.WxUserInfoConfig;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 import static org.yyx.wx.commons.bussinessenum.ResponseCodeFromWx.getCode;
 import static org.yyx.wx.commons.bussinessenum.ResponseCodeFromWx.isSuccess;
@@ -82,5 +86,32 @@ public class IUserInfoServiceImpl implements IUserInfoService {
             return wxUserInfoRequest;
         }
         throw new WxUserException(getCode(errcode));
+    }
+
+    /**
+     * 批量获取用户基本信息 一次最多100条
+     *
+     * @param userResponseList 用户openId集合
+     * @return 用户基本信息集合
+     */
+    @Override
+    public BatchWxUserInfoRequest getUsersInfoByOpenIDs(List<BatchUserResponse> userResponseList) {
+        String urlBatchUserInfo = wxUserInfoConfig.getUrlBatchUserInfo();
+        BaseAccessTokenRequest baseAccessToken;
+        try {
+            baseAccessToken = accessTokenManager.getBaseAccessToken();
+        } catch (AccessTokenException e) {
+            LOGGER.error("[获取公众号AccessToken失败] {}", e.getMessage());
+            throw new AccessTokenException();
+        }
+        urlBatchUserInfo += baseAccessToken.getAccess_token();
+        String params = JSONObject.toJSONString(userResponseList);
+        String userInfoJsonList = HttpRequest.post(urlBatchUserInfo).body(params).execute().body();
+        BatchWxUserInfoRequest batchWxUserInfoRequest = JSONObject.parseObject(userInfoJsonList, BatchWxUserInfoRequest.class);
+        boolean success = isSuccess(batchWxUserInfoRequest.getErrcode());
+        if (success) {
+            return batchWxUserInfoRequest;
+        }
+        throw new WxUserException(getCode(batchWxUserInfoRequest.getErrcode()));
     }
 }

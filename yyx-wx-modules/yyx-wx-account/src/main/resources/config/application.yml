@@ -24,3 +24,5 @@ wx:
     get_industry: https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=
     # 发送模板消息
     send_model_message: https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=
+    # https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token= post
+    batch_user_info: https://api.weixin.qq.com/cgi-bin/user/info/batchget?access_token=

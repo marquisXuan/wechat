@@ -19,4 +19,9 @@ public class WxUserInfoConfig {
      */
     @Value("${wx.url.base_user_info}")
     private String urlBaseUserInfo;
+    /**
+     * 批量获取用户基本信息的URL
+     */
+    @Value("${wx.url.batch_user_info}")
+    private String urlBatchUserInfo;
 }

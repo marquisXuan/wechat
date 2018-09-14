@@ -1,4 +1,0 @@
-wx:
-  url:
-    # https://api.weixin.qq.com/cgi-bin/user/info?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN 获取用户基本信息（包括UnionID机制）
-    base_user_info: https://api.weixin.qq.com/cgi-bin/user/info?access_token=
