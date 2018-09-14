@@ -1,4 +1,4 @@
-package org.yyx.wx.user.config;
+package org.yyx.wx.acount.user.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

@@ -1,4 +1,4 @@
-package org.yyx.wx.user.service;
+package org.yyx.wx.acount.user.service;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
@@ -15,7 +15,7 @@ import org.yyx.wx.commons.vo.pubnum.request.auth.BaseAccessTokenRequest;
 import org.yyx.wx.commons.vo.pubnum.request.user.BatchWxUserInfoRequest;
 import org.yyx.wx.commons.vo.pubnum.request.user.WxUserInfoRequest;
 import org.yyx.wx.commons.vo.pubnum.response.user.BatchUserResponse;
-import org.yyx.wx.user.config.WxUserInfoConfig;
+import org.yyx.wx.acount.user.config.WxUserInfoConfig;
 
 import javax.annotation.Resource;
 import java.util.List;

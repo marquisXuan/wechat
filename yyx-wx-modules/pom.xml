@@ -40,6 +40,5 @@
         <module>yyx-wx-account</module>
         <module>yyx-wx-message</module>
         <module>yyx-wx-web</module>
-        <module>yyx-wx-user</module>
     </modules>
 </project>

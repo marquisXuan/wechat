@@ -8,7 +8,7 @@ import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRe
 import org.yyx.wx.commons.vo.pubnum.request.user.WxUserInfoRequest;
 import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.message.proxy.event.UnSubscribeEventHandlerProxy;
-import org.yyx.wx.user.service.IUserInfoService;
+import org.yyx.wx.acount.user.service.IUserInfoService;
 
 import javax.annotation.Resource;
 

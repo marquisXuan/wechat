@@ -1,4 +1,4 @@
-package org.yyx.wx.user.service;
+package org.yyx.wx.acount.user.service;
 
 import org.yyx.wx.commons.exception.user.NoOpenIDException;
 import org.yyx.wx.commons.vo.pubnum.request.user.BatchWxUserInfoRequest;
