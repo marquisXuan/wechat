@@ -2,6 +2,7 @@ package org.yyx.wx.message.builder;
 
 import cn.hutool.core.util.ArrayUtil;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
+import org.yyx.wx.message.handler.event.ModelMessagePushEventHandler;
 import org.yyx.wx.message.handler.event.SubscribeEventHandler;
 import org.yyx.wx.message.handler.event.SubscribeScanEventHandler;
 import org.yyx.wx.message.handler.event.UnSubscribeEventHandler;
@@ -46,6 +47,10 @@ public class MessageEventHandlerBuilder {
      * 创建对象
      */
     private static final MessageEventHandlerBuilder MESSAGE_EVENT_HANDLER_FACTORY = new MessageEventHandlerBuilder();
+    /**
+     * 模板消息推送事件处理器
+     */
+    private static final ModelMessagePushEventHandler MODEL_MESSAGE_PUSH_EVENT_HANDLER = ModelMessagePushEventHandler.getInstance();
     /**
      * 小视频消息处理器
      */
@@ -100,7 +105,7 @@ public class MessageEventHandlerBuilder {
      * 链条设置
      * 未关注扫描二维码 -> 关注过扫描二维码 -> 订阅[关注] -> 文本消息
      * -> 链接消息处理器 -> 图片消息处理器 -> 语音消息处理器 -> 小视频消息处理器
-     * -> 视频消息处理器 -> 地理位置消息处理器 -> 取消订阅[关注]公众号事件处理器
+     * -> 视频消息处理器 -> 地理位置消息处理器 -> 取消订阅[关注]公众号事件处理器 -> 模板消息推送事件处理器
      *
      * @param baseMessageHandlerProxies 代理类
      * @return 事件处理器
@@ -124,27 +129,41 @@ public class MessageEventHandlerBuilder {
         AbstractMessageHandler lastAbstractMessageHandler = ABSTRACT_MESSAGE_HANDLERS[0];
         if (!UN_SUBSCRIBE_SCAN_EVENT_HANDLER.hasNext()) {
             // 设置链条
+            MODEL_MESSAGE_PUSH_EVENT_HANDLER.setBaseMessageHandlerProxy(baseMessageHandlerProxies);
+
+            UN_SUBSCRIBE_EVENT_HANDLER.setNextHandler(MODEL_MESSAGE_PUSH_EVENT_HANDLER);
             UN_SUBSCRIBE_EVENT_HANDLER.setBaseMessageHandlerProxy(baseMessageHandlerProxies);
+
             LOCATION_MESSAGE_HANDLER.setNextHandler(UN_SUBSCRIBE_EVENT_HANDLER);
             LOCATION_MESSAGE_HANDLER.setBaseMessageHandlerProxy(baseMessageHandlerProxies);
+
             VIDEO_MESSAGE_HANDLER.setNextHandler(LOCATION_MESSAGE_HANDLER);
             VIDEO_MESSAGE_HANDLER.setBaseMessageHandlerProxy(baseMessageHandlerProxies);
+
             SHORT_VIDEO_MESSAGE_HANDLER.setNextHandler(VIDEO_MESSAGE_HANDLER);
             SHORT_VIDEO_MESSAGE_HANDLER.setBaseMessageHandlerProxy(baseMessageHandlerProxies);
+
             VOICE_MESSAGE_HANDLER.setNextHandler(SHORT_VIDEO_MESSAGE_HANDLER);
             VOICE_MESSAGE_HANDLER.setBaseMessageHandlerProxy(baseMessageHandlerProxies);
+
             IMAGE_MESSAGE_HANDLER.setNextHandler(VOICE_MESSAGE_HANDLER);
             IMAGE_MESSAGE_HANDLER.setBaseMessageHandlerProxy(baseMessageHandlerProxies);
+
             LINK_MESSAGE_HANDLER.setNextHandler(IMAGE_MESSAGE_HANDLER);
             LINK_MESSAGE_HANDLER.setBaseMessageHandlerProxy(baseMessageHandlerProxies);
+
             TEXT_MESSAGE_HANDLER.setNextHandler(LINK_MESSAGE_HANDLER);
             TEXT_MESSAGE_HANDLER.setBaseMessageHandlerProxy(baseMessageHandlerProxies);
+
             SUBSCRIBE_EVENT_HANDLER.setNextHandler(TEXT_MESSAGE_HANDLER);
             SUBSCRIBE_EVENT_HANDLER.setBaseMessageHandlerProxy(baseMessageHandlerProxies);
+
             SUBSCRIBE_SCAN_EVENT_HANDLER.setNextHandler(SUBSCRIBE_EVENT_HANDLER);
             SUBSCRIBE_SCAN_EVENT_HANDLER.setBaseMessageHandlerProxy(baseMessageHandlerProxies);
+
             UN_SUBSCRIBE_SCAN_EVENT_HANDLER.setNextHandler(SUBSCRIBE_SCAN_EVENT_HANDLER);
             UN_SUBSCRIBE_SCAN_EVENT_HANDLER.setBaseMessageHandlerProxy(baseMessageHandlerProxies);
+
         }
         if (lastAbstractMessageHandler != null) {
             lastAbstractMessageHandler.setNextHandler(UN_SUBSCRIBE_SCAN_EVENT_HANDLER);

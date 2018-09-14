@@ -13,10 +13,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
+import org.yyx.wx.message.proxy.event.ModelMessagePushEventHandlerProxy;
 import org.yyx.wx.message.proxy.event.SubscribeEventHandlerProxy;
 import org.yyx.wx.message.proxy.event.SubscribeScanEventHandlerProxy;
 import org.yyx.wx.message.proxy.event.UnSubscribeEventHandlerProxy;
@@ -113,6 +114,11 @@ public class ApplicationMain {
      */
     @Resource
     private VoiceMessageHandlerProxy voiceMessageHandlerProxy;
+    /**
+     * 模板事件推送
+     */
+    @Resource
+    private ModelMessagePushEventHandlerProxy modelMessagePushEventHandlerProxy;
     // endregion
 
     /**
@@ -175,8 +181,9 @@ public class ApplicationMain {
     }
 
     private BaseMessageHandlerProxy[] getBaseMessageHandlerProxies() {
-        final BaseMessageHandlerProxy[] baseMessageHandlerProxies = new BaseMessageHandlerProxy[11];
+        final BaseMessageHandlerProxy[] baseMessageHandlerProxies = new BaseMessageHandlerProxy[12];
         if (ArrayUtil.hasNull(baseMessageHandlerProxies)) {
+            baseMessageHandlerProxies[0] = voiceMessageHandlerProxy;
             baseMessageHandlerProxies[1] = subscribeEventHandlerProxy;
             baseMessageHandlerProxies[2] = subscribeScanEventHandlerProxy;
             baseMessageHandlerProxies[3] = unSubscribeEventHandlerProxy;
@@ -187,7 +194,7 @@ public class ApplicationMain {
             baseMessageHandlerProxies[8] = shortVideoMessageHandlerProxy;
             baseMessageHandlerProxies[9] = textMessageHandlerProxy;
             baseMessageHandlerProxies[10] = videoMessageHandlerProxy;
-            baseMessageHandlerProxies[0] = voiceMessageHandlerProxy;
+            baseMessageHandlerProxies[11] = modelMessagePushEventHandlerProxy;
         }
         return baseMessageHandlerProxies;
     }

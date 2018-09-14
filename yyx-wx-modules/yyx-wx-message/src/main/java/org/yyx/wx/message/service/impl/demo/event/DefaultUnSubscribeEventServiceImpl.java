@@ -1,4 +1,4 @@
-package org.yyx.wx.message.service.impl.demo;
+package org.yyx.wx.message.service.impl.demo.event;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -15,12 +15,12 @@ import org.yyx.wx.message.proxy.event.UnSubscribeEventHandlerProxy;
  * @date 2018/9/10-13:39
  */
 @Service
-public class DemoUnSubscribeEventServiceImpl implements UnSubscribeEventHandlerProxy {
+public class DefaultUnSubscribeEventServiceImpl implements UnSubscribeEventHandlerProxy {
 
     /**
      * DemoServiceImpl日志输出
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(DemoUnSubscribeEventServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultUnSubscribeEventServiceImpl.class);
 
     /**
      * 自定义业务处理

@@ -1,4 +1,4 @@
-package org.yyx.wx.message.service.impl.demo;
+package org.yyx.wx.message.service.impl.demo.event;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -7,7 +7,7 @@ import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.response.message.TextMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
-import org.yyx.wx.message.proxy.event.SubscribeScanEventHandlerProxy;
+import org.yyx.wx.message.proxy.event.UnSubscribeScanEventHandlerProxy;
 
 /**
  * 自定义扫码事件业务实现类 - DEMO
@@ -17,12 +17,12 @@ import org.yyx.wx.message.proxy.event.SubscribeScanEventHandlerProxy;
  * @date 2018/9/10-13:39
  */
 @Service
-public class DemoSubscribeScanEventServiceImpl implements SubscribeScanEventHandlerProxy {
+public class DefaultUnSubscribeScanEventServiceImpl implements UnSubscribeScanEventHandlerProxy {
 
     /**
      * DemoServiceImpl日志输出
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(DemoSubscribeScanEventServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultUnSubscribeScanEventServiceImpl.class);
 
     /**
      * 自定义业务处理
@@ -32,14 +32,14 @@ public class DemoSubscribeScanEventServiceImpl implements SubscribeScanEventHand
      */
     @Override
     public BaseMessageResponse dealMessage(BaseMessageAndEventRequestAndResponse baseMessageAndEventRequest) {
-        LOGGER.info("[DEMO] 自定义扫码业务实现类");
+        LOGGER.info("[DEMO] 自定义未关注扫码业务实现类");
         TextMessageResponse textMessageResponse = new TextMessageResponse();
         textMessageResponse.setCreateTime(System.currentTimeMillis());
         textMessageResponse.setMsgId(1L);
         textMessageResponse.setToUserName(baseMessageAndEventRequest.getFromUserName());
         textMessageResponse.setFromUserName(baseMessageAndEventRequest.getToUserName());
         textMessageResponse.setMsgType(MessageTypeEnum.text.toString());
-        textMessageResponse.setContent("[DEMO] 叶云轩自定义文本回复。\n\n欢迎扫码");
+        textMessageResponse.setContent("[DEMO] 叶云轩自定义文本回复。\n\n未关注公众号扫了我的二维码：");
         // endregion
         return textMessageResponse;
     }

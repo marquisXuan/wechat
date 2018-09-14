@@ -4,8 +4,8 @@ import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRequest;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.event.SubscribeEventHandlerProxy;
 
@@ -66,20 +66,6 @@ public class SubscribeEventHandler extends BaseSubscribeEventHandler {
         return null;
     }
 
-    /**
-     * 检查是否是自己的代理类
-     *
-     * @return true / false
-     */
-    @Override
-   protected boolean isMineProxy(BaseMessageHandlerProxy baseMessageHandlerProxy) {
-        if (baseMessageHandlerProxy instanceof SubscribeEventHandlerProxy) {
-            this.baseMessageHandlerProxy = baseMessageHandlerProxy;
-            return true;
-        }
-        return false;
-    }
-
     @Override
     protected SubscribeAndUnSubscribeEventRequest modelMethod(Element element) {
         LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element);
@@ -91,6 +77,20 @@ public class SubscribeEventHandler extends BaseSubscribeEventHandler {
             return null;
         }
         return subscribeAndUnSubscribeEventRequest;
+    }
+
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    @Override
+    protected boolean isMineProxy(BaseMessageHandlerProxy baseMessageHandlerProxy) {
+        if (baseMessageHandlerProxy instanceof SubscribeEventHandlerProxy) {
+            this.baseMessageHandlerProxy = baseMessageHandlerProxy;
+            return true;
+        }
+        return false;
     }
 
 }
