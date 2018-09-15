@@ -22,7 +22,7 @@
 
 
     $("#cl").on('click', function () {
-            $("#iimg").attr('src', "http://" + window.location.host + "/api/qr.png?userName=" + userName)
+            $("#iimg").attr('src', "http://" + window.location.host + "/api/" + userName + "/qr.png")
                 .attr('width', 200).attr('height', 200);
         }
     )
