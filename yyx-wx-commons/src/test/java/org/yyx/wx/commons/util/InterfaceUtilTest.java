@@ -6,5 +6,6 @@ public class InterfaceUtilTest {
 
     @Test
     public void getInterfaceSubClass() {
+
     }
 }

@@ -36,7 +36,7 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-import static org.yyx.wx.message.builder.MessageEventHandlerBuilder.getMessageHandler;
+import static org.yyx.wx.message.director.DefaultDirector.getDefaultBuilder;
 
 /**
  * 接入微信服务器入口
@@ -53,7 +53,6 @@ public class ApplicationMain {
      * AccessEntrance日志输出
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationMain.class);
-
     /**
      * 验证工具类
      */
@@ -167,7 +166,7 @@ public class ApplicationMain {
                 // 解析成BaseMessage对象
                 BaseMessageAndEventRequestAndResponse baseMessage = WxXmlAndObjectUtil.xmlToObject(rootElement, BaseMessageAndEventRequestAndResponse.class);
                 BaseMessageHandlerProxy[] baseMessageHandlerProxies = getBaseMessageHandlerProxies();
-                AbstractMessageHandler messageHandler = getMessageHandler(baseMessageHandlerProxies);
+                AbstractMessageHandler messageHandler = getDefaultBuilder(baseMessageHandlerProxies);
                 BaseMessageResponse baseMessageResponse = messageHandler.handleMessage(baseMessage, rootElement);
                 LOGGER.info("[返回信息] {}", baseMessageResponse);
                 return WxXmlAndObjectUtil.objectToxml(baseMessageResponse);
