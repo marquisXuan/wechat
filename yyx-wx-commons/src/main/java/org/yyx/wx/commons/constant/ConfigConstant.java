@@ -9,18 +9,6 @@ package org.yyx.wx.commons.constant;
  */
 public class ConfigConstant {
     /**
-     * 加载自定义处理器
-     */
-    public static final String CUSTOMER_HANDLER = "CUSTOMER";
-    /**
-     * 加载默认处理器和自定义处理器
-     */
-    public static final String DEFAULT_CUSTOMER = "DEFAULT_CUSTOMER";
-    /**
-     * 加载默认处理器
-     */
-    public static final String DEFAULT_HANDLER = "DEFAULT";
-    /**
      * 配置接口所在包的配置名
      */
     public static final String PACKAGE_INTERFACE = "service.package";

@@ -25,8 +25,31 @@ public enum ResponseCodeFromWx {
      * 获取 access_token 时 AppSecret 错误，或者 access_token 无效。
      * 请开发者认真比对 AppSecret 的正确性，或查看是否正在为恰当的公众号调用接口
      */
-    error_app_secret_or_access_token(40001, "获取 access_token 时 AppSecret 错误，或者 access_token 无效。请开发者认真比对 AppSecret 的正确性，或查看是否正在为恰当的公众号调用接口\n"),
-
+    error_app_secret_or_access_token(40001, "获取 access_token 时 AppSecret 错误，或者 access_token 无效。"),
+    /**
+     * 不合法的凭证类型
+     */
+    illegal_certificate_type(40002, "不合法的凭证类型"),
+    /**
+     * 不合法的 OpenID ，请开发者确认 OpenID （该用户）是否已关注公众号，或是否是其他公众号的 OpenID
+     */
+    illegal_open_id(40003, "不合法的 OpenID"),
+    /**
+     * 不合法的媒体文件类型
+     */
+    illegal_media_type(40004, "不合法的媒体文件类型"),
+    /**
+     * 不合法的文件类型
+     */
+    illegal_file_type(40005, "不合法的文件类型"),
+    /**
+     * 不合法的文件大小
+     */
+    illegal_file_size(40006, "不合法的文件大小"),
+    /**
+     * 不合法的媒体文件 id
+     */
+    illegal_media_id(40007, "不合法的媒体文件 id"),
     // endregion
     // region 业务响应码
 

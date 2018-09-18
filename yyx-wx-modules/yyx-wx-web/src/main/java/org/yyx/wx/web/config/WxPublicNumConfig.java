@@ -21,4 +21,7 @@ public class WxPublicNumConfig {
     @Value("${wx.public_number.config_token}")
     private String configToken;
 
+    @Value("${service.handler_type}")
+    private String handlerType;
+
 }

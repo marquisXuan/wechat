@@ -2,7 +2,9 @@ package org.yyx.wx.message.director;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.yyx.wx.message.builder.MessageEventHandlerBuilder;
+import org.yyx.wx.message.builder.CustomerHandlerBuilder;
+import org.yyx.wx.message.builder.DefaultAndCustomerHandlerBuilder;
+import org.yyx.wx.message.builder.DefaultHandlerBuilder;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 
@@ -16,13 +18,32 @@ import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 public class DefaultDirector {
 
     /**
+     * 自定义消息事件处理器
+     */
+    private static final CustomerHandlerBuilder CUSTOMER_HANDLER_BUILDER = CustomerHandlerBuilder.getInstance();
+    /**
+     * 默认消息事件处理器
+     */
+    private static final DefaultHandlerBuilder DEFAULT_HANDLER_BUILDER = DefaultHandlerBuilder.getInstance();
+    /**
      * DefaultDirector 日志输出
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(DefaultDirector.class);
     /**
-     * 默认的消息事件处理器
+     * 默认+自定义的消息事件处理器
      */
-    private static final MessageEventHandlerBuilder MESSAGE_EVENT_HANDLER_BUILDER = MessageEventHandlerBuilder.getInstance();
+    private static final DefaultAndCustomerHandlerBuilder MESSAGE_EVENT_HANDLER_BUILDER = DefaultAndCustomerHandlerBuilder.getInstance();
+
+    /**
+     * 获取自定义的消息处理链
+     *
+     * @param abstractMessageHandlers   自定义消息处理链数组
+     * @param baseMessageHandlerProxies 代理类集合
+     * @return 封装好的处理链
+     */
+    public static AbstractMessageHandler getCustomerHandler(final AbstractMessageHandler[] abstractMessageHandlers, BaseMessageHandlerProxy[] baseMessageHandlerProxies) {
+        return CUSTOMER_HANDLER_BUILDER.getHandler(abstractMessageHandlers, baseMessageHandlerProxies);
+    }
 
     /**
      * 创建一个默认链条，包含默认处理链和自定义处理链
@@ -35,9 +56,9 @@ public class DefaultDirector {
      * @param baseMessageHandlerProxies 代理类集合
      * @return 封装好的处理链
      */
-    public static AbstractMessageHandler getDefaultAndCustomerBuilder(AbstractMessageHandler[] abstractMessageHandlers, BaseMessageHandlerProxy[] baseMessageHandlerProxies) {
+    public static AbstractMessageHandler getDefaultAndCustomerHandler(final AbstractMessageHandler[] abstractMessageHandlers, BaseMessageHandlerProxy[] baseMessageHandlerProxies) {
         LOGGER.info("[默认导演创建默认消息处理链条融合自定义消息处理链] ");
-        AbstractMessageHandler messageHandler = MESSAGE_EVENT_HANDLER_BUILDER.getDefaultAndCustomerHandler(abstractMessageHandlers, baseMessageHandlerProxies);
+        AbstractMessageHandler messageHandler = MESSAGE_EVENT_HANDLER_BUILDER.getHandler(abstractMessageHandlers, baseMessageHandlerProxies);
         LOGGER.info("[创建默认消息处理链条融合自定义消息处理链链条杀青] ");
         return messageHandler;
     }
@@ -50,12 +71,12 @@ public class DefaultDirector {
      * -> 链接消息处理器 -> 图片消息处理器 -> 语音消息处理器 -> 小视频消息处理器
      * -> 视频消息处理器 -> 地理位置消息处理器 -> 取消订阅[关注]公众号事件处理器 -> 模板消息推送事件处理器
      *
-     * @param baseMessageHandlerProxies 自定义处理链顺序
+     * @param baseMessageHandlerProxies 代理类集合
      * @return 封装好的处理链
      */
-    public static AbstractMessageHandler getDefaultBuilder(BaseMessageHandlerProxy[] baseMessageHandlerProxies) {
+    public static AbstractMessageHandler getDefaultHandler(BaseMessageHandlerProxy[] baseMessageHandlerProxies) {
         LOGGER.info("[默认导演创建默认消息处理链] ");
-        AbstractMessageHandler messageHandler = MESSAGE_EVENT_HANDLER_BUILDER.getDefaultHandler(baseMessageHandlerProxies);
+        AbstractMessageHandler messageHandler = DEFAULT_HANDLER_BUILDER.getHandler(null, baseMessageHandlerProxies);
         LOGGER.info("[创建默认消息处理链条杀青] ");
         return messageHandler;
     }

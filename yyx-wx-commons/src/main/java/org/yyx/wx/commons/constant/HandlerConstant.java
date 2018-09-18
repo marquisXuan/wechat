@@ -9,6 +9,18 @@ package org.yyx.wx.commons.constant;
  */
 public class HandlerConstant {
     /**
+     * 两者都要的处理器
+     */
+    public static final String ALL = "ALL";
+    /**
+     * 自定义处理器
+     */
+    public static final String CUSTOMER_HANDLER = "CUSTOMER";
+    /**
+     * 默认消息处理器
+     */
+    public static final String DEFAULT_HANDLER = "DEFAULT";
+    /**
      * 最大链条数量
      */
     public static final Integer MAX_HANDLER_COUNT = 22;

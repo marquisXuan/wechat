@@ -7,3 +7,5 @@ wx:
     config_token: developer_home
 service:
   package: org.yyx.wx.serviceimpl
+  # 处理器方式 现只支持 customer all default
+  handler_type: all

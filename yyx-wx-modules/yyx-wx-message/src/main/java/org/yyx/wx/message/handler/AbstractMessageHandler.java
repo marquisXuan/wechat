@@ -6,8 +6,8 @@ import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.exception.handler.HandlerException;
 import org.yyx.wx.commons.exception.handler.NoSuitedHandlerException;
 import org.yyx.wx.commons.exception.handler.OutOfOverMaxHandlerException;
-import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 
 import static org.yyx.wx.commons.constant.HandlerConstant.MAX_HANDLER_COUNT;

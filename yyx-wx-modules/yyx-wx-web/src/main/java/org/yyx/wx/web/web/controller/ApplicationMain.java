@@ -29,6 +29,7 @@ import org.yyx.wx.message.proxy.message.ShortVideoMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.TextMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.VideoMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.VoiceMessageHandlerProxy;
+import org.yyx.wx.web.config.WxPublicNumConfig;
 import org.yyx.wx.web.util.ValidateWeChat;
 
 import javax.annotation.Resource;
@@ -36,7 +37,13 @@ import javax.servlet.ServletInputStream;
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
 
-import static org.yyx.wx.message.director.DefaultDirector.getDefaultBuilder;
+import static org.yyx.wx.commons.constant.HandlerConstant.ALL;
+import static org.yyx.wx.commons.constant.HandlerConstant.CUSTOMER_HANDLER;
+import static org.yyx.wx.commons.constant.HandlerConstant.DEFAULT_HANDLER;
+import static org.yyx.wx.message.director.DefaultDirector.getCustomerHandler;
+import static org.yyx.wx.message.director.DefaultDirector.getDefaultAndCustomerHandler;
+import static org.yyx.wx.message.director.DefaultDirector.getDefaultHandler;
+import static org.yyx.wx.message.handler.CustomerHandlerArray.ABSTRACT_MESSAGE_HANDLERS;
 
 /**
  * 接入微信服务器入口
@@ -53,6 +60,11 @@ public class ApplicationMain {
      * AccessEntrance日志输出
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationMain.class);
+    /**
+     * 公众号相关配置
+     */
+    @Resource
+    private WxPublicNumConfig wxPublicNumConfig;
     /**
      * 验证工具类
      */
@@ -166,7 +178,21 @@ public class ApplicationMain {
                 // 解析成BaseMessage对象
                 BaseMessageAndEventRequestAndResponse baseMessage = WxXmlAndObjectUtil.xmlToObject(rootElement, BaseMessageAndEventRequestAndResponse.class);
                 BaseMessageHandlerProxy[] baseMessageHandlerProxies = getBaseMessageHandlerProxies();
-                AbstractMessageHandler messageHandler = getDefaultBuilder(baseMessageHandlerProxies);
+                String handlerType = wxPublicNumConfig.getHandlerType().toUpperCase();
+                AbstractMessageHandler messageHandler;
+                switch (handlerType) {
+                    case CUSTOMER_HANDLER:
+                        messageHandler = getCustomerHandler(ABSTRACT_MESSAGE_HANDLERS, baseMessageHandlerProxies);
+                        break;
+                    case ALL:
+                        messageHandler = getDefaultAndCustomerHandler(ABSTRACT_MESSAGE_HANDLERS, baseMessageHandlerProxies);
+                        break;
+                    case DEFAULT_HANDLER:
+                    default:
+                        LOGGER.info("[没有合适的处理器，选择默认的]");
+                        messageHandler = getDefaultHandler(baseMessageHandlerProxies);
+                        break;
+                }
                 BaseMessageResponse baseMessageResponse = messageHandler.handleMessage(baseMessage, rootElement);
                 LOGGER.info("[返回信息] {}", baseMessageResponse);
                 return WxXmlAndObjectUtil.objectToxml(baseMessageResponse);
