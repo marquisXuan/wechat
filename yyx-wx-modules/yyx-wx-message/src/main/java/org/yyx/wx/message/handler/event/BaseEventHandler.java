@@ -6,9 +6,9 @@ import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.exception.CreateObjectException;
 import org.yyx.wx.commons.exception.handler.NoSuitedHandlerException;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.BaseEventRequest;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 
 /**
