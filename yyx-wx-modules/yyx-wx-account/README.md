@@ -1,1 +1,1 @@
-# yyx-wx-account 帐号管理模块
+# yyx-wx-account 公众号管理模块

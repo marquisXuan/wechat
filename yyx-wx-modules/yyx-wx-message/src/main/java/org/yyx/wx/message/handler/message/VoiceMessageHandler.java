@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.response.message.VoiceMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.VoiceMessageRequest;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.VoiceMessageHandlerProxy;
@@ -51,10 +51,10 @@ public class VoiceMessageHandler extends AbstractMessageHandler {
      * @return 处理后的消息
      */
     @Override
-    protected VoiceMessageResponse dealTask(Element element) {
+    protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[进入语音消息处理器]");
-        VoiceMessageRequest locationMessageResponse = this.modelMethod(element);
-        return null;
+        VoiceMessageRequest voiceMessageRequest = this.modelMethod(element);
+        return baseMessageHandlerProxy.dealMessage(voiceMessageRequest);
     }
 
     /**

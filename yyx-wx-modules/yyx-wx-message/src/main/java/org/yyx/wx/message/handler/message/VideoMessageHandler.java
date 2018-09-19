@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.response.message.VideoMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.VideoMessageRequest;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.VideoMessageHandlerProxy;
@@ -50,10 +50,10 @@ public class VideoMessageHandler extends AbstractMessageHandler {
      * @return 处理后的消息
      */
     @Override
-    protected VideoMessageResponse dealTask(Element element) {
+    protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[进入视频消息处理器]");
         VideoMessageRequest videoMessageRequest = this.modelMethod(element);
-        return null;
+        return baseMessageHandlerProxy.dealMessage(videoMessageRequest);
     }
 
     /**

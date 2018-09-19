@@ -41,7 +41,8 @@ public class DefaultVoiceMessageServiceImpl implements VoiceMessageHandlerProxy 
         textMessageResponse.setToUserName(baseMessageAndEventRequest.getFromUserName());
         textMessageResponse.setFromUserName(baseMessageAndEventRequest.getToUserName());
         textMessageResponse.setMsgType(MessageTypeEnum.text.toString());
-        textMessageResponse.setContent("[DEMO] 叶云轩自定义文本回复。\n你发的是一条语音消息：" + videoMessageRequest.getMediaID());
+        textMessageResponse.setContent("[DEMO] 叶云轩自定义文本回复。\n你发的是一条语音消息：" + videoMessageRequest.getMediaID()
+                + "请调用多媒体文件下载接口下载此语音");
         return textMessageResponse;
     }
 }
