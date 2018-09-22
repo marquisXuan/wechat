@@ -57,9 +57,9 @@ public class VideoMessageHandler extends AbstractMessageHandler {
     }
 
     /**
-     * 获取文本消息处理器级别
+     * 获取视频消息处理器级别
      *
-     * @return 文本消息处理器级别
+     * @return 视频消息处理器级别
      */
     @Override
     protected String getHandlerLevel() {

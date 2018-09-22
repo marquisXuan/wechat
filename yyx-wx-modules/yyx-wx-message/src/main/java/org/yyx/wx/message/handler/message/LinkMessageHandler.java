@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.LinkMessageRequest;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.LinkMessageHandlerProxy;
@@ -57,9 +57,9 @@ public class LinkMessageHandler extends AbstractMessageHandler {
     }
 
     /**
-     * 获取文本消息处理器级别
+     * 获取链接消息处理器级别
      *
-     * @return 文本消息处理器级别
+     * @return 链接消息处理器级别
      */
     @Override
     protected String getHandlerLevel() {

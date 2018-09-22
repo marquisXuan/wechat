@@ -1,4 +1,4 @@
-package org.yyx.wx.message.handler.event;
+package org.yyx.wx.message.handler.event.model;
 
 import org.dom4j.Element;
 import org.slf4j.Logger;
@@ -7,6 +7,7 @@ import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.request.event.ModelMessagePushEventRequest;
 import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
+import org.yyx.wx.message.handler.event.BaseEventHandler;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.event.ModelMessagePushEventHandlerProxy;
 
@@ -18,7 +19,7 @@ import org.yyx.wx.message.proxy.event.ModelMessagePushEventHandlerProxy;
  * @author 叶云轩 at tdg_yyx@foxmail.com
  * @date 2018/9/1-10:40
  */
-public class ModelMessagePushEventHandler extends BaseSubscribeEventHandler {
+public class ModelMessagePushEventHandler extends BaseEventHandler {
 
     /**
      * ModelMessagePushEventHandler日志输出

@@ -58,9 +58,9 @@ public class VoiceMessageHandler extends AbstractMessageHandler {
     }
 
     /**
-     * 获取文本消息处理器级别
+     * 获取语音消息处理器级别
      *
-     * @return 文本消息处理器级别
+     * @return 语音消息处理器级别
      */
     @Override
     protected String getHandlerLevel() {

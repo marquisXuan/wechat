@@ -57,9 +57,9 @@ public class ShortVideoMessageHandler extends AbstractMessageHandler {
     }
 
     /**
-     * 获取文本消息处理器级别
+     * 获取小视频消息处理器级别
      *
-     * @return 文本消息处理器级别
+     * @return 小视频消息处理器级别
      */
     @Override
     protected String getHandlerLevel() {

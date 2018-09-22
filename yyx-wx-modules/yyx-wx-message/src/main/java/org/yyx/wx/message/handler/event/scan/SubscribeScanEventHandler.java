@@ -1,24 +1,25 @@
-package org.yyx.wx.message.handler.event;
+package org.yyx.wx.message.handler.event.scan;
 
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeScanEventRequest;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
+import org.yyx.wx.message.handler.event.BaseEventHandler;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.event.SubscribeScanEventHandlerProxy;
 
 
 /**
- * 用户关注时扫描二维码事件处理器
+ * 用户已关注时扫描二维码事件处理器
  * <p>
  *
  * @author 叶云轩 at tdg_yyx@foxmail.com
  * @date 2018/8/25-20:02
  */
-public class SubscribeScanEventHandler extends BaseSubscribeEventHandler {
+public class SubscribeScanEventHandler extends BaseEventHandler {
     /**
      * SubscribeEventHandler日志输出
      */
@@ -64,21 +65,7 @@ public class SubscribeScanEventHandler extends BaseSubscribeEventHandler {
      */
     @Override
     protected String getHandlerLevel() {
-        return EventTypeEnum.qrscene_.toString();
-    }
-
-    /**
-     * 检查是否是自己的代理类
-     *
-     * @return true / false
-     */
-    @Override
-   protected boolean isMineProxy(BaseMessageHandlerProxy baseMessageHandlerProxy) {
-        if (baseMessageHandlerProxy instanceof SubscribeScanEventHandlerProxy) {
-            this.baseMessageHandlerProxy = baseMessageHandlerProxy;
-            return true;
-        }
-        return false;
+        return EventTypeEnum.SCAN.toString();
     }
 
     @Override
@@ -92,5 +79,19 @@ public class SubscribeScanEventHandler extends BaseSubscribeEventHandler {
             return null;
         }
         return subscribeAndUnSubscribeScanEventRequest;
+    }
+
+    /**
+     * 检查是否是自己的代理类
+     *
+     * @return true / false
+     */
+    @Override
+    protected boolean isMineProxy(BaseMessageHandlerProxy baseMessageHandlerProxy) {
+        if (baseMessageHandlerProxy instanceof SubscribeScanEventHandlerProxy) {
+            this.baseMessageHandlerProxy = baseMessageHandlerProxy;
+            return true;
+        }
+        return false;
     }
 }

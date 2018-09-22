@@ -1,12 +1,13 @@
-package org.yyx.wx.message.handler.event;
+package org.yyx.wx.message.handler.event.scan;
 
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeScanEventRequest;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
+import org.yyx.wx.message.handler.event.BaseSubscribeEventHandler;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.event.UnSubscribeScanEventHandlerProxy;
 
@@ -61,11 +62,11 @@ public class UnSubscribeScanEventHandler extends BaseSubscribeEventHandler {
     /**
      * 设置处理级别为订阅事件
      *
-     * @return 处理级别
+     * @return 订阅事件处理类
      */
     @Override
     protected String getHandlerLevel() {
-        return EventTypeEnum.qrscene_.toString();
+        return EventTypeEnum.subscribe.toString();
     }
 
     @Override
@@ -93,5 +94,15 @@ public class UnSubscribeScanEventHandler extends BaseSubscribeEventHandler {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 用户未关注时扫描二维码事件的EventKey为qrscene_前缀
+     *
+     * @return 处理级别
+     */
+    @Override
+    protected String getSubHandlerLevel() {
+        return EventTypeEnum.qrscene_.toString();
     }
 }

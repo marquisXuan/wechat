@@ -50,6 +50,11 @@ public class ImageMessageHandler extends AbstractMessageHandler {
         return baseMessageHandlerProxy.dealMessage(imageMessageRequest);
     }
 
+    /**
+     * 获取图像消息处理器级别
+     *
+     * @return 图像消息处理器级别
+     */
     @Override
     protected String getHandlerLevel() {
         return MessageTypeEnum.image.toString();

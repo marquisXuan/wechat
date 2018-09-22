@@ -11,6 +11,7 @@ import org.yyx.wx.commons.vo.pubnum.request.event.BaseEventRequest;
 import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 
+
 /**
  * 事件分发处理器
  * <p>
@@ -34,20 +35,21 @@ public abstract class BaseEventHandler extends AbstractMessageHandler {
     @Override
     public BaseMessageResponse handleMessage(BaseMessageAndEventRequestAndResponse baseMessageRequest, Element element) {
         BaseMessageResponse baseMessage;
+        // 微信请求过来的实体
         BaseEventRequest baseEventRequest;
         try {
             baseEventRequest = WxXmlAndObjectUtil.xmlToObject(element, BaseEventRequest.class);
         } catch (IllegalAccessException | InstantiationException e) {
             throw new CreateObjectException("解析成[BaseEventRequest|基础事件消息父类]失败");
         }
-        LOGGER.info("[微信推送事件分发器]");
+        LOGGER.info("[微信推送事件分发器]\n[微信推送事件类型] {} - [当前处理器的处理级别是]：{}", baseEventRequest.getEvent(), this.getHandlerLevel());
         if (this.getHandlerLevel().equals(baseEventRequest.getEvent())) {
             baseMessage = this.dealTask(element);
         } else {
             if (nextHandler != null) {
                 baseMessage = nextHandler.handleMessage(baseMessageRequest, element);
             } else {
-                throw new NoSuitedHandlerException("没有可以处理该类型事件的处理器");
+                throw new NoSuitedHandlerException("微信推送事件分发器: 没有可以处理该类型事件的处理器");
             }
         }
         return baseMessage;

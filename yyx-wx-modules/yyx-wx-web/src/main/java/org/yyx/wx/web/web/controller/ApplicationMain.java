@@ -177,6 +177,7 @@ public class ApplicationMain {
                 Element rootElement = document.getRootElement();
                 // 解析成BaseMessage对象
                 BaseMessageAndEventRequestAndResponse baseMessage = WxXmlAndObjectUtil.xmlToObject(rootElement, BaseMessageAndEventRequestAndResponse.class);
+                LOGGER.info("[当前微信推送的类型是] {}",baseMessage.getMsgType());
                 BaseMessageHandlerProxy[] baseMessageHandlerProxies = getBaseMessageHandlerProxies();
                 String handlerType = wxPublicNumConfig.getHandlerType().toUpperCase();
                 AbstractMessageHandler messageHandler;

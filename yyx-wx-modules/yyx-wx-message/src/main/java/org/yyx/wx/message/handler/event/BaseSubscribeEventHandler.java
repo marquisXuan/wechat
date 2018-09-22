@@ -4,10 +4,11 @@ import cn.hutool.core.util.StrUtil;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeScanEventRequest;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 
 /**
  * 微信发来的关注事件
@@ -31,40 +32,65 @@ public abstract class BaseSubscribeEventHandler extends BaseEventHandler {
      */
     @Override
     public final BaseMessageResponse handleMessage(BaseMessageAndEventRequestAndResponse baseMessageRequest, Element element) {
-        LOGGER.info("[订阅事件分发器] ");
-        BaseMessageResponse baseMessage = null;
         // 都使用扫码事件实体来接收
         SubscribeAndUnSubscribeScanEventRequest subscribeAndUnSubscribeScanEventRequest;
         try {
             subscribeAndUnSubscribeScanEventRequest = WxXmlAndObjectUtil.xmlToObject(element, SubscribeAndUnSubscribeScanEventRequest.class);
         } catch (IllegalAccessException | InstantiationException e) {
-            return baseMessage;
+            return null;
         }
-        // 获取订阅事件的事件处理级别 eventKey=null:订阅关注事件  eventKey=qrscene_xxxxxx:扫码事件
+        /*
+         获取订阅事件的事件处理级别 event 均为 subscribe
+         eventKey=null:订阅关注事件  eventKey=qrscene_xxxxxx:扫码事件
+          */
+        String subHandlerLevel = this.getSubHandlerLevel();
         String eventKey = subscribeAndUnSubscribeScanEventRequest.getEventKey();
-        String level = eventKey;
-        if (!StrUtil.hasEmpty(eventKey)) {
-            level = eventKey.substring(0, "qrscene_".length());
-        }
-        LOGGER.info("[level] {}", level);
-        if (StrUtil.hasEmpty(this.getHandlerLevel())) {
-            if (nextHandler == null) {
-                // todo do something
-                LOGGER.error("[没有可以处理该订阅类型事件的处理器]");
-                return baseMessage;
+        String event = subscribeAndUnSubscribeScanEventRequest.getEvent();
+        String handlerLevel = this.getHandlerLevel();
+        LOGGER.info("[订阅事件分发器] [微信推送的级别]：{}-{} - [当前处理器的处理级别]：{}-{} ", event, eventKey, handlerLevel, subHandlerLevel);
+        if (handlerLevel.equals(event)) {
+            boolean emptyEventKey = StrUtil.hasEmpty(eventKey);
+            if (StrUtil.hasEmpty(subHandlerLevel)) {
+                // 当前是订阅事件处理器
+                if (emptyEventKey) {
+                    // 微信请求的也是订阅事件
+                    return this.dealTask(element);
+                }
+                if (nextHandler != null) {
+                    return nextHandler.handleMessage(baseMessageRequest, element);
+                } else {
+                    LOGGER.error("[没有可以处理该订阅类型事件的处理器]");
+                    return null;
+                }
             }
-            baseMessage = nextHandler.handleMessage(baseMessageRequest, element);
-        } else if (this.getHandlerLevel().equals(level)) {
-            baseMessage = this.dealTask(element);
+            if (!emptyEventKey) {
+                eventKey = eventKey.substring(0, EventTypeEnum.qrscene_.toString().length());
+            }
+            LOGGER.info("[eventKey] {} subHandlerLevel.equals(eventKey) {}", eventKey, subHandlerLevel.equals(eventKey));
+            // 当前不是订阅事件 说明 subHandlerLevel != null
+            if (subHandlerLevel.equals(eventKey)) {
+                return this.dealTask(element);
+            }
+            if (nextHandler != null) {
+                return nextHandler.handleMessage(baseMessageRequest, element);
+            } else {
+                LOGGER.error("[没有可以处理该订阅类型事件的处理器]");
+                return null;
+            }
         } else {
             if (nextHandler != null) {
-                baseMessage = nextHandler.handleMessage(baseMessageRequest, element);
+                return nextHandler.handleMessage(baseMessageRequest, element);
             } else {
-                // todo do something
                 LOGGER.error("[没有可以处理该订阅类型事件的处理器]");
-                return baseMessage;
+                return null;
             }
         }
-        return baseMessage;
     }
+
+    /**
+     * 获取二级类型
+     *
+     * @return 二级类型
+     */
+    protected abstract String getSubHandlerLevel();
 }

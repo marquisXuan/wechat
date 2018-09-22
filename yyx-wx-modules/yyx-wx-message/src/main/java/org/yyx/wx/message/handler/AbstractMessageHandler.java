@@ -64,11 +64,10 @@ public abstract class AbstractMessageHandler {
      * @throws HandlerException 处理器异常
      */
     public BaseMessageResponse handleMessage(BaseMessageAndEventRequestAndResponse baseMessageRequest
-            , Element element)
-            throws HandlerException {
+            , Element element) throws HandlerException {
         BaseMessageResponse baseMessage;
         String msgType = baseMessageRequest.getMsgType();
-        LOGGER.info("[消息总线处理器]\n[当前微信请求的事件处理级别]：{}\n[当前处理器的处理级别是]：{}", msgType, this.getHandlerLevel());
+        LOGGER.info("[消息总线处理器] - [当前处理器的处理级别是]：{}", this.getHandlerLevel());
         if (this.getHandlerLevel().equals(msgType)) {
             baseMessage = this.dealTask(element);
         } else {

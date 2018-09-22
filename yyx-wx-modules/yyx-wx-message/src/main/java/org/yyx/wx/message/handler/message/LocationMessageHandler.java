@@ -57,9 +57,9 @@ public class LocationMessageHandler extends AbstractMessageHandler {
     }
 
     /**
-     * 获取文本消息处理器级别
+     * 获取地理位置消息处理器级别
      *
-     * @return 文本消息处理器级别
+     * @return 地理位置消息处理器级别
      */
     @Override
     protected String getHandlerLevel() {

@@ -1,11 +1,13 @@
-package org.yyx.wx.message.handler.event;
+package org.yyx.wx.message.handler.event.subscribe;
 
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRequest;
 import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
+import org.yyx.wx.message.handler.event.BaseSubscribeEventHandler;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.event.SubscribeEventHandlerProxy;
 
@@ -63,7 +65,7 @@ public class SubscribeEventHandler extends BaseSubscribeEventHandler {
      */
     @Override
     protected String getHandlerLevel() {
-        return null;
+        return EventTypeEnum.subscribe.toString();
     }
 
     @Override
@@ -91,6 +93,16 @@ public class SubscribeEventHandler extends BaseSubscribeEventHandler {
             return true;
         }
         return false;
+    }
+
+    /**
+     * 订阅事件的EventKey为空
+     *
+     * @return 处理级别
+     */
+    @Override
+    protected String getSubHandlerLevel() {
+        return null;
     }
 
 }
