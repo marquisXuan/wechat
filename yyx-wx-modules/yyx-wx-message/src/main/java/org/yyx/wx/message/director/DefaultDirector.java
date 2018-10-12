@@ -9,7 +9,7 @@ import org.yyx.wx.message.handler.AbstractMessageHandler;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 
 /**
- * 默认导演
+ * 默认导演类
  * <p>
  *
  * @author 叶云轩 at tdg_yyx@foxmail.com
@@ -35,7 +35,7 @@ public class DefaultDirector {
     private static final DefaultAndCustomerHandlerBuilder MESSAGE_EVENT_HANDLER_BUILDER = DefaultAndCustomerHandlerBuilder.getInstance();
 
     /**
-     * 获取自定义的消息处理链
+     * 创建一个自定义的消息处理链
      *
      * @param abstractMessageHandlers   自定义消息处理链数组
      * @param baseMessageHandlerProxies 代理类集合
@@ -46,7 +46,7 @@ public class DefaultDirector {
     }
 
     /**
-     * 创建一个默认链条，包含默认处理链和自定义处理链
+     * 创建一个包含默认处理链和自定义处理链的默认链条
      * <p>
      * 自定义处理链 -> 未关注扫描二维码 -> 关注过扫描二维码 -> 订阅[关注] -> 文本消息
      * -> 链接消息处理器 -> 图片消息处理器 -> 语音消息处理器 -> 小视频消息处理器
@@ -64,7 +64,7 @@ public class DefaultDirector {
     }
 
     /**
-     * 创建一个默认链条，不包含自定义处理链
+     * 创建一个不包含自定义处理链的默认链条
      * 默认链条顺序为：
      * <p>
      * 未关注扫描二维码 -> 关注过扫描二维码 -> 订阅[关注] -> 文本消息

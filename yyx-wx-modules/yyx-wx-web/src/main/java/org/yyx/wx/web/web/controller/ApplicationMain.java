@@ -177,7 +177,8 @@ public class ApplicationMain {
                 Element rootElement = document.getRootElement();
                 // 解析成BaseMessage对象
                 BaseMessageAndEventRequestAndResponse baseMessage = WxXmlAndObjectUtil.xmlToObject(rootElement, BaseMessageAndEventRequestAndResponse.class);
-                LOGGER.info("[当前微信推送的类型是] {}",baseMessage.getMsgType());
+                LOGGER.info("[当前微信推送的类型是] {}", baseMessage.getMsgType());
+                // 获取消息处理器代理
                 BaseMessageHandlerProxy[] baseMessageHandlerProxies = getBaseMessageHandlerProxies();
                 String handlerType = wxPublicNumConfig.getHandlerType().toUpperCase();
                 AbstractMessageHandler messageHandler;
@@ -206,6 +207,11 @@ public class ApplicationMain {
         return "success";
     }
 
+    /**
+     * 获取对应消息类型的代理
+     *
+     * @return 代理数组
+     */
     private BaseMessageHandlerProxy[] getBaseMessageHandlerProxies() {
         final BaseMessageHandlerProxy[] baseMessageHandlerProxies = new BaseMessageHandlerProxy[12];
         if (ArrayUtil.hasNull(baseMessageHandlerProxies)) {
