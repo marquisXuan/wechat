@@ -51,7 +51,7 @@ public class LocationMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected BaseMessageResponse dealTask(Element element) {
-        LOGGER.info("[进入地理位置消息处理器]");
+        LOGGER.info("[地理位置消息处理器开始工作....]");
         LocationMessageRequest locationMessageRequest = this.modelMethod(element);
         return baseMessageHandlerProxy.dealMessage(locationMessageRequest);
     }
@@ -74,7 +74,7 @@ public class LocationMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected LocationMessageRequest modelMethod(Element element) {
-        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element);
+        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element.asXML().trim());
         LocationMessageRequest locationMessageRequest;
         try {
             locationMessageRequest = WxXmlAndObjectUtil.xmlToObject(element, LocationMessageRequest.class);

@@ -42,7 +42,7 @@ public class ModelMessagePushEventHandler extends BaseEventHandler {
      */
     @Override
     protected BaseMessageResponse dealTask(Element element) {
-        LOGGER.info("[模板消息推送]事件处理器");
+        LOGGER.info("[模板消息推送]事件处理器开始工作....");
         ModelMessagePushEventRequest modelMessagePushEventRequest = this.modelMethod(element);
         return baseMessageHandlerProxy.dealMessage(modelMessagePushEventRequest);
     }
@@ -54,7 +54,7 @@ public class ModelMessagePushEventHandler extends BaseEventHandler {
 
     @Override
     protected ModelMessagePushEventRequest modelMethod(Element element) {
-        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element);
+        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element.asXML().trim());
         ModelMessagePushEventRequest modelMessagePushEventRequest;
         try {
             modelMessagePushEventRequest = WxXmlAndObjectUtil.xmlToObject(element, ModelMessagePushEventRequest.class);

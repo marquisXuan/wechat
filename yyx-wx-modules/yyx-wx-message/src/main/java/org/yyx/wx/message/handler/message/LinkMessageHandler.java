@@ -51,7 +51,7 @@ public class LinkMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected BaseMessageResponse dealTask(Element element) {
-        LOGGER.info("[进入链接消息处理器]");
+        LOGGER.info("[链接消息处理器开始工作....]");
         LinkMessageRequest linkMessageRequest = this.modelMethod(element);
         return baseMessageHandlerProxy.dealMessage(linkMessageRequest);
     }
@@ -74,7 +74,7 @@ public class LinkMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected LinkMessageRequest modelMethod(Element element) {
-        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element);
+        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element.asXML().trim());
         LinkMessageRequest linkMessageRequest;
         try {
             linkMessageRequest = WxXmlAndObjectUtil.xmlToObject(element, LinkMessageRequest.class);

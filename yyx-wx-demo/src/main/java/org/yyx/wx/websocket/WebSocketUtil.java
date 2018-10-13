@@ -1,4 +1,4 @@
-package org.yyx.wx.message.websocket;
+package org.yyx.wx.websocket;
 
 import io.netty.util.internal.PlatformDependent;
 import org.slf4j.Logger;

@@ -45,7 +45,7 @@ public class ImageMessageHandler extends AbstractMessageHandler {
 
     @Override
     protected BaseMessageResponse dealTask(Element element) {
-        LOGGER.info("[进入链接消息处理器]");
+        LOGGER.info("[图片消息处理器开始工作....]");
         ImageMessageRequest imageMessageRequest = this.modelMethod(element);
         return baseMessageHandlerProxy.dealMessage(imageMessageRequest);
     }
@@ -62,7 +62,7 @@ public class ImageMessageHandler extends AbstractMessageHandler {
 
     @Override
     protected ImageMessageRequest modelMethod(Element element) {
-        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element);
+        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element.asXML().trim());
         ImageMessageRequest imageMessageRequest;
         try {
             imageMessageRequest = WxXmlAndObjectUtil.xmlToObject(element, ImageMessageRequest.class);

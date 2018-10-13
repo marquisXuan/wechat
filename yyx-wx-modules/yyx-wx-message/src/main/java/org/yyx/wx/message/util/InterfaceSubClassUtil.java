@@ -1,9 +1,9 @@
 package org.yyx.wx.message.util;
 
-import cn.hutool.core.util.ArrayUtil;
 import cn.hutool.core.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.CollectionUtils;
 import org.yyx.wx.commons.exception.config.ConfigException;
 import org.yyx.wx.commons.util.InterfaceUtil;
 
@@ -39,7 +39,7 @@ public class InterfaceSubClassUtil {
      */
     public static List<Class<?>> getInterfaceSubClass(String servicePackageName) {
         // 判断实现类数组是否为空
-        boolean empty = ArrayUtil.isEmpty(INTERFACE_SUB_CLASS);
+        boolean empty = CollectionUtils.isEmpty(INTERFACE_SUB_CLASS);
         if (!empty) {
             return INTERFACE_SUB_CLASS;
         }

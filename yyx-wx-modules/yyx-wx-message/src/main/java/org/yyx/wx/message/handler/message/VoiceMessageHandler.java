@@ -52,7 +52,7 @@ public class VoiceMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected BaseMessageResponse dealTask(Element element) {
-        LOGGER.info("[进入语音消息处理器]");
+        LOGGER.info("[语音消息处理器开始工作....]");
         VoiceMessageRequest voiceMessageRequest = this.modelMethod(element);
         return baseMessageHandlerProxy.dealMessage(voiceMessageRequest);
     }
@@ -75,7 +75,7 @@ public class VoiceMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected VoiceMessageRequest modelMethod(Element element) {
-        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element);
+        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element.asXML().trim());
         VoiceMessageRequest voiceMessageRequest;
         try {
             voiceMessageRequest = WxXmlAndObjectUtil.xmlToObject(element, VoiceMessageRequest.class);

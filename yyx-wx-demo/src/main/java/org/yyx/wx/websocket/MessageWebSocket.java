@@ -1,4 +1,4 @@
-package org.yyx.wx.message.websocket;
+package org.yyx.wx.websocket;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +13,8 @@ import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 import java.io.IOException;
 
-import static org.yyx.wx.message.websocket.WebSocketUtil.addUser;
-import static org.yyx.wx.message.websocket.WebSocketUtil.sendMessageToUser;
+import static org.yyx.wx.websocket.WebSocketUtil.addUser;
+import static org.yyx.wx.websocket.WebSocketUtil.sendMessageToUser;
 
 /**
  * <p>

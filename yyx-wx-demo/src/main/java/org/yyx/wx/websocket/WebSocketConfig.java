@@ -1,4 +1,4 @@
-package org.yyx.wx.message.websocket;
+package org.yyx.wx.websocket;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;

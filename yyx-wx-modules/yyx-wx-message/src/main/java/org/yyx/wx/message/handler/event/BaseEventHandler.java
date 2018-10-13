@@ -1,8 +1,10 @@
 package org.yyx.wx.message.handler.event;
 
+import cn.hutool.core.util.StrUtil;
 import org.dom4j.Element;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.yyx.wx.commons.bussinessenum.EventTypeEnum;
 import org.yyx.wx.commons.exception.CreateObjectException;
 import org.yyx.wx.commons.exception.handler.NoSuitedHandlerException;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
@@ -34,6 +36,7 @@ public abstract class BaseEventHandler extends AbstractMessageHandler {
      */
     @Override
     public BaseMessageResponse handleMessage(BaseMessageAndEventRequestAndResponse baseMessageRequest, Element element) {
+        LOGGER.info("{} -> [微信推送事件分发器] [当前事件处理器处理级别] {}", this.getClass().getName(), EventTypeEnum.getDesc(this.getHandlerLevel()));
         BaseMessageResponse baseMessage;
         // 微信请求过来的实体
         BaseEventRequest baseEventRequest;
@@ -42,8 +45,12 @@ public abstract class BaseEventHandler extends AbstractMessageHandler {
         } catch (IllegalAccessException | InstantiationException e) {
             throw new CreateObjectException("解析成[BaseEventRequest|基础事件消息父类]失败");
         }
-        LOGGER.info("[微信推送事件分发器]\n[微信推送事件类型] {} - [当前处理器的处理级别是]：{}", baseEventRequest.getEvent(), this.getHandlerLevel());
-        if (this.getHandlerLevel().equals(baseEventRequest.getEvent())) {
+        String requestEvent = baseEventRequest.getEvent();
+        String handlerLevel = this.getHandlerLevel();
+        if (!StrUtil.hasEmpty(requestEvent)) {
+            LOGGER.info("[微信推送事件类型] {} - [当前处理器可处理的事件为]：{}", EventTypeEnum.getDesc(requestEvent), EventTypeEnum.getDesc(handlerLevel));
+        }
+        if (handlerLevel.equals(requestEvent)) {
             baseMessage = this.dealTask(element);
         } else {
             if (nextHandler != null) {

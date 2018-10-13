@@ -41,15 +41,18 @@ public abstract class BaseSubscribeEventHandler extends BaseEventHandler {
         }
         /*
          获取订阅事件的事件处理级别 event 均为 subscribe
-         eventKey=null:订阅关注事件  eventKey=qrscene_xxxxxx:扫码事件
+         eventKey=null:订阅关注事件
+         eventKey=qrscene_xxxxxx:扫码事件
           */
-        String subHandlerLevel = this.getSubHandlerLevel();
-        String eventKey = subscribeAndUnSubscribeScanEventRequest.getEventKey();
         String event = subscribeAndUnSubscribeScanEventRequest.getEvent();
         String handlerLevel = this.getHandlerLevel();
-        LOGGER.info("[订阅事件分发器] [微信推送的级别]：{}-{} - [当前处理器的处理级别]：{}-{} ", event, eventKey, handlerLevel, subHandlerLevel);
+        String eventKey = subscribeAndUnSubscribeScanEventRequest.getEventKey();
+        String subHandlerLevel = this.getSubHandlerLevel();
+        String className = this.getClass().getName();
+        LOGGER.info("{} -> [关注公众号事件分发器] [当前事件处理器可处理事件类型] {}", className, EventTypeEnum.getDesc(handlerLevel));
         if (handlerLevel.equals(event)) {
             boolean emptyEventKey = StrUtil.hasEmpty(eventKey);
+            LOGGER.info("{} -> [微信推送事件二级类型] {}", className, EventTypeEnum.getDesc(eventKey));
             if (StrUtil.hasEmpty(subHandlerLevel)) {
                 // 当前是订阅事件处理器
                 if (emptyEventKey) {
@@ -66,7 +69,7 @@ public abstract class BaseSubscribeEventHandler extends BaseEventHandler {
             if (!emptyEventKey) {
                 eventKey = eventKey.substring(0, EventTypeEnum.qrscene_.toString().length());
             }
-            LOGGER.info("[eventKey] {} subHandlerLevel.equals(eventKey) {}", eventKey, subHandlerLevel.equals(eventKey));
+            LOGGER.info("{} -> [当前事件处理器可处理二级事件类型] {}", className, EventTypeEnum.getDesc(subHandlerLevel));
             // 当前不是订阅事件 说明 subHandlerLevel != null
             if (subHandlerLevel.equals(eventKey)) {
                 return this.dealTask(element);
