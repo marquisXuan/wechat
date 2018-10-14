@@ -44,7 +44,7 @@ public class SwaggerAPIConfig {
         return new Docket(DocumentationType.SWAGGER_2).groupName("微信")
                 .apiInfo(wxAPIInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("org.yyx.wx.web.web"))
+                .apis(RequestHandlerSelectors.basePackage("org.yyx.wx.butt.butt"))
                 .paths(PathSelectors.any())
                 .build();
     }

@@ -1,4 +1,4 @@
-package org.yyx.wx.web.web.controller;
+package org.yyx.wx.butt.web.controller;
 
 import cn.hutool.core.util.ArrayUtil;
 import org.dom4j.Document;
@@ -29,8 +29,8 @@ import org.yyx.wx.message.proxy.message.ShortVideoMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.TextMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.VideoMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.VoiceMessageHandlerProxy;
-import org.yyx.wx.web.config.WxPublicNumConfig;
-import org.yyx.wx.web.util.ValidateWeChat;
+import org.yyx.wx.butt.config.WxPublicNumConfig;
+import org.yyx.wx.butt.util.ValidateWeChat;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletInputStream;

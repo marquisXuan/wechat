@@ -1,9 +1,9 @@
-package org.yyx.wx.web.util;
+package org.yyx.wx.butt.util;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.yyx.wx.web.config.WxPublicNumConfig;
+import org.yyx.wx.butt.config.WxPublicNumConfig;
 
 import javax.annotation.Resource;
 import java.security.MessageDigest;
@@ -69,7 +69,7 @@ public class ValidateWeChat {
         try {
             messageDigest = MessageDigest.getInstance(SHA_1);
         } catch (NoSuchAlgorithmException e) {
-            // 理论上是环境配置问题，没有找到这样的算法
+            // 理论上是环境问题，没有找到这样的算法
             LOGGER.error("[没有找到 {} 算法] {}", SHA_1, e.getMessage());
             return null;
         }

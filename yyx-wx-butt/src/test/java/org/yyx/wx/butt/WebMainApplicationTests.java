@@ -1,4 +1,4 @@
-package org.yyx.wx.web;
+package org.yyx.wx.butt;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;

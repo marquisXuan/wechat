@@ -1,4 +1,4 @@
-package org.yyx.wx.web.config;
+package org.yyx.wx.butt.config;
 
 import lombok.Data;
 import org.springframework.beans.factory.annotation.Value;

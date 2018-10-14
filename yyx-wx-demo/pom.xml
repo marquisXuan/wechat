@@ -102,8 +102,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.yyx.wx.modules</groupId>
-            <artifactId>yyx-wx-web</artifactId>
+            <groupId>org.yyx.wx</groupId>
+            <artifactId>yyx-wx-butt</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <exclusions>
                 <exclusion>
