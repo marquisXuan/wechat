@@ -32,6 +32,7 @@ public abstract class BaseEventHandler extends AbstractMessageHandler {
      * 事件处理器的模板方法
      *
      * @param baseMessageRequest 处理实体父类
+     * @param element            微信传入的数据体
      * @return 消息
      */
     @Override

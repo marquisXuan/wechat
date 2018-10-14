@@ -1,5 +1,6 @@
 package org.yyx.wx.swagger;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -29,6 +30,9 @@ public class SwaggerAPIConfig {
      * 联系信息
      */
     private static final Contact YYX_CONTACT = new Contact("叶云轩", "https://www.baidu.com?s=叶云轩", "tdg_yyx@foxmail.com");
+
+    @Value("${swagger.enable}")
+    private boolean enableSwagger;
 
     /**
      * 员工组接口文档

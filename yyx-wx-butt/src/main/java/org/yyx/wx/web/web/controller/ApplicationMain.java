@@ -40,6 +40,7 @@ import java.io.IOException;
 import static org.yyx.wx.commons.constant.HandlerConstant.ALL;
 import static org.yyx.wx.commons.constant.HandlerConstant.CUSTOMER_HANDLER;
 import static org.yyx.wx.commons.constant.HandlerConstant.DEFAULT_HANDLER;
+import static org.yyx.wx.commons.constant.HandlerConstant.MAX_BASE_MESSAGE_HANDLER_PROXY;
 import static org.yyx.wx.message.director.DefaultDirector.getCustomerHandler;
 import static org.yyx.wx.message.director.DefaultDirector.getDefaultAndCustomerHandler;
 import static org.yyx.wx.message.director.DefaultDirector.getDefaultHandler;
@@ -203,17 +204,18 @@ public class ApplicationMain {
             }
         } catch (IOException e) {
             e.printStackTrace();
+            LOGGER.error("[IOException] {}", e.getMessage());
         }
         return "success";
     }
 
     /**
-     * 获取对应消息类型的代理
+     * 获取对应消息处理器的代理接口
      *
-     * @return 代理数组
+     * @return 代理接口数组
      */
     private BaseMessageHandlerProxy[] getBaseMessageHandlerProxies() {
-        final BaseMessageHandlerProxy[] baseMessageHandlerProxies = new BaseMessageHandlerProxy[12];
+        final BaseMessageHandlerProxy[] baseMessageHandlerProxies = new BaseMessageHandlerProxy[MAX_BASE_MESSAGE_HANDLER_PROXY];
         if (ArrayUtil.hasNull(baseMessageHandlerProxies)) {
             baseMessageHandlerProxies[0] = voiceMessageHandlerProxy;
             baseMessageHandlerProxies[1] = subscribeEventHandlerProxy;

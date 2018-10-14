@@ -43,6 +43,12 @@ public class ImageMessageHandler extends AbstractMessageHandler {
         return IMAGE_MESSAGE_HANDLER;
     }
 
+    /**
+     * 实际执行的方法
+     *
+     * @param element 实际处理器要处理的数据
+     * @return 处理结果
+     */
     @Override
     protected BaseMessageResponse dealTask(Element element) {
         LOGGER.info("[图片消息处理器开始工作....]");

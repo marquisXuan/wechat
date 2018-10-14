@@ -10,4 +10,4 @@ service:
   # 处理器方式 现只支持 customer all default
   handler_type: all
 swagger:
-  enable: true
+  enable: false

@@ -1,4 +1,4 @@
-package org.yyx.wx.commons.vo.pubnum.response.menu;
+package org.yyx.wx.commons.vo.pubnum.base.menu;
 
 import lombok.Data;
 
@@ -10,7 +10,7 @@ import lombok.Data;
  * @date 2018/9/19-15:18
  */
 @Data
-public class Button {
+public class ButtonBean {
 
     /*
      * 1、自定义菜单最多包括3个一级菜单，每个一级菜单最多包含5个二级菜单。
@@ -26,7 +26,7 @@ public class Button {
     /**
      * 二级菜单数组，个数应为1~5个
      */
-    private Button[] sub_button = new Button[5];
+    private ButtonBean[] sub_button = new ButtonBean[5];
     /**
      * 菜单的响应动作类型，view表示网页类型，click表示点击类型，miniprogram表示小程序类型
      */

@@ -1,4 +1,4 @@
-package org.yyx.wx.acount.user.service;
+package org.yyx.wx.acount.user.service.impl;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.http.HttpRequest;
@@ -8,6 +8,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.yyx.wx.acount.auth.service.IAccessTokenService;
+import org.yyx.wx.acount.user.service.IUserInfoService;
 import org.yyx.wx.commons.exception.token.AccessTokenException;
 import org.yyx.wx.commons.exception.user.NoOpenIDException;
 import org.yyx.wx.commons.exception.user.WxUserException;

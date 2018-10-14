@@ -17,11 +17,11 @@ public class WxQRCodeConfig {
     /**
      * 创建Ticket的URL
      */
-    @Value("${wx.url.create_ticket}")
+    @Value("${wx.url.qr_code.create_ticket}")
     private String urlCreateTicket;
     /**
      * 通过Ticket换取二维码的URL
      */
-    @Value("${wx.url.get_qr_code}")
+    @Value("${wx.url.qr_code.get_qr_code}")
     private String urlQRCode;
 }

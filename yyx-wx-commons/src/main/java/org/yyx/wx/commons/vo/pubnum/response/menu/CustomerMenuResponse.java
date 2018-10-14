@@ -1,6 +1,7 @@
 package org.yyx.wx.commons.vo.pubnum.response.menu;
 
 import lombok.Data;
+import org.yyx.wx.commons.vo.pubnum.base.menu.ButtonBean;
 
 /**
  * 自定义菜单响应
@@ -15,6 +16,6 @@ public class CustomerMenuResponse {
     /**
      * 一级菜单数组，个数应为1~3个
      */
-    private Button button;
+    private ButtonBean[] button;
 
 }
