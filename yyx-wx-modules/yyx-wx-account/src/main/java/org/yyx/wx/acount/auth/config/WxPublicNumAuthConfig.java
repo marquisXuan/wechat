@@ -66,7 +66,7 @@ public class WxPublicNumAuthConfig {
     /**
      * 获取用户基本信息
      */
-    @Value("${wx.url.base_user_info}")
+    @Value("${wx.url.user_info.base_user_info}")
     private String urlBaseUserInfo;
 
     public void setRedirectUri(String redirectUri) {

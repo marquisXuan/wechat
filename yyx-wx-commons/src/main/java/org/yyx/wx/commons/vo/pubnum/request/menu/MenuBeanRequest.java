@@ -11,7 +11,7 @@ import org.yyx.wx.commons.vo.pubnum.base.menu.ButtonBean;
  * @date 2018/10/14-16:46
  */
 @Data
-public class MenuBean {
+public class MenuBeanRequest {
 
     /**
      * 菜单ID。

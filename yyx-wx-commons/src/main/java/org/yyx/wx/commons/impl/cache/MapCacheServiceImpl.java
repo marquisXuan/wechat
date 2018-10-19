@@ -2,7 +2,6 @@ package org.yyx.wx.commons.impl.cache;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.yyx.wx.commons.util.CacheService;
 
 import java.util.List;
@@ -82,7 +81,7 @@ public class MapCacheServiceImpl<K, V> implements CacheService<K, V> {
         if (time != -1) {
             // todo 定时清除CACHE_MAP中以K为key的数据
             long currentTimes = System.currentTimeMillis();
-            long cacheTimes = currentTimes + time / 1000;
+            long cacheTimes = currentTimes + time * 1000;
             try {
                 CACHE_MAP.put(key + TIME_SUFFIX, cacheTimes);
             } catch (Exception e) {

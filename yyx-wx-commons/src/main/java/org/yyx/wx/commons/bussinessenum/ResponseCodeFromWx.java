@@ -50,6 +50,10 @@ public enum ResponseCodeFromWx {
      * 不合法的媒体文件 id
      */
     illegal_media_id(40007, "不合法的媒体文件 id"),
+    /**
+     * 不存在的菜单数据
+     */
+    no_menu(46003, "不存在的菜单数据"),
     // endregion
     // region 业务响应码
 

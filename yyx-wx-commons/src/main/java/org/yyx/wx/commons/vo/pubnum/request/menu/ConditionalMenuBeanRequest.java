@@ -12,7 +12,7 @@ import lombok.EqualsAndHashCode;
  */
 @Data
 @EqualsAndHashCode(callSuper = true)
-public class ConditionalMenuBean extends MenuBean {
+public class ConditionalMenuBeanRequest extends MenuBeanRequest {
 
     private MatchruleBean matchrule;
 

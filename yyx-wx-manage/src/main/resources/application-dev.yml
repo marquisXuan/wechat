@@ -1,0 +1,10 @@
+# 开发环境启用Swagger
+swagger:
+  enable: true
+wx:
+  url:
+    redirect_uri: http://yyx.frps.happyqing.com/api/auth/token
+  public_number:
+    app_id: wx01aef8db5f5ffb0f
+    app_secret: 4f2add778b4ab69de8e10652daf238de
+    config_token: developer_home

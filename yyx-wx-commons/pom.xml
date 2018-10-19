@@ -22,19 +22,31 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <fastjson>1.2.47</fastjson>
+        <customer.util>1.0.7</customer.util>
     </properties>
 
     <dependencies>
+        <!-- region customer util -->
+        <!-- 源码地址 https://github.com/marquisXuan/util -->
+        <dependency>
+            <groupId>org.yyx</groupId>
+            <artifactId>util</artifactId>
+            <version>${customer.util}</version>
+        </dependency>
+        <!-- endregion -->
+        <!-- region spring-boot-starter-data-redis dep -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
         </dependency>
-
+        <!-- endregion -->
+        <!-- region fastjson dep -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson}</version>
         </dependency>
+        <!-- endregion -->
     </dependencies>
 
 
