@@ -12,33 +12,60 @@ public enum MessageTypeEnum {
     /**
      * 文本消息
      */
-    text,
+    text("文本消息"),
     /**
      * 图片消息
      */
-    image,
+    image("图片消息"),
     /**
      * 语音消息
      */
-    voice,
+    voice("语音消息"),
     /**
      * 视频消息
      */
-    video,
+    video("视频消息"),
     /**
      * 小视频消息
      */
-    shortvideo,
+    shortvideo("小视频消息"),
     /**
      * 地理位置消息
      */
-    location,
+    location("地理位置消息"),
     /**
      * 链接消息
      */
-    link,
+    link("链接消息"),
     /**
      * 事件
      */
-    event,
+    event("事件"),
+
+    ;
+
+    /**
+     * 描述信息
+     */
+    private String desc;
+
+    MessageTypeEnum(String desc) {
+        this.desc = desc;
+    }
+
+    /**
+     * 获取描述信息
+     *
+     * @param code 响应码
+     * @return 描述信息
+     */
+    public static String getDesc(String code) {
+        MessageTypeEnum[] values = MessageTypeEnum.values();
+        for (MessageTypeEnum value : values) {
+            if (value.toString().equals(code)) {
+                return value.desc;
+            }
+        }
+        return null;
+    }
 }

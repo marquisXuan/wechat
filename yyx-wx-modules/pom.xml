@@ -39,6 +39,5 @@
     <modules>
         <module>yyx-wx-account</module>
         <module>yyx-wx-message</module>
-        <module>yyx-wx-web</module>
     </modules>
 </project>

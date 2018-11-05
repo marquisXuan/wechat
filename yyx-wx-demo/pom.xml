@@ -43,6 +43,11 @@
         </dependency>
 
         <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-websocket</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>org.yyx.wx</groupId>
             <artifactId>yyx-wx-commons</artifactId>
             <version>0.0.1-SNAPSHOT</version>
@@ -97,8 +102,8 @@
         </dependency>
 
         <dependency>
-            <groupId>org.yyx.wx.modules</groupId>
-            <artifactId>yyx-wx-web</artifactId>
+            <groupId>org.yyx.wx</groupId>
+            <artifactId>yyx-wx-butt</artifactId>
             <version>0.0.1-SNAPSHOT</version>
             <exclusions>
                 <exclusion>

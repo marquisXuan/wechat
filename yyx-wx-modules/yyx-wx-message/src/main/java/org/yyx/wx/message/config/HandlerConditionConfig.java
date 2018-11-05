@@ -28,6 +28,7 @@ public class HandlerConditionConfig {
     @Bean
     @Conditional(ModelMessagePushEventServiceCondition.class)
     public ModelMessagePushEventHandlerProxy modelMessagePushEventHandlerProxy() {
+        // 没有自定义的业务，就返回默认的业务处理
         return new DefaultModelMessagePushEventServiceImpl();
     }
 

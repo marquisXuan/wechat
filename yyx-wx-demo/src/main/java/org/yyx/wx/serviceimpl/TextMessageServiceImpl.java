@@ -26,6 +26,7 @@ public class TextMessageServiceImpl implements TextMessageHandlerProxy {
     @Override
     public BaseMessageResponse dealMessage(BaseMessageAndEventRequestAndResponse baseMessageAndEventRequest) {
         TextMessageRequest textMessageRequest = (TextMessageRequest) baseMessageAndEventRequest;
+        // region 封装返回文本消息内容
         TextMessageResponse textMessageResponse = new TextMessageResponse();
         textMessageResponse.setCreateTime(System.currentTimeMillis());
         textMessageResponse.setMsgId(1L);

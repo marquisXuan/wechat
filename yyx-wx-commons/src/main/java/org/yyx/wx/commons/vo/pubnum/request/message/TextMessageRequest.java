@@ -10,7 +10,7 @@ import lombok.EqualsAndHashCode;
  * @date 2018/8/24 - 16:39
  */
 @Data
-@EqualsAndHashCode(callSuper = false)
+@EqualsAndHashCode(callSuper = true)
 public class TextMessageRequest extends BaseMessageRequest {
 
     /**

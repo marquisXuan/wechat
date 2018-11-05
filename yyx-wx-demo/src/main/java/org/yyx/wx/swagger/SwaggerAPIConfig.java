@@ -1,5 +1,6 @@
 package org.yyx.wx.swagger;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import springfox.documentation.builders.ApiInfoBuilder;
@@ -30,6 +31,9 @@ public class SwaggerAPIConfig {
      */
     private static final Contact YYX_CONTACT = new Contact("叶云轩", "https://www.baidu.com?s=叶云轩", "tdg_yyx@foxmail.com");
 
+    @Value("${swagger.enable}")
+    private boolean enableSwagger;
+
     /**
      * 员工组接口文档
      *
@@ -40,7 +44,7 @@ public class SwaggerAPIConfig {
         return new Docket(DocumentationType.SWAGGER_2).groupName("微信")
                 .apiInfo(wxAPIInfo())
                 .select()
-                .apis(RequestHandlerSelectors.basePackage("org.yyx.wx.web.web"))
+                .apis(RequestHandlerSelectors.basePackage("org.yyx.wx.butt.butt"))
                 .paths(PathSelectors.any())
                 .build();
     }
