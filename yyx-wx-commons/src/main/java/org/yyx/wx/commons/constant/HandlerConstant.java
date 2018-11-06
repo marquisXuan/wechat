@@ -24,4 +24,8 @@ public class HandlerConstant {
      * 最大链条数量
      */
     public static final Integer MAX_HANDLER_COUNT = 22;
+    /**
+     * 微信推送事件类型最大数量
+     */
+    public static final Integer MAX_BASE_MESSAGE_HANDLER_PROXY = 12;
 }

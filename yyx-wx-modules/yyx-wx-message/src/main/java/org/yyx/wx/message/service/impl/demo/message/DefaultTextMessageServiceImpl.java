@@ -3,10 +3,10 @@ package org.yyx.wx.message.service.impl.demo.message;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
-import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
-import org.yyx.wx.commons.vo.pubnum.response.message.TextMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.TextMessageRequest;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.response.message.TextMessageResponse;
 import org.yyx.wx.message.proxy.message.TextMessageHandlerProxy;
 
 /**
@@ -32,7 +32,7 @@ public class DefaultTextMessageServiceImpl implements TextMessageHandlerProxy {
     @Override
     public BaseMessageResponse dealMessage(BaseMessageAndEventRequestAndResponse baseMessageAndEventRequest) {
         TextMessageRequest textMessageRequest = (TextMessageRequest) baseMessageAndEventRequest;
-        LOGGER.info("[DEMO] 自定义文本业务实现类");
+        LOGGER.info("[DEMO] 默认的文本类消息推送业务实现");
         TextMessageResponse textMessageResponse = new TextMessageResponse();
         textMessageResponse.setCreateTime(System.currentTimeMillis());
         textMessageResponse.setMsgId(1L);

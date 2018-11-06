@@ -18,5 +18,3 @@ out/
 
 ### mac ###
 .DS_Store
-.gitignore
-src/test/

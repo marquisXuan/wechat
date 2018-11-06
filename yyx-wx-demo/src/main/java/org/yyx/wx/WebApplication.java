@@ -10,7 +10,7 @@ import org.springframework.context.annotation.ComponentScans;
 @SpringBootApplication
 @ComponentScans({
         @ComponentScan("org.yyx.wx.acount.*"), @ComponentScan("org.yyx.wx.message.*"), @ComponentScan("org.yyx.wx.commons.*")
-        , @ComponentScan("org.yyx.wx.web.*")
+        , @ComponentScan("org.yyx.wx.butt.*")
 })
 /**
  * 2

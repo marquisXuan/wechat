@@ -85,7 +85,7 @@ public class QRCodeController {
         BaseAccessTokenRequest baseAccessTokenRequest = accessTokenService.getBaseAccessToken();
         LOGGER.info("[BaseAccessTokenRequest] {}", baseAccessTokenRequest);
         // 封装请求临时带参数字符串二维码信息
-        qrCodeWxRequest.setExpire_seconds(30L);
+        qrCodeWxRequest.setExpire_seconds(300000L);
         ActionInfoWxRequest actionInfo = new ActionInfoWxRequest();
         ActionInfoWxRequest.Scene scene = actionInfo.new Scene();
         scene.setScene_id(123);

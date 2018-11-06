@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.TextMessageRequest;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.TextMessageHandlerProxy;
@@ -51,7 +51,7 @@ public class TextMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected BaseMessageResponse dealTask(Element element) {
-        LOGGER.info("[进入文本消息处理器]");
+        LOGGER.info("[文本消息处理器开始工作....]");
         // 强转成文本消息
         TextMessageRequest textMessageRequest = this.modelMethod(element);
         return baseMessageHandlerProxy.dealMessage(textMessageRequest);
@@ -75,7 +75,7 @@ public class TextMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected TextMessageRequest modelMethod(Element element) {
-        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element.asXML());
+        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element.asXML().trim());
         TextMessageRequest textMessageRequest;
         try {
             textMessageRequest = WxXmlAndObjectUtil.xmlToObject(element, TextMessageRequest.class);

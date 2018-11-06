@@ -61,7 +61,7 @@ public class WxPublicNumAuthConfig {
     /**
      * 授权时获取用户信息的访问路径
      */
-    @Value("${wx.url.user_info}")
+    @Value("${wx.url.auth.user_info}")
     private String urlUserInfo;
     /**
      * 获取用户基本信息

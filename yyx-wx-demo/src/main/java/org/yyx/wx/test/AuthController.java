@@ -12,7 +12,7 @@ import org.yyx.wx.acount.auth.config.WxPublicNumAuthConfig;
 import org.yyx.wx.acount.auth.service.IAccessTokenService;
 import org.yyx.wx.commons.bussinessenum.AuthScopeEnum;
 import org.yyx.wx.commons.vo.pubnum.request.auth.BaseAccessTokenRequest;
-import org.yyx.wx.message.websocket.WebSocketUtil;
+import org.yyx.wx.websocket.WebSocketUtil;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletResponse;

@@ -5,8 +5,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
-import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.LinkMessageRequest;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.message.handler.AbstractMessageHandler;
 import org.yyx.wx.message.proxy.BaseMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.LinkMessageHandlerProxy;
@@ -51,15 +51,15 @@ public class LinkMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected BaseMessageResponse dealTask(Element element) {
-        LOGGER.info("[进入链接消息处理器]");
+        LOGGER.info("[链接消息处理器开始工作....]");
         LinkMessageRequest linkMessageRequest = this.modelMethod(element);
         return baseMessageHandlerProxy.dealMessage(linkMessageRequest);
     }
 
     /**
-     * 获取文本消息处理器级别
+     * 获取链接消息处理器级别
      *
-     * @return 文本消息处理器级别
+     * @return 链接消息处理器级别
      */
     @Override
     protected String getHandlerLevel() {
@@ -74,7 +74,7 @@ public class LinkMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected LinkMessageRequest modelMethod(Element element) {
-        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element);
+        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element.asXML().trim());
         LinkMessageRequest linkMessageRequest;
         try {
             linkMessageRequest = WxXmlAndObjectUtil.xmlToObject(element, LinkMessageRequest.class);

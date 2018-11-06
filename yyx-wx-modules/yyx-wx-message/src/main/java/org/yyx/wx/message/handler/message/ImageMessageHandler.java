@@ -43,13 +43,24 @@ public class ImageMessageHandler extends AbstractMessageHandler {
         return IMAGE_MESSAGE_HANDLER;
     }
 
+    /**
+     * 实际执行的方法
+     *
+     * @param element 实际处理器要处理的数据
+     * @return 处理结果
+     */
     @Override
     protected BaseMessageResponse dealTask(Element element) {
-        LOGGER.info("[进入链接消息处理器]");
+        LOGGER.info("[图片消息处理器开始工作....]");
         ImageMessageRequest imageMessageRequest = this.modelMethod(element);
         return baseMessageHandlerProxy.dealMessage(imageMessageRequest);
     }
 
+    /**
+     * 获取图像消息处理器级别
+     *
+     * @return 图像消息处理器级别
+     */
     @Override
     protected String getHandlerLevel() {
         return MessageTypeEnum.image.toString();
@@ -57,7 +68,7 @@ public class ImageMessageHandler extends AbstractMessageHandler {
 
     @Override
     protected ImageMessageRequest modelMethod(Element element) {
-        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element);
+        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element.asXML().trim());
         ImageMessageRequest imageMessageRequest;
         try {
             imageMessageRequest = WxXmlAndObjectUtil.xmlToObject(element, ImageMessageRequest.class);

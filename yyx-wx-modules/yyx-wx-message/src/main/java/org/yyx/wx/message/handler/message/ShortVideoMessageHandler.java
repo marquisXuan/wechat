@@ -51,15 +51,15 @@ public class ShortVideoMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected BaseMessageResponse dealTask(Element element) {
-        LOGGER.info("[进入小视频消息处理器]");
+        LOGGER.info("[小视频消息处理器开始工作....]");
         VideoMessageRequest videoMessageRequest = this.modelMethod(element);
         return baseMessageHandlerProxy.dealMessage(videoMessageRequest);
     }
 
     /**
-     * 获取文本消息处理器级别
+     * 获取小视频消息处理器级别
      *
-     * @return 文本消息处理器级别
+     * @return 小视频消息处理器级别
      */
     @Override
     protected String getHandlerLevel() {
@@ -74,7 +74,7 @@ public class ShortVideoMessageHandler extends AbstractMessageHandler {
      */
     @Override
     protected VideoMessageRequest modelMethod(Element element) {
-        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element);
+        LOGGER.info("[微信请求过来的消息:xml格式数据] {}", element.asXML().trim());
         VideoMessageRequest videoMessageRequest;
         try {
             videoMessageRequest = WxXmlAndObjectUtil.xmlToObject(element, VideoMessageRequest.class);
