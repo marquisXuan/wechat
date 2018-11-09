@@ -3,11 +3,11 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<artifactId>manage</artifactId>
+	<artifactId>yyx-wx-manage</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>manage</name>
+	<name>yyx-wx-manage</name>
 	<description>The module named &#39;WeChat&#39; manage</description>
 
 	<parent>
