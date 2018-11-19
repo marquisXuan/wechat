@@ -2,7 +2,6 @@ package org.yyx.wx.commons.impl.cache;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 import org.yyx.wx.commons.util.CacheService;
 
 import java.util.List;
@@ -80,7 +79,6 @@ public class MapCacheServiceImpl<K, V> implements CacheService<K, V> {
             LOGGER.error("[缓存{}失败] {}", key, e.getMessage());
         }
         if (time != -1) {
-            // todo 定时清除CACHE_MAP中以K为key的数据
             long currentTimes = System.currentTimeMillis();
             long cacheTimes = currentTimes + time / 1000;
             try {
@@ -140,10 +138,7 @@ public class MapCacheServiceImpl<K, V> implements CacheService<K, V> {
         long currentTimeMillis = System.currentTimeMillis();
         // 缓存中的时间
         Long cacheTimeMillis = (Long) CACHE_MAP.get(key + TIME_SUFFIX);
-        if (cacheTimeMillis == null) {
-            // 已过期
-            return null;
-        }
+        // 比较取值时间和缓存中的时间大小  如果大的是当前取值时间，说明缓存失效
         boolean b = Math.max(currentTimeMillis, cacheTimeMillis) == currentTimeMillis;
         if (b) {
             removeValue(key);
