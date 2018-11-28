@@ -42,7 +42,9 @@ public class ValidateWeChat {
      * @return 返回signature与密文的对比结果
      */
     public boolean validate(String signature, String timestamp, String nonce) {
+        // 排序并加密
         String s = sortAndEncryptParams(timestamp, nonce);
+        // 判断是否来自微信
         return signature.equals(s);
     }
 
@@ -55,8 +57,10 @@ public class ValidateWeChat {
      * @param nonce     随机字符串
      */
     private String sortAndEncryptParams(String timestamp, String nonce) {
+        // 获取微信服务器配置的Token信息
         String configToken = wxPublicNumConfig.getConfigToken();
         LOGGER.info("[将token、timestamp、nonce三个参数进行字典序排序] {}，{}，{}", configToken, timestamp, nonce);
+        // region 字典排序
         String[] array = new String[]{configToken, timestamp, nonce};
         StringBuffer stringBuffer = new StringBuffer();
         // 字符串排序
@@ -64,27 +68,29 @@ public class ValidateWeChat {
         for (int i = 0, length = array.length; i < length; i++) {
             stringBuffer.append(array[i]);
         }
-        String sortString = stringBuffer.toString();
+        String sortedString = stringBuffer.toString();
+        // endregion
         MessageDigest messageDigest;
         try {
             messageDigest = MessageDigest.getInstance(SHA_1);
         } catch (NoSuchAlgorithmException e) {
             // 理论上是环境问题，没有找到这样的算法
             LOGGER.error("[没有找到 {} 算法] {}", SHA_1, e.getMessage());
+            // 应该抛出异常告知错误
             return null;
         }
-        messageDigest.update(sortString.getBytes());
+        messageDigest.update(sortedString.getBytes());
         byte[] digest = messageDigest.digest();
-        StringBuffer hexstr = new StringBuffer();
+        StringBuffer hexStringBuffer = new StringBuffer();
         String shaHex;
         for (int i = 0; i < digest.length; i++) {
             shaHex = Integer.toHexString(digest[i] & 0xFF);
             if (shaHex.length() < 2) {
-                hexstr.append(0);
+                hexStringBuffer.append(0);
             }
-            hexstr.append(shaHex);
+            hexStringBuffer.append(shaHex);
         }
         LOGGER.info("[字典排序与加密完成]");
-        return hexstr.toString();
+        return hexStringBuffer.toString();
     }
 }
