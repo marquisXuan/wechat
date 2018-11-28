@@ -40,20 +40,27 @@
             <scope>runtime</scope>
         </dependency>
         <!-- endregion -->
-        <!-- region beetlSQL dep -->
-        <!-- https://mvnrepository.com/artifact/com.ibeetl/beetlsql -->
+        <!--&lt;!&ndash; region beetlSQL dep &ndash;&gt;-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/com.ibeetl/beetlsql &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.ibeetl</groupId>-->
+            <!--<artifactId>beetlsql</artifactId>-->
+            <!--<version>${beetlsql}</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; endregion &ndash;&gt;-->
+        <!--&lt;!&ndash; region beetl &ndash;&gt;-->
+        <!--&lt;!&ndash; https://mvnrepository.com/artifact/com.ibeetl/beetl &ndash;&gt;-->
+        <!--<dependency>-->
+            <!--<groupId>com.ibeetl</groupId>-->
+            <!--<artifactId>beetl</artifactId>-->
+            <!--<version>${beetl}</version>-->
+        <!--</dependency>-->
+        <!--&lt;!&ndash; endregion &ndash;&gt;-->
+        <!-- region beetlsql -->
         <dependency>
             <groupId>com.ibeetl</groupId>
-            <artifactId>beetlsql</artifactId>
-            <version>${beetlsql}</version>
-        </dependency>
-        <!-- endregion -->
-        <!-- region beetl -->
-        <!-- https://mvnrepository.com/artifact/com.ibeetl/beetl -->
-        <dependency>
-            <groupId>com.ibeetl</groupId>
-            <artifactId>beetl</artifactId>
-            <version>${beetl}</version>
+            <artifactId>beetl-framework-starter</artifactId>
+            <version>RELEASE</version>
         </dependency>
         <!-- endregion -->
         <!-- region swagger -->
@@ -103,6 +110,13 @@
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson}</version>
+        </dependency>
+        <!-- endregion -->
+        <!-- region  configuration-processor -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-configuration-processor</artifactId>
+            <optional>true</optional>
         </dependency>
         <!-- endregion -->
     </dependencies>

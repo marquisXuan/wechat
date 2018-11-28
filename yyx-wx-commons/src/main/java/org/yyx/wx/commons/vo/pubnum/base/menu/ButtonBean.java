@@ -51,4 +51,13 @@ public class ButtonBean {
      * 小程序的页面路径
      */
     private String pagepath;
+
+    public ButtonBean[] getSub_button() {
+        for (ButtonBean buttonBean : sub_button) {
+            if (buttonBean != null) {
+                return sub_button;
+            }
+        }
+        return null;
+    }
 }

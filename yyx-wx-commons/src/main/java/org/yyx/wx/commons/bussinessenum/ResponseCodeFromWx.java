@@ -54,6 +54,10 @@ public enum ResponseCodeFromWx {
      * 不存在的菜单数据
      */
     no_menu(46003, "不存在的菜单数据"),
+    /**
+     * 不合法的按钮个数
+     */
+    error_menu_nums(40016, "不合法的按钮个数"),
     // endregion
     // region 业务响应码
 

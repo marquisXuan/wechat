@@ -1,7 +1,7 @@
 package org.yyx.wx.manage.menu.config;
 
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Value;
+import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.stereotype.Component;
 
 /**
@@ -13,16 +13,15 @@ import org.springframework.stereotype.Component;
  */
 @Component
 @Data
+@ConfigurationProperties(prefix = "wx.url.menu")
 public class WxPubNumMenuConfig {
 
     /**
      * 查询自定义菜单的URL
      */
-    @Value("${wx.url.menu.search_menu}")
     private String searchMenuList;
     /**
      * 创建自定义菜单URL
      */
-    @Value("${wx.url.menu.create_menu}")
     private String createCustomMenu;
 }

@@ -29,9 +29,9 @@ wx:
     # 菜单URL
     menu:
       # GET 自定义菜单查询URL https://api.weixin.qq.com/cgi-bin/menu/get?access_token=ACCESS_TOKEN
-      search_menu: https://api.weixin.qq.com/cgi-bin/menu/get?access_token=
+      searchMenuList: https://api.weixin.qq.com/cgi-bin/menu/get?access_token=
       # POST 自定义菜单创建接口 https://api.weixin.qq.com/cgi-bin/menu/create?access_token=ACCESS_TOKEN
-      create_menu: https://api.weixin.qq.com/cgi-bin/menu/create?access_token=
+      createCustomMenu: https://api.weixin.qq.com/cgi-bin/menu/create?access_token=
     # 二维码相关URL
     qr_code:
       # 创建二维码Ticket的URL
