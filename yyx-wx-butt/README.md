@@ -12,7 +12,7 @@
 
 其中的Token就是需要自行配置的config_token:[说明文档](../../README.md)
 
-![微信公众号后台配置](http://file.happyqing.com/xuan/wx/config.png)
+![微信公众号后台配置](https://www.cnblogs.com/tdg-yyx/p/7054442.html)
 
 
 
