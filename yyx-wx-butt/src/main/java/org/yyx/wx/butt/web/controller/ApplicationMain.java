@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.yyx.wx.butt.config.WxPublicNumConfig;
+import org.yyx.wx.butt.util.ValidateWeChat;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
 import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
@@ -29,8 +31,6 @@ import org.yyx.wx.message.proxy.message.ShortVideoMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.TextMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.VideoMessageHandlerProxy;
 import org.yyx.wx.message.proxy.message.VoiceMessageHandlerProxy;
-import org.yyx.wx.butt.config.WxPublicNumConfig;
-import org.yyx.wx.butt.util.ValidateWeChat;
 
 import javax.annotation.Resource;
 import javax.servlet.ServletInputStream;
