@@ -4,10 +4,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
-import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
-import org.yyx.wx.commons.vo.pubnum.response.message.TextMessageResponse;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
 import org.yyx.wx.commons.vo.pubnum.request.message.VideoMessageRequest;
+import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
+import org.yyx.wx.commons.vo.pubnum.response.message.TextMessageResponse;
 import org.yyx.wx.message.proxy.message.ShortVideoMessageHandlerProxy;
 
 /**
@@ -18,12 +18,12 @@ import org.yyx.wx.message.proxy.message.ShortVideoMessageHandlerProxy;
  * @date 2018/9/10-13:39
  */
 @Service
-public class DefaultShortVideMessageServiceImpl implements ShortVideoMessageHandlerProxy {
+public class DefaultShortVideoMessageServiceImpl implements ShortVideoMessageHandlerProxy {
 
     /**
      * DemoServiceImpl日志输出
      */
-    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultShortVideMessageServiceImpl.class);
+    private static final Logger LOGGER = LoggerFactory.getLogger(DefaultShortVideoMessageServiceImpl.class);
 
     /**
      * 自定义业务处理
