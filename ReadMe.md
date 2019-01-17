@@ -133,7 +133,7 @@ local_port = 80
 # 此处与上方[unionId]方括号中的要一致，主要用于映射请求
 subdomain = unionId
 ```
-
+之后，将自己的域名解析中添加一条*.frps.domain.com的解析记录。如果只自己用，就解析unionId.frps.domain.com就可以了
 至此，内网客户端就配置好了。启动方式如公网服务器启动方式差不多。
 
 ```shell
