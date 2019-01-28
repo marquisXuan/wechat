@@ -29,6 +29,7 @@ public class TextMessageServiceCondition implements Condition {
 
     @Override
     public boolean matches(ConditionContext context, AnnotatedTypeMetadata metadata) {
+        LOGGER.info("[matches] -> [文本消息Condition类]");
         String servicePackageName = context.getEnvironment().getProperty(PACKAGE_INTERFACE);
         List<Class<?>> interfaceSubClass = getInterfaceSubClass(servicePackageName);
         // 遍历实现类数组

@@ -136,6 +136,8 @@ public interface CacheService<K, V> {
      */
     V getValue(K key);
 
+    void print();
+
     /**
      * 移除某个KEY
      *

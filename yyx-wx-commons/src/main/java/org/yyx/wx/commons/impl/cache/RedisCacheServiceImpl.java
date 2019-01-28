@@ -256,6 +256,11 @@ public class RedisCacheServiceImpl<K, V> implements CacheService<K, V> {
         return null;
     }
 
+    @Override
+    public void print() {
+
+    }
+
     /**
      * 移除某个KEY
      *

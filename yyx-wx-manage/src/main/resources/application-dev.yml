@@ -5,6 +5,6 @@ wx:
   url:
     redirect_uri: http://yyx.frps.happyqing.com/api/auth/token
   public_number:
-    app_id: wx01aef8db5f5ffb0f
-    app_secret: 4f2add778b4ab69de8e10652daf238de
+    app_id: wx0c8866109c2c76ab
+    app_secret: de53761d03472d56bd4e57cd4b9f13c7
     config_token: developer_home

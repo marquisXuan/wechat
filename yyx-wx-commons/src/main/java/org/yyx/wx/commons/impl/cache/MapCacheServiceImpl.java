@@ -136,10 +136,10 @@ public class MapCacheServiceImpl<K, V> implements CacheService<K, V> {
     public V getValue(K key) {
         // 取值时间
         long currentTimeMillis = System.currentTimeMillis();
-        // 缓存中的时间
+        // 缓存中的时间 说明在缓存字段时没有设置缓存时间
         Long cacheTimeMillis = (Long) CACHE_MAP.get(key + TIME_SUFFIX);
-        if(cacheTimeMillis == null) {
-            return null;
+        if (cacheTimeMillis == null) {
+            return (V) CACHE_MAP.get(key);
         }
         // 比较取值时间和缓存中的时间大小  如果大的是当前取值时间，说明缓存失效
         boolean b = Math.max(currentTimeMillis, cacheTimeMillis) == currentTimeMillis;
@@ -171,5 +171,12 @@ public class MapCacheServiceImpl<K, V> implements CacheService<K, V> {
         CACHE_MAP.remove(key);
         CACHE_MAP.remove(key + TIME_SUFFIX);
         return getValue(key) == null;
+    }
+
+    @Override
+    public void print() {
+        for (Object o : CACHE_MAP.keySet()) {
+            LOGGER.info("[print] -> [key] {} - [value] {}", o, CACHE_MAP.get(o));
+        }
     }
 }

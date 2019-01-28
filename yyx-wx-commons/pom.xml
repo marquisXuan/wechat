@@ -21,7 +21,7 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <fastjson>1.2.47</fastjson>
-        <customer.util>1.0.7</customer.util>
+        <customer.util>1.0.8-RELEASE</customer.util>
     </properties>
 
     <dependencies>

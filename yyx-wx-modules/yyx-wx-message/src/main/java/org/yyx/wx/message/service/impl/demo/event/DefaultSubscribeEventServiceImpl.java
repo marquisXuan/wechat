@@ -2,7 +2,6 @@ package org.yyx.wx.message.service.impl.demo.event;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Service;
 import org.yyx.wx.commons.bussinessenum.MessageTypeEnum;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRequest;
@@ -17,7 +16,6 @@ import org.yyx.wx.message.proxy.event.SubscribeEventHandlerProxy;
  * @author 叶云轩 at tdg_yyx@foxmail.com
  * @date 2018/9/10-13:39
  */
-@Service
 public class DefaultSubscribeEventServiceImpl implements SubscribeEventHandlerProxy {
 
     /**
@@ -33,7 +31,8 @@ public class DefaultSubscribeEventServiceImpl implements SubscribeEventHandlerPr
      */
     @Override
     public final BaseMessageResponse dealMessage(BaseMessageAndEventRequestAndResponse baseMessageAndEventRequest) {
-        SubscribeAndUnSubscribeEventRequest subscribeAndUnSubscribeEventRequest = (SubscribeAndUnSubscribeEventRequest) baseMessageAndEventRequest;
+        SubscribeAndUnSubscribeEventRequest subscribeAndUnSubscribeEventRequest
+                = (SubscribeAndUnSubscribeEventRequest) baseMessageAndEventRequest;
         LOGGER.info("[DEMO] 自定义订阅[关注]业务实现类");
         TextMessageResponse textMessageResponse = new TextMessageResponse();
         textMessageResponse.setCreateTime(System.currentTimeMillis());

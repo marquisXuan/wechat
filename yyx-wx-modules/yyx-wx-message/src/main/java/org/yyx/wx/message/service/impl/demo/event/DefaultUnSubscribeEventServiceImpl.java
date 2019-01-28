@@ -3,12 +3,13 @@ package org.yyx.wx.message.service.impl.demo.event;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.yyx.wx.acount.user.service.IUserInfoService;
+import org.yyx.wx.commons.exception.user.NoOpenIDException;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
 import org.yyx.wx.commons.vo.pubnum.request.event.SubscribeAndUnSubscribeEventRequest;
 import org.yyx.wx.commons.vo.pubnum.request.user.WxUserInfoRequest;
 import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
 import org.yyx.wx.message.proxy.event.UnSubscribeEventHandlerProxy;
-import org.yyx.wx.acount.user.service.IUserInfoService;
 
 import javax.annotation.Resource;
 
@@ -43,7 +44,13 @@ public class DefaultUnSubscribeEventServiceImpl implements UnSubscribeEventHandl
     public final BaseMessageResponse dealMessage(BaseMessageAndEventRequestAndResponse baseMessageAndEventRequest) {
         SubscribeAndUnSubscribeEventRequest subscribeAndUnSubscribeEventRequest = (SubscribeAndUnSubscribeEventRequest) baseMessageAndEventRequest;
         String openID = subscribeAndUnSubscribeEventRequest.getFromUserName();
-        WxUserInfoRequest userInfoByOpenID = userInfoService.getUserInfoByOpenID(openID);
+        WxUserInfoRequest userInfoByOpenID = null;
+        try {
+            userInfoByOpenID = userInfoService.getUserInfoByOpenID(openID);
+        } catch (NoOpenIDException e) {
+            LOGGER.error("[dealMessage] -> [异常] {}", e.getMessage());
+            return null;
+        }
         LOGGER.info("[用户{}取消了关注] {}", userInfoByOpenID.getNickname(), userInfoByOpenID);
         return null;
     }
