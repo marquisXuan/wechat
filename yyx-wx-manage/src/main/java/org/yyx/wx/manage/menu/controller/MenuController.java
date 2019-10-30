@@ -8,12 +8,12 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import org.yyx.domain.ResponseEntity;
-import org.yyx.wx.commons.util.ResponseUtil;
 import org.yyx.wx.commons.vo.pubnum.request.BaseRequest;
 import org.yyx.wx.commons.vo.pubnum.request.menu.MenuRequest;
 import org.yyx.wx.commons.vo.pubnum.response.menu.CustomerMenuResponse;
 import org.yyx.wx.manage.menu.service.IMenuService;
+import org.yyx.xf.tool.web.domain.entity.BaseResponse;
+import org.yyx.xf.tool.web.util.UtilResponse;
 
 import javax.annotation.Resource;
 
@@ -42,11 +42,11 @@ public class MenuController {
      * @return 创建结果
      */
     @PostMapping("add")
-    @ApiOperation(value = "创建一个新的自定义菜单", httpMethod = "POST", response = ResponseEntity.class)
+    @ApiOperation(value = "创建一个新的自定义菜单", httpMethod = "POST", response = BaseResponse.class)
     @ApiImplicitParam(dataTypeClass = MenuRequest.class, value = "自定义菜单")
-    public ResponseEntity createMenu(@RequestBody CustomerMenuResponse customerMenuResponse) {
+    public BaseResponse createMenu(@RequestBody CustomerMenuResponse customerMenuResponse) {
         BaseRequest menuStatus = menuService.createMenu(customerMenuResponse);
-        return ResponseUtil.response(menuStatus);
+        return UtilResponse.success(menuStatus);
     }
 
     /**
@@ -55,9 +55,9 @@ public class MenuController {
      * @return 查询到的菜单
      */
     @GetMapping("list")
-    @ApiOperation(value = "获取自定义菜单接口", httpMethod = "GET", response = ResponseEntity.class)
-    public ResponseEntity<MenuRequest> queryMenu() {
+    @ApiOperation(value = "获取自定义菜单接口", httpMethod = "GET", response = BaseResponse.class)
+    public BaseResponse<MenuRequest> queryMenu() {
         MenuRequest menuRequest = menuService.queryMenuList();
-        return ResponseUtil.response(menuRequest);
+        return UtilResponse.success(menuRequest);
     }
 }
