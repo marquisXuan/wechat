@@ -25,14 +25,11 @@
     </properties>
 
     <dependencies>
-        <!-- region customer util -->
-        <!-- 源码地址 https://github.com/marquisXuan/util -->
         <dependency>
-            <groupId>org.yyx</groupId>
-            <artifactId>util</artifactId>
+            <groupId>org.yyx.xf</groupId>
+            <artifactId>xf-util</artifactId>
             <version>${customer.util}</version>
         </dependency>
-        <!-- endregion -->
         <!-- region spring-boot-starter-data-redis dep -->
         <dependency>
             <groupId>org.springframework.boot</groupId>

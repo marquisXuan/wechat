@@ -3,11 +3,11 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>manage</artifactId>
+    <artifactId>yyx-wx-manage</artifactId>
     <version>0.0.1-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <name>manage</name>
+    <name>yyx-wx-manage</name>
     <description>The module named &#39;WeChat&#39; manage</description>
 
     <parent>
@@ -27,43 +27,20 @@
     </properties>
 
     <dependencies>
-        <!-- region web dep -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
-        <!-- endregion -->
-        <!-- region mysql dep -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <scope>runtime</scope>
         </dependency>
-        <!-- endregion -->
-        <!--&lt;!&ndash; region beetlSQL dep &ndash;&gt;-->
-        <!--&lt;!&ndash; https://mvnrepository.com/artifact/com.ibeetl/beetlsql &ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>com.ibeetl</groupId>-->
-            <!--<artifactId>beetlsql</artifactId>-->
-            <!--<version>${beetlsql}</version>-->
-        <!--</dependency>-->
-        <!--&lt;!&ndash; endregion &ndash;&gt;-->
-        <!--&lt;!&ndash; region beetl &ndash;&gt;-->
-        <!--&lt;!&ndash; https://mvnrepository.com/artifact/com.ibeetl/beetl &ndash;&gt;-->
-        <!--<dependency>-->
-            <!--<groupId>com.ibeetl</groupId>-->
-            <!--<artifactId>beetl</artifactId>-->
-            <!--<version>${beetl}</version>-->
-        <!--</dependency>-->
-        <!--&lt;!&ndash; endregion &ndash;&gt;-->
-        <!-- region beetlsql -->
         <dependency>
             <groupId>com.ibeetl</groupId>
             <artifactId>beetl-framework-starter</artifactId>
             <version>RELEASE</version>
         </dependency>
-        <!-- endregion -->
-        <!-- region swagger -->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-swagger-ui</artifactId>
@@ -74,8 +51,6 @@
             <artifactId>springfox-swagger2</artifactId>
             <version>${swagger}</version>
         </dependency>
-        <!-- endregion -->
-        <!-- region yyx-wx-commons -->
         <dependency>
             <groupId>org.yyx.wx</groupId>
             <artifactId>yyx-wx-commons</artifactId>
@@ -91,8 +66,6 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- endregion -->
-        <!-- region yyx-wx-account dep -->
         <dependency>
             <groupId>org.yyx.wx.modules</groupId>
             <artifactId>yyx-wx-account</artifactId>
@@ -104,21 +77,16 @@
                 </exclusion>
             </exclusions>
         </dependency>
-        <!-- endregion -->
-        <!-- region fastjson dep -->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>fastjson</artifactId>
             <version>${fastjson}</version>
         </dependency>
-        <!-- endregion -->
-        <!-- region  configuration-processor -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-configuration-processor</artifactId>
             <optional>true</optional>
         </dependency>
-        <!-- endregion -->
     </dependencies>
 
     <build>

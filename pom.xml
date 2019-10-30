@@ -23,7 +23,6 @@
         <java.version>1.8</java.version>
         <lombok>1.18.2</lombok>
         <fastjson>1.2.47</fastjson>
-        <util>1.0.7</util>
         <hutool.http>4.1.8</hutool.http>
         <hutool.core>4.1.8</hutool.core>
         <dom4j>1.6.1</dom4j>
@@ -37,33 +36,35 @@
         <module>yyx-wx-manage</module>
     </modules>
 
+    <developers>
+        <developer>
+            <id>yyx</id>
+            <email>marquis_xuan@163.com</email>
+            <name>yyx</name>
+            <url>http://www.happyqing.com</url>
+        </developer>
+    </developers>
     <dependencies>
-
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-http</artifactId>
             <version>${hutool.http}</version>
         </dependency>
-
         <dependency>
             <groupId>cn.hutool</groupId>
             <artifactId>hutool-core</artifactId>
             <version>${hutool.core}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
-
-
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <version>${lombok}</version>
         </dependency>
-
         <dependency>
             <groupId>dom4j</groupId>
             <artifactId>dom4j</artifactId>
