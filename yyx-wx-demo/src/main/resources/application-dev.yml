@@ -1,9 +1,14 @@
 wx:
   url:
-    redirect_uri: http://yyx.frps.happyqing.com/api/auth/token
+    redirect_uri: http://
   public_number:
-    app_id: wx01aef8db5f5ffb0f
-    app_secret: 4f2add778b4ab69de8e10652daf238de
+    # 与微信公众号后台中: 开发->基本配置->公众号开发信息->开发者ID(AppID)保持一致
+    app_id: wxc050ff4a4f9470f9
+    # 与微信公众号后台中: 开发->基本配置->公众号开发信息->开发者密码(AppSecret)保持一致
+    app_secret: cf842d72bdb06d91095a207506a6146c
+    #    app_id: wx5b6cf870b7814144
+    #    app_secret: 4ca3c911d8488ba4100eee53ca61b1bd
+    # 与微信公众号后台中: 开发->基本配置->服务器配置->令牌(Token)保持一致
     config_token: developer_home
 service:
   package: org.yyx.wx.serviceimpl

@@ -1,11 +1,11 @@
 package org.yyx.wx.message.util;
 
-import cn.hutool.core.util.StrUtil;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
 import org.yyx.wx.commons.exception.config.ConfigException;
 import org.yyx.wx.commons.util.InterfaceUtil;
+import org.yyx.xf.tool.string.util.UtilString;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -28,6 +28,9 @@ public class InterfaceSubClassUtil {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(InterfaceSubClassUtil.class);
 
+    /**
+     * 私有构造
+     */
     private InterfaceSubClassUtil() {
     }
 
@@ -44,7 +47,7 @@ public class InterfaceSubClassUtil {
             return INTERFACE_SUB_CLASS;
         }
         // 为空，从配置文件中获取具体业务实现类所在的包名
-        if (StrUtil.isEmpty(servicePackageName)) {
+        if (UtilString.isBlank(servicePackageName)) {
             // 配置加载出错
             LOGGER.error("[配置加载出错] {}", servicePackageName);
             throw new ConfigException(error_load_config);

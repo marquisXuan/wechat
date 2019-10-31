@@ -64,7 +64,7 @@ public enum ResponseCodeFromWx {
     /**
      * 配置加载异常
      */
-    error_load_config(99997, "配置加载异常"),
+    error_load_config(99997, "配置加载异常,请检查配置文件"),
     /**
      * OPENID不能为空
      */

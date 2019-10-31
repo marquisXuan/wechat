@@ -14,7 +14,7 @@
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
-        <version>2.0.4.RELEASE</version>
+        <version>2.2.0.RELEASE</version>
     </parent>
 
     <properties>
@@ -27,6 +27,16 @@
         <hutool.core>4.1.8</hutool.core>
         <dom4j>1.6.1</dom4j>
     </properties>
+
+    <dependencyManagement>
+        <dependencies>
+            <dependency>
+                <groupId>org.springframework.boot</groupId>
+                <artifactId>spring-boot-starter-web</artifactId>
+                <version>2.2.0.RELEASE</version>
+            </dependency>
+        </dependencies>
+    </dependencyManagement>
 
     <modules>
         <module>yyx-wx-commons</module>
