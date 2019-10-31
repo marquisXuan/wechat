@@ -24,7 +24,7 @@
         <lombok>1.18.2</lombok>
         <fastjson>1.2.47</fastjson>
         <hutool.http>4.1.8</hutool.http>
-        <hutool.core>4.1.8</hutool.core>
+        <hutool.core>4.1.12</hutool.core>
         <dom4j>1.6.1</dom4j>
     </properties>
 
