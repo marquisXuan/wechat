@@ -6,8 +6,6 @@ wx:
     app_id: wxc050ff4a4f9470f9
     # 与微信公众号后台中: 开发->基本配置->公众号开发信息->开发者密码(AppSecret)保持一致
     app_secret: cf842d72bdb06d91095a207506a6146c
-    #    app_id: wx5b6cf870b7814144
-    #    app_secret: 4ca3c911d8488ba4100eee53ca61b1bd
     # 与微信公众号后台中: 开发->基本配置->服务器配置->令牌(Token)保持一致
     config_token: developer_home
 service:

@@ -6,7 +6,8 @@ import com.alibaba.fastjson.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
-import org.yyx.wx.acount.auth.config.WxPublicNumAuthConfig;
+import org.yyx.wx.acount.auth.properties.CredentialProperties;
+import org.yyx.wx.acount.auth.properties.Oauth2Properties;
 import org.yyx.wx.acount.auth.service.IAccessTokenService;
 import org.yyx.wx.commons.bussinessenum.ResponseCodeFromWx;
 import org.yyx.wx.commons.exception.token.AccessTokenException;
@@ -38,15 +39,33 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
      */
     private static final Logger LOGGER = LoggerFactory.getLogger(AccessTokenServiceImpl.class);
     /**
-     * 获取微信公众号配置对象
+     * 与公众号对接时，用到的凭据配置类
      */
     @Resource
-    private WxPublicNumAuthConfig wxPublicNumAuthConfig;
+    private CredentialProperties credentialProperties;
+
+    @Resource
+    private Oauth2Properties oauth2Properties;
     /**
      * 缓存工具
      */
     @Resource
     private CacheService<String, Object> cacheService;
+
+    /**
+     * 缓存数据
+     *
+     * @param cacheAuthToken 待缓存数据
+     */
+    private void cacheData(AuthAccessTokenRequest cacheAuthToken, String userName) {
+        String openid = cacheAuthToken.getOpenid();
+        cacheService.cacheValue(userName, openid);
+        int cacheTime = 29 * 24 * 3600;
+        // 缓存刷新Token
+        cacheService.cacheValue(openid + REFRESH_AUTH_ACCESS_TOKEN, cacheAuthToken.getRefresh_token(), cacheTime);
+        // 缓存认证Token
+        cacheService.cacheValue(openid + AUTH_ACCESS_TOKEN, cacheAuthToken, cacheAuthToken.getExpires_in());
+    }
 
     /**
      * 获取认证授权的AccessToken
@@ -56,8 +75,6 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
      */
     @Override
     public void getAuthAccessToken(String code, String state) {
-        String appID = wxPublicNumAuthConfig.getAppID();
-        String appSecret = wxPublicNumAuthConfig.getAppSecret();
         // 从缓存中获取OpenID
         String openId = (String) cacheService.getValue("user_" + state);
         // 从缓存中获取AuthAccessToken
@@ -72,11 +89,7 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
             // RefreshToken过期，重新授权
             LOGGER.info("[RefreshToken过期，重新授权]");
             // https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code
-            String urlCodeToToken =
-                    wxPublicNumAuthConfig.getUrlCodeToAuthAccessToken() + appID
-                            + "&secret=" + appSecret
-                            + "&code=" + code
-                            + "&grant_type=authorization_code";
+            String urlCodeToToken = oauth2Properties.getWebViewAccessToken() + code;
             LOGGER.info("[授权URL] {}", urlCodeToToken);
             String responseMessage = HttpUtil.get(urlCodeToToken);
             // 用于认证授权的AccessToken
@@ -107,33 +120,14 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
         if (cacheAuthToken != null) {
             return cacheAuthToken;
         }
-        String appID = wxPublicNumAuthConfig.getAppID();
-        // https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=APPID&grant_type=refresh_token&refresh_token=REFRESH_TOKEN
         String urlRefreshToken =
-                wxPublicNumAuthConfig.getUrlRefreshToken() + appID
-                        + "&grant_type=refresh_token&refresh_token="
-                        + refreshToken;
+                oauth2Properties.getRefreshToken() + refreshToken;
         String responseMessage = HttpUtil.get(urlRefreshToken);
         // 用于认证授权的AccessToken
         cacheAuthToken = JSONObject.parseObject(responseMessage, AuthAccessTokenRequest.class);
         LOGGER.info("[刷新获取的AccessToken] {}, [openID] {}", cacheAuthToken, cacheAuthToken.getOpenid());
         cacheData(cacheAuthToken, userName);
         return cacheAuthToken;
-    }
-
-    /**
-     * 缓存数据
-     *
-     * @param cacheAuthToken 待缓存数据
-     */
-    private void cacheData(AuthAccessTokenRequest cacheAuthToken, String userName) {
-        String openid = cacheAuthToken.getOpenid();
-        cacheService.cacheValue(userName, openid);
-        int cacheTime = 29 * 24 * 3600;
-        // 缓存刷新Token
-        cacheService.cacheValue(openid + REFRESH_AUTH_ACCESS_TOKEN, cacheAuthToken.getRefresh_token(), cacheTime);
-        // 缓存认证Token
-        cacheService.cacheValue(openid + AUTH_ACCESS_TOKEN, cacheAuthToken, cacheAuthToken.getExpires_in());
     }
 
     /**
@@ -150,21 +144,19 @@ public class AccessTokenServiceImpl implements IAccessTokenService {
         if (baseAccessTokenRequest != null) {
             return baseAccessTokenRequest;
         }
-        String appID = wxPublicNumAuthConfig.getAppID();
-        String appSecret = wxPublicNumAuthConfig.getAppSecret();
-        String urlGetAccessToken = wxPublicNumAuthConfig.getUrlGetAccessToken();
+        String urlGetAccessToken = credentialProperties.getAccessToken();
         // 向微信服务器索取accessToken
-        String accessTokenJson = HttpUtil.get(urlGetAccessToken + appID + "&secret=" + appSecret);
+        String accessTokenJson = HttpUtil.get(urlGetAccessToken);
         // 将AccessToken转换成对象
         BaseAccessTokenRequest accessToken = JSONObject.parseObject(accessTokenJson, BaseAccessTokenRequest.class);
-        Integer errcode = accessToken.getErrcode();
-        boolean success = isSuccess(errcode);
+        Integer errCode = accessToken.getErrcode();
+        boolean success = isSuccess(errCode);
         if (success) {
             // 成功响应 将AccessToken存入缓存中
             cacheService.cacheValue(ACCESS_TOKEN_NO_OPENID, accessToken, accessToken.getExpires_in());
             return accessToken;
         }
-        ResponseCodeFromWx code = getCode(errcode);
+        ResponseCodeFromWx code = getCode(errCode);
         LOGGER.error(code.toString());
         throw new AccessTokenException(code);
     }

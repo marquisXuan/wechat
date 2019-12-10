@@ -15,6 +15,6 @@ import org.springframework.stereotype.Component;
 @Component
 public class WxModelMessageConfig {
 
-    @Value("${wx.url.send_model_message}")
+    @Value("${wx.url.sen_model_message}")
     private String urlSendModelMessage;
 }

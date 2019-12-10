@@ -11,8 +11,8 @@ import org.springframework.stereotype.Component;
  * @author 叶云轩 at tdg_yyx@foxmail.com
  * @date 2018/9/14-15:21
  */
-@Component
 @Data
+@Component
 public class WxUserInfoConfig {
     /**
      * 获取用户基本信息的URL

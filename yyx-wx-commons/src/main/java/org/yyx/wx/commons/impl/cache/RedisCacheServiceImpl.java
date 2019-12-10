@@ -68,6 +68,39 @@ public class RedisCacheServiceImpl<K, V> implements CacheService<K, V> {
     }
 
     /**
+     * 缓存list
+     *
+     * @param k 储存的数据的键
+     * @param v 储存的数据的值
+     * @return 缓存状态
+     */
+    public boolean cacheList(K k, List<V> v) {
+        return cacheList(k, v, -1);
+    }
+
+    /**
+     * 缓存一个list
+     *
+     * @param k    储存的数据的键
+     * @param v    储存的数据的值
+     * @param time 缓存的时间
+     * @return 缓存的状态
+     */
+    public boolean cacheList(K k, List<V> v, long time) {
+        try {
+            ListOperations<K, V> listOps = redisTemplate.opsForList();
+            long l = listOps.rightPushAll(k, v);
+            if (time > 0) {
+                redisTemplate.expire(k, time, TimeUnit.SECONDS);
+            }
+            return true;
+        } catch (Throwable t) {
+            LOGGER.error("缓存[" + k + "]失败, value[" + v + "]", t);
+        }
+        return false;
+    }
+
+    /**
      * 缓存set
      *
      * @param k 储存的数据的键
@@ -92,6 +125,39 @@ public class RedisCacheServiceImpl<K, V> implements CacheService<K, V> {
         try {
             SetOperations<K, V> valueOps = redisTemplate.opsForSet();
             valueOps.add(k, v);
+            if (time > 0) {
+                redisTemplate.expire(k, time, TimeUnit.SECONDS);
+            }
+            return true;
+        } catch (Throwable t) {
+            LOGGER.error("缓存[" + k + "]失败, value[" + v + "]", t);
+        }
+        return false;
+    }
+
+    /**
+     * 缓存set
+     *
+     * @param k 储存的数据的键
+     * @param v 储存的数据的值
+     * @return 存入的状态
+     */
+    public boolean cacheSet(K k, Set<V> v) {
+        return cacheSet(k, v, -1);
+    }
+
+    /**
+     * 缓存set
+     *
+     * @param k    储存的数据的键
+     * @param v    储存的数据的值
+     * @param time 存入的时间
+     * @return 存入的转台
+     */
+    public boolean cacheSet(K k, Set<V> v, long time) {
+        try {
+            SetOperations<K, V> setOps = redisTemplate.opsForSet();
+            setOps.add(k, (V) v.toArray());
             if (time > 0) {
                 redisTemplate.expire(k, time, TimeUnit.SECONDS);
             }
@@ -223,6 +289,22 @@ public class RedisCacheServiceImpl<K, V> implements CacheService<K, V> {
     }
 
     /**
+     * 获取总条数, 可用于分页
+     *
+     * @param listOps 获取集合的size
+     * @param k       储存的数据的键
+     * @return 集合的长度
+     */
+    public long getListSize(ListOperations<String, String> listOps, String k) {
+        try {
+            return listOps.size(k);
+        } catch (Throwable t) {
+            LOGGER.error("获取list长度失败key[" + k + "], error[" + t + "]");
+        }
+        return 0;
+    }
+
+    /**
      * 获取缓存set数据
      *
      * @param k 储存的数据的键
@@ -254,6 +336,11 @@ public class RedisCacheServiceImpl<K, V> implements CacheService<K, V> {
             LOGGER.error("获取缓存失败key[" + k + ", error[" + t + "]");
         }
         return null;
+    }
+
+    @Override
+    public Set<K> likeKeys(K key) {
+        return redisTemplate.keys(key);
     }
 
     @Override
@@ -305,87 +392,5 @@ public class RedisCacheServiceImpl<K, V> implements CacheService<K, V> {
     @Override
     public boolean removeValue(K k) {
         return remove(k);
-    }
-
-    /**
-     * 缓存list
-     *
-     * @param k 储存的数据的键
-     * @param v 储存的数据的值
-     * @return 缓存状态
-     */
-    public boolean cacheList(K k, List<V> v) {
-        return cacheList(k, v, -1);
-    }
-
-    /**
-     * 缓存一个list
-     *
-     * @param k    储存的数据的键
-     * @param v    储存的数据的值
-     * @param time 缓存的时间
-     * @return 缓存的状态
-     */
-    public boolean cacheList(K k, List<V> v, long time) {
-        try {
-            ListOperations<K, V> listOps = redisTemplate.opsForList();
-            long l = listOps.rightPushAll(k, v);
-            if (time > 0) {
-                redisTemplate.expire(k, time, TimeUnit.SECONDS);
-            }
-            return true;
-        } catch (Throwable t) {
-            LOGGER.error("缓存[" + k + "]失败, value[" + v + "]", t);
-        }
-        return false;
-    }
-
-    /**
-     * 缓存set
-     *
-     * @param k 储存的数据的键
-     * @param v 储存的数据的值
-     * @return 存入的状态
-     */
-    public boolean cacheSet(K k, Set<V> v) {
-        return cacheSet(k, v, -1);
-    }
-
-    /**
-     * 缓存set
-     *
-     * @param k    储存的数据的键
-     * @param v    储存的数据的值
-     * @param time 存入的时间
-     * @return 存入的转台
-     */
-    public boolean cacheSet(K k, Set<V> v, long time) {
-        try {
-            SetOperations<K, V> setOps = redisTemplate.opsForSet();
-            setOps.add(k, (V) v.toArray());
-            if (time > 0) {
-                redisTemplate.expire(k, time, TimeUnit.SECONDS);
-            }
-            return true;
-        } catch (Throwable t) {
-            LOGGER.error("缓存[" + k + "]失败, value[" + v + "]", t);
-        }
-        return false;
-    }
-
-    /**
-     * 获取总条数, 可用于分页
-     *
-     * @param listOps 获取集合的size
-     * @param k       储存的数据的键
-     * @return 集合的长度
-     */
-    public long getListSize(ListOperations<String, String> listOps, String k) {
-        try {
-            return listOps.size(k);
-        } catch (Throwable t) {
-            LOGGER.error("获取list长度失败key[" + k + "], error[" + t + "]");
-        }
-        return 0;
     }
 }

@@ -31,7 +31,6 @@ public interface CacheService<K, V> {
      */
     boolean cacheList(K key, V value, long time);
 
-
     /**
      * 缓存set
      *
@@ -135,6 +134,14 @@ public interface CacheService<K, V> {
      * @return 获取缓存的value
      */
     V getValue(K key);
+
+    /**
+     * 根据 Key 模糊查询
+     *
+     * @param key key
+     * @return key 集合
+     */
+    Set<K> likeKeys(K key);
 
     void print();
 

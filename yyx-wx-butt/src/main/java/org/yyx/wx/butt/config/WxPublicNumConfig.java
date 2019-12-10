@@ -18,11 +18,10 @@ import javax.annotation.Resource;
  * @author 叶云轩 at tdg_yyx@foxmail.com
  * @date 2018/8/24-10:26
  */
+@Data
 @Configuration
 @EnableConfigurationProperties(WxProperties.class)
-@Data
 public class WxPublicNumConfig {
-
     /**
      * WxPublicNumConfig 日志输出
      */

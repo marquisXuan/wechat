@@ -151,6 +151,19 @@ public class MapCacheServiceImpl<K, V> implements CacheService<K, V> {
     }
 
     @Override
+    public Set<K> likeKeys(K key) {
+        // TODO: 如何实现
+        return null;
+    }
+
+    @Override
+    public void print() {
+        for (Object o : CACHE_MAP.keySet()) {
+            LOGGER.info("[print] -> [key] {} - [value] {}", o, CACHE_MAP.get(o));
+        }
+    }
+
+    @Override
     public boolean remove(K key) {
         return false;
     }
@@ -171,12 +184,5 @@ public class MapCacheServiceImpl<K, V> implements CacheService<K, V> {
         CACHE_MAP.remove(key);
         CACHE_MAP.remove(key + TIME_SUFFIX);
         return getValue(key) == null;
-    }
-
-    @Override
-    public void print() {
-        for (Object o : CACHE_MAP.keySet()) {
-            LOGGER.info("[print] -> [key] {} - [value] {}", o, CACHE_MAP.get(o));
-        }
     }
 }
