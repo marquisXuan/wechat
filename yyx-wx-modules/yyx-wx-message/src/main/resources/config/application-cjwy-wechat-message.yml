@@ -1,0 +1,8 @@
+cjwy:
+  wechat:
+    publicnum:
+      message:
+        model:
+          setUpIndustry: https://api.weixin.qq.com/cgi-bin/template/api_set_industry?access_token=
+          getIndustry: https://api.weixin.qq.com/cgi-bin/template/get_industry?access_token=
+          send: https://api.weixin.qq.com/cgi-bin/message/template/send?access_token=

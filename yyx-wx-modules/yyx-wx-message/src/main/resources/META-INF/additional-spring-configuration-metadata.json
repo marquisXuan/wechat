@@ -1,0 +1,19 @@
+{
+  "properties": [
+    {
+      "name": "cjwy.wechat.publicnum.message.model.setUpIndustry",
+      "type": "java.lang.String",
+      "description": "设置信任行业."
+    },
+    {
+      "name": "cjwy.wechat.publicnum.message.model.getIndustry",
+      "type": "java.lang.String",
+      "description": "获取信任行业."
+    },
+    {
+      "name": "cjwy.wechat.publicnum.message.model.send",
+      "type": "java.lang.String",
+      "description": "发送模板消息."
+    }
+  ]
+}

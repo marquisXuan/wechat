@@ -3,15 +3,12 @@ package org.yyx.wx.message.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
-import org.yyx.wx.commons.exception.config.ConfigException;
 import org.yyx.wx.commons.util.InterfaceUtil;
 import org.yyx.xf.tool.string.util.UtilString;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import static org.yyx.wx.commons.bussinessenum.ResponseCodeFromWx.error_load_config;
 
 /**
  * 接口实现类工具
@@ -49,8 +46,8 @@ public class InterfaceSubClassUtil {
         // 为空，从配置文件中获取具体业务实现类所在的包名
         if (UtilString.isBlank(servicePackageName)) {
             // 配置加载出错
-            LOGGER.error("[配置加载出错] {}", servicePackageName);
-            throw new ConfigException(error_load_config);
+            LOGGER.error("[由于用户未设置具体业务实现类所在的包名,所以使用默认方案实现业务逻辑]");
+            return INTERFACE_SUB_CLASS;
         }
         try {
             // 获取包下的所有类文件

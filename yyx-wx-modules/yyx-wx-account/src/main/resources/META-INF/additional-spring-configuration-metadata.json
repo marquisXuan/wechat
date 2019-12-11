@@ -1,69 +1,69 @@
 {
   "properties": [
     {
-      "name": "wechat.publicnum.credential.accessToken",
+      "name": "cjwy.wechat.publicnum.credential.accessToken",
       "type": "java.lang.String",
       "description": "获取accessToken的链接 URL."
     },
     {
-      "name": "wechat.publicnum.oauth2.webViewAccessToken",
+      "name": "cjwy.wechat.publicnum.oauth2.webViewAccessToken",
       "type": "java.lang.String",
       "description": "根据 Code 获取网页授权 AccessToken\n https://api.weixin.qq.com/sns/oauth2/access_token?appid=APPID&secret=SECRET&code=CODE&grant_type=authorization_code."
     },
     {
-      "name": "wechat.publicnum.oauth2.refreshToken",
+      "name": "cjwy.wechat.publicnum.oauth2.refreshToken",
       "type": "java.lang.String",
       "description": "由于access_token拥有较短的有效期，当access_token超时后，可以使用refresh_token进行刷新，refresh_token有效期为30天，当refresh_token失效之后，需要用户重新授权\nhttps://api.weixin.qq.com/sns/oauth2/refresh_token?appid=APPID&grant_type=refresh_token&refresh_token=REFRESH_TOKEN\n."
     },
     {
-      "name": "wechat.publicnum.oauth2.userInfo",
+      "name": "cjwy.wechat.publicnum.oauth2.userInfo",
       "type": "java.lang.String",
       "description": "http：GET（请使用https协议） https://api.weixin.qq.com/sns/userinfo?access_token=ACCESS_TOKEN&openid=OPENID&lang=zh_CN\n."
     },
     {
-      "name": "wechat.publicnum.oauth2.checkAccessToken",
+      "name": "cjwy.wechat.publicnum.oauth2.checkAccessToken",
       "type": "java.lang.String",
       "description": "检验 AccessToken 是否有效\nhttps://api.weixin.qq.com/sns/auth?access_token=ACCESS_TOKEN&openid=OPENID."
     },
     {
-      "name": "wechat.publicnum.oauth2.code",
+      "name": "cjwy.wechat.publicnum.oauth2.code",
       "type": "java.lang.String",
       "description": "用户同意授权，获取 Code."
     },
     {
-      "name": "wechat.publicnum.message.model.setUpIndustry",
-      "type": "java.lang.String",
-      "description": "设置信任行业."
-    },
-    {
-      "name": "wechat.publicnum.message.model.getIndustry",
-      "type": "java.lang.String",
-      "description": "获取信任行业."
-    },
-    {
-      "name": "wechat.publicnum.message.model.send",
-      "type": "java.lang.String",
-      "description": "发送模板消息."
-    },
-    {
-      "name": "wechat.publicnum.userInfo.baseUserInfo",
+      "name": "cjwy.wechat.publicnum.userInfo.baseUserInfo",
       "type": "java.lang.String",
       "description": "获取用户信息."
     },
     {
-      "name": "wechat.publicnum.userInfo.batchUserInfo",
+      "name": "cjwy.wechat.publicnum.userInfo.batchUserInfo",
       "type": "java.lang.String",
       "description": "批量获取用户信息."
     },
     {
-      "name": "wechat.publicnum.qrCode.ticket",
+      "name": "cjwy.wechat.publicnum.qrCode.ticket",
       "type": "java.lang.String",
       "description": "获取二维码的票据."
     },
     {
-      "name": "wechat.publicnum.qrCode.generateImage",
+      "name": "cjwy.wechat.publicnum.qrCode.generateImage",
       "type": "java.lang.String",
       "description": "生成二维码图片."
+    },
+    {
+      "name": "cjwy.wechat.publicnum.message.model.setUpIndustry",
+      "type": "java.lang.String",
+      "description": "设置信任行业."
+    },
+    {
+      "name": "cjwy.wechat.publicnum.message.model.getIndustry",
+      "type": "java.lang.String",
+      "description": "获取信任行业."
+    },
+    {
+      "name": "cjwy.wechat.publicnum.message.model.send",
+      "type": "java.lang.String",
+      "description": "发送模板消息."
     }
   ]
 }

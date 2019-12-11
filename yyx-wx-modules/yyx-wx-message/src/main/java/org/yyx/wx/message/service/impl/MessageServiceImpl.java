@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 import org.yyx.wx.acount.auth.service.IAccessTokenService;
 import org.yyx.wx.commons.vo.pubnum.request.auth.BaseAccessTokenRequest;
 import org.yyx.wx.commons.vo.pubnum.response.model.ModelMessageResponse;
-import org.yyx.wx.message.config.WxModelMessageConfig;
+import org.yyx.wx.message.properties.WxMessageModelProperties;
 import org.yyx.wx.message.service.IMessageService;
 
 import javax.annotation.Resource;
@@ -31,7 +31,7 @@ public class MessageServiceImpl implements IMessageService {
      * 微信模板消息相关的配置类
      */
     @Resource
-    private WxModelMessageConfig wxModelMessageConfig;
+    private WxMessageModelProperties wxMessageModelProperties;
     /**
      * AccessToken相关服务
      */
@@ -52,14 +52,14 @@ public class MessageServiceImpl implements IMessageService {
             return false;
         }
         // POST请求URL
-        String urlSendModelMessage = wxModelMessageConfig.getUrlSendModelMessage()
+        String urlSendModelMessage = wxMessageModelProperties.getSend()
                 + baseAccessTokenRequest.getAccess_token();
         String modelMessageJson = JSONObject.toJSONString(modelMessageResponse);
         LOGGER.info("[推送消息] {}", modelMessageJson);
         String post = HttpUtil.post(urlSendModelMessage, modelMessageJson);
         JSONObject jsonObject = JSONObject.parseObject(post);
-        int errcode = (int) jsonObject.get("errcode");
+        int errCode = (int) jsonObject.get("errcode");
         // success
-        return errcode == 0;
+        return errCode == 0;
     }
 }
