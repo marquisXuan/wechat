@@ -55,8 +55,6 @@ import static org.yyx.wx.message.handler.CustomerHandlerArray.ABSTRACT_MESSAGE_H
 @RestController
 @RequestMapping("wx")
 public class ApplicationMain {
-
-    // region 依赖注入
     /**
      * AccessEntrance日志输出
      */
@@ -131,7 +129,6 @@ public class ApplicationMain {
      */
     @Resource
     private ModelMessagePushEventHandlerProxy modelMessagePushEventHandlerProxy;
-    // endregion
 
     /**
      * 获取对应消息处理器的代理接口
