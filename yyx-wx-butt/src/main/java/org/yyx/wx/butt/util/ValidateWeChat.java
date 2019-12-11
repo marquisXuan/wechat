@@ -3,7 +3,7 @@ package org.yyx.wx.butt.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.yyx.wx.butt.config.WxPublicNumConfig;
+import org.yyx.wx.butt.properties.PublicNumberProperties;
 
 import javax.annotation.Resource;
 import java.security.MessageDigest;
@@ -31,22 +31,7 @@ public class ValidateWeChat {
      * 3）开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
      */
     @Resource
-    private WxPublicNumConfig wxPublicNumConfig;
-
-    /**
-     * 通过检验signature对请求进行校验
-     *
-     * @param signature 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
-     * @param timestamp 时间戳
-     * @param nonce     随机数
-     * @return 返回signature与密文的对比结果
-     */
-    public boolean validate(String signature, String timestamp, String nonce) {
-        // 排序并加密
-        String s = sortAndEncryptParams(timestamp, nonce);
-        // 判断是否来自微信
-        return signature.equals(s);
-    }
+    private PublicNumberProperties publicNumberProperties;
 
     /**
      * 对参数进行排序与加密
@@ -58,7 +43,7 @@ public class ValidateWeChat {
      */
     private String sortAndEncryptParams(String timestamp, String nonce) {
         // 获取微信服务器配置的Token信息
-        String configToken = wxPublicNumConfig.getConfigToken();
+        String configToken = publicNumberProperties.getConfigToken();
         LOGGER.info("[将token、timestamp、nonce三个参数进行字典序排序] {}，{}，{}", configToken, timestamp, nonce);
         // region 字典排序
         String[] array = new String[]{configToken, timestamp, nonce};
@@ -92,5 +77,20 @@ public class ValidateWeChat {
         }
         LOGGER.info("[字典排序与加密完成]");
         return hexStringBuffer.toString();
+    }
+
+    /**
+     * 通过检验signature对请求进行校验
+     *
+     * @param signature 微信加密签名，signature结合了开发者填写的token参数和请求中的timestamp参数、nonce参数。
+     * @param timestamp 时间戳
+     * @param nonce     随机数
+     * @return 返回signature与密文的对比结果
+     */
+    public boolean validate(String signature, String timestamp, String nonce) {
+        // 排序并加密
+        String s = sortAndEncryptParams(timestamp, nonce);
+        // 判断是否来自微信
+        return signature.equals(s);
     }
 }

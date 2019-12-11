@@ -12,7 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.yyx.wx.butt.config.WxPublicNumConfig;
+import org.yyx.wx.butt.properties.PublicNumberProperties;
 import org.yyx.wx.butt.util.ValidateWeChat;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
@@ -65,7 +65,7 @@ public class ApplicationMain {
      * 公众号相关配置
      */
     @Resource
-    private WxPublicNumConfig wxPublicNumConfig;
+    private PublicNumberProperties publicNumberProperties;
     /**
      * 验证工具类
      */
@@ -134,6 +134,30 @@ public class ApplicationMain {
     // endregion
 
     /**
+     * 获取对应消息处理器的代理接口
+     *
+     * @return 代理接口数组
+     */
+    private BaseMessageHandlerProxy[] getBaseMessageHandlerProxies() {
+        final BaseMessageHandlerProxy[] baseMessageHandlerProxies = new BaseMessageHandlerProxy[MAX_BASE_MESSAGE_HANDLER_PROXY];
+        if (ArrayUtil.hasNull(baseMessageHandlerProxies)) {
+            baseMessageHandlerProxies[0] = voiceMessageHandlerProxy;
+            baseMessageHandlerProxies[1] = subscribeEventHandlerProxy;
+            baseMessageHandlerProxies[2] = subscribeScanEventHandlerProxy;
+            baseMessageHandlerProxies[3] = unSubscribeEventHandlerProxy;
+            baseMessageHandlerProxies[4] = unSubscribeScanEventHandlerProxy;
+            baseMessageHandlerProxies[5] = imageMessageHandlerProxy;
+            baseMessageHandlerProxies[6] = linkMessageHandlerProxy;
+            baseMessageHandlerProxies[7] = locationMessageHandlerProxy;
+            baseMessageHandlerProxies[8] = shortVideoMessageHandlerProxy;
+            baseMessageHandlerProxies[9] = textMessageHandlerProxy;
+            baseMessageHandlerProxies[10] = videoMessageHandlerProxy;
+            baseMessageHandlerProxies[11] = modelMessagePushEventHandlerProxy;
+        }
+        return baseMessageHandlerProxies;
+    }
+
+    /**
      * 验证消息来自微信服务器方法
      *
      * @param signature 微信加密签名
@@ -181,13 +205,15 @@ public class ApplicationMain {
                 LOGGER.info("[当前微信推送的类型是] {}", baseMessage.getMsgType());
                 // 获取消息处理器代理
                 BaseMessageHandlerProxy[] baseMessageHandlerProxies = getBaseMessageHandlerProxies();
-                String handlerType = wxPublicNumConfig.getHandlerType().toUpperCase();
+                String handlerType = publicNumberProperties.getHandlerType().toUpperCase();
                 AbstractMessageHandler messageHandler;
                 switch (handlerType) {
                     case CUSTOMER_HANDLER:
+                        LOGGER.info("[选择自定义的处理器]");
                         messageHandler = getCustomerHandler(ABSTRACT_MESSAGE_HANDLERS, baseMessageHandlerProxies);
                         break;
                     case ALL:
+                        LOGGER.info("[选择默认的+自定义的处理器]");
                         messageHandler = getDefaultAndCustomerHandler(ABSTRACT_MESSAGE_HANDLERS, baseMessageHandlerProxies);
                         break;
                     case DEFAULT_HANDLER:
@@ -207,29 +233,5 @@ public class ApplicationMain {
             LOGGER.error("[IOException] {}", e.getMessage());
         }
         return "success";
-    }
-
-    /**
-     * 获取对应消息处理器的代理接口
-     *
-     * @return 代理接口数组
-     */
-    private BaseMessageHandlerProxy[] getBaseMessageHandlerProxies() {
-        final BaseMessageHandlerProxy[] baseMessageHandlerProxies = new BaseMessageHandlerProxy[MAX_BASE_MESSAGE_HANDLER_PROXY];
-        if (ArrayUtil.hasNull(baseMessageHandlerProxies)) {
-            baseMessageHandlerProxies[0] = voiceMessageHandlerProxy;
-            baseMessageHandlerProxies[1] = subscribeEventHandlerProxy;
-            baseMessageHandlerProxies[2] = subscribeScanEventHandlerProxy;
-            baseMessageHandlerProxies[3] = unSubscribeEventHandlerProxy;
-            baseMessageHandlerProxies[4] = unSubscribeScanEventHandlerProxy;
-            baseMessageHandlerProxies[5] = imageMessageHandlerProxy;
-            baseMessageHandlerProxies[6] = linkMessageHandlerProxy;
-            baseMessageHandlerProxies[7] = locationMessageHandlerProxy;
-            baseMessageHandlerProxies[8] = shortVideoMessageHandlerProxy;
-            baseMessageHandlerProxies[9] = textMessageHandlerProxy;
-            baseMessageHandlerProxies[10] = videoMessageHandlerProxy;
-            baseMessageHandlerProxies[11] = modelMessagePushEventHandlerProxy;
-        }
-        return baseMessageHandlerProxies;
     }
 }
