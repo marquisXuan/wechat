@@ -8,7 +8,6 @@ package org.yyx.wx.commons.constant;
  * @date 2018/8/24-15:01
  */
 public class CacheKeyConstant {
-
     /**
      * 用于保存AccessToken的Key，该AccessToken不是用于获取用户OPENID的AccessToken
      */

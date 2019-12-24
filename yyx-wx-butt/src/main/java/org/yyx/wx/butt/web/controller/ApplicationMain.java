@@ -7,13 +7,10 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
-import org.yyx.wx.butt.properties.PublicNumberProperties;
-import org.yyx.wx.butt.util.ValidateWeChat;
+import org.yyx.wx.butt.properties.DefaultPublicNumberProperties;
 import org.yyx.wx.commons.util.WxXmlAndObjectUtil;
 import org.yyx.wx.commons.vo.pubnum.BaseMessageAndEventRequestAndResponse;
 import org.yyx.wx.commons.vo.pubnum.response.message.BaseMessageResponse;
@@ -63,12 +60,7 @@ public class ApplicationMain {
      * 公众号相关配置
      */
     @Resource
-    private PublicNumberProperties publicNumberProperties;
-    /**
-     * 验证工具类
-     */
-    @Resource
-    private ValidateWeChat validateWeChat;
+    private DefaultPublicNumberProperties defaultPublicNumberProperties;
     /**
      * 关注事件代理
      */
@@ -154,29 +146,6 @@ public class ApplicationMain {
         return baseMessageHandlerProxies;
     }
 
-    /**
-     * 验证消息来自微信服务器方法
-     *
-     * @param signature 微信加密签名
-     * @param timestamp 时间戳
-     * @param nonce     随机数
-     * @param echostr   随机字符串
-     * @return 验证结果
-     */
-    @GetMapping("/")
-    public String accessGet(@RequestParam String signature,
-                            @RequestParam String timestamp,
-                            @RequestParam String nonce,
-                            @RequestParam String echostr) {
-        LOGGER.info("参数[signature]={},[timestamp]={},[nonce]={}，[echostr]={}", signature, timestamp, nonce, echostr);
-        boolean validate = validateWeChat.validate(signature, timestamp, nonce);
-        if (validate) {
-            LOGGER.info("验证成功...");
-            return echostr;
-        }
-        LOGGER.info("验证失败...");
-        return "wrong";
-    }
 
     /**
      * 微信服务器推送过来的消息
@@ -202,7 +171,7 @@ public class ApplicationMain {
                 LOGGER.info("[当前微信推送的类型是] {}", baseMessage.getMsgType());
                 // 获取消息处理器代理
                 BaseMessageHandlerProxy[] baseMessageHandlerProxies = getBaseMessageHandlerProxies();
-                String handlerType = publicNumberProperties.getHandlerType().toUpperCase();
+                String handlerType = defaultPublicNumberProperties.getHandlerType().toUpperCase();
                 AbstractMessageHandler messageHandler;
                 switch (handlerType) {
                     case CUSTOMER_HANDLER:

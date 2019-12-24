@@ -40,11 +40,10 @@
     </dependencyManagement>
 
     <modules>
+        <module>wx-validate</module>
         <module>yyx-wx-commons</module>
         <module>yyx-wx-modules</module>
-        <module>yyx-wx-demo</module>
         <module>yyx-wx-butt</module>
-        <module>yyx-wx-manage</module>
     </modules>
 
     <developers>

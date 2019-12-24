@@ -3,7 +3,7 @@ package org.yyx.wx.butt.util;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
-import org.yyx.wx.butt.properties.PublicNumberProperties;
+import org.yyx.wx.butt.properties.DefaultPublicNumberProperties;
 
 import javax.annotation.Resource;
 import java.security.MessageDigest;
@@ -31,7 +31,7 @@ public class ValidateWeChat {
      * 3）开发者获得加密后的字符串可与signature对比，标识该请求来源于微信
      */
     @Resource
-    private PublicNumberProperties publicNumberProperties;
+    private DefaultPublicNumberProperties defaultPublicNumberProperties;
 
     /**
      * 对参数进行排序与加密
@@ -43,40 +43,37 @@ public class ValidateWeChat {
      */
     private String sortAndEncryptParams(String timestamp, String nonce) {
         // 获取微信服务器配置的Token信息
-        String configToken = publicNumberProperties.getConfigToken();
+        String configToken = defaultPublicNumberProperties.getConfigToken();
         LOGGER.info("[将token、timestamp、nonce三个参数进行字典序排序] {}，{}，{}", configToken, timestamp, nonce);
-        // region 字典排序
         String[] array = new String[]{configToken, timestamp, nonce};
-        StringBuffer stringBuffer = new StringBuffer();
+        StringBuilder stringBuilder = new StringBuilder();
         // 字符串排序
         Arrays.sort(array);
-        for (int i = 0, length = array.length; i < length; i++) {
-            stringBuffer.append(array[i]);
+        for (String s : array) {
+            stringBuilder.append(s);
         }
-        String sortedString = stringBuffer.toString();
-        // endregion
+        String sortedString = stringBuilder.toString();
         MessageDigest messageDigest;
         try {
             messageDigest = MessageDigest.getInstance(SHA_1);
         } catch (NoSuchAlgorithmException e) {
             // 理论上是环境问题，没有找到这样的算法
             LOGGER.error("[没有找到 {} 算法] {}", SHA_1, e.getMessage());
-            // 应该抛出异常告知错误
             return null;
         }
         messageDigest.update(sortedString.getBytes());
         byte[] digest = messageDigest.digest();
-        StringBuffer hexStringBuffer = new StringBuffer();
+        StringBuilder hexStringBuilder = new StringBuilder();
         String shaHex;
-        for (int i = 0; i < digest.length; i++) {
-            shaHex = Integer.toHexString(digest[i] & 0xFF);
+        for (byte b : digest) {
+            shaHex = Integer.toHexString(b & 0xFF);
             if (shaHex.length() < 2) {
-                hexStringBuffer.append(0);
+                hexStringBuilder.append(0);
             }
-            hexStringBuffer.append(shaHex);
+            hexStringBuilder.append(shaHex);
         }
         LOGGER.info("[字典排序与加密完成]");
-        return hexStringBuffer.toString();
+        return hexStringBuilder.toString();
     }
 
     /**
