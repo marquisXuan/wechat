@@ -8,6 +8,8 @@
 
 - 在 pom 中引入 jar 包
 
+  [maven 资源库](http://maven.frps.vanrentong.com/)
+
   ```xml
   <dependency>
   	<groupId>com.cjwy.wxframework</groupId>
@@ -35,7 +37,30 @@
 ## 目录结构
 
 ```txt
---com.cjwy.wxframework.validate
-	|-- 
+├── java
+│   └── com
+│       └── cjwy
+│           └── wxframework
+│               └── validate
+│                   ├── ValidateApplication.java --------------------------------- 项目启动类
+│                   ├── controller
+│                   │   └── WxValidateController.java ---------------------------- 验证控制器
+│                   ├── domain
+│                   │   ├── config
+│                   │   │   └── PropertiesConfig.java ---------------------------- 属性配置
+│                   │   ├── constant --------------------------------------------- 常量包
+│                   │   │   ├── EncryptConstant.java
+│                   │   │   └── PropertiesPrefixConstant.java
+│                   │   ├── exception -------------------------------------------- 异常包
+│                   │   │   ├── ValidateException.java
+│                   │   │   └── WxValidateException.java
+│                   │   ├── factory ---------------------------------------------- 工厂包
+│                   │   │   └── ExceptionFactory.java
+│                   │   └── properties
+│                   │       └── BasePublicNumberProperties.java ------------------ 读取 yml 属性
+│                   └── utils
+│                       └── UtilValidateWeChat.java ------------------------------ 验证工具
+└── resources
+    └── banner.txt --------------------------------------------------------------- 启动 banner
 ```
 
