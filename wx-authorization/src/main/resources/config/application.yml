@@ -1,0 +1,12 @@
+auth:
+  wx:
+    # 微信域名
+    domain: https://open.weixin.qq.com
+    # 响应类型
+    responseType: &response_type=code&scope=
+    # 静默授权
+    silenceScope: snsapi_base
+    # 非静默授权
+    silenceNo: snsapi_userinfo
+    # 请求 code 的地址
+    requestCode: ${auth.wx.domain}/connect/oauth2/authorize?appid=${wx.validate.appid}&redirect_uri=
