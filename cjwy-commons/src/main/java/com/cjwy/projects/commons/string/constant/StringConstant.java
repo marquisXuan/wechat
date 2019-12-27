@@ -1,4 +1,4 @@
-package com.cjwy.projects.commons.domain.entity;
+package com.cjwy.projects.commons.string.constant;
 
 /**
  * 字符串常量

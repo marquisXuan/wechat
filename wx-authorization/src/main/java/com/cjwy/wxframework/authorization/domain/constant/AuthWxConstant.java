@@ -11,7 +11,7 @@ import javax.annotation.Resource;
 import java.io.UnsupportedEncodingException;
 import java.net.URLEncoder;
 
-import static com.cjwy.projects.commons.domain.entity.StringConstant.NULL_STRING;
+import static com.cjwy.projects.commons.string.constant.StringConstant.NULL_STRING;
 import static com.cjwy.wxframework.authorization.domain.constant.APIConstant.REDIRECT_CONTROLLER_MAPPING;
 import static com.cjwy.wxframework.authorization.domain.constant.APIConstant.REDIRECT_METHOD_MAPPING;
 
@@ -56,7 +56,7 @@ public class AuthWxConstant {
      * @return 响应+授权方式
      */
     public static String getScope() {
-        StringBuilder scopeBuffer = new StringBuilder(authWxProperties.getResponseType());
+        StringBuilder scopeBuffer = new StringBuilder("&response_type=code&scope=");
         boolean silence = projectProperties.isSilence();
         if (silence) {
             // 静默授权

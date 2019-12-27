@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
  * @author 叶云轩 at tdg_yyx@foxmail.com
  * @date 2019/12/27 9:50 下午
  */
-@Api("获取微信公众号授权 URL 控制器")
+@Api(value = "获取微信公众号授权 URL 控制器", tags = "获取微信公众号授权")
 @RequestMapping(value = "api/v1", headers = {"version=v1"})
 public interface WxGetAuthUrlControllerApi {
 

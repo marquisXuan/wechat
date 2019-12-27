@@ -1,18 +1,16 @@
 package com.cjwy.wxframework.validate.controller;
 
+import com.cjwy.wxframework.validate.controller.api.WxValidateControllerApi;
 import com.cjwy.wxframework.validate.domain.exception.WxValidateException;
 import com.cjwy.wxframework.validate.domain.factory.ExceptionFactory;
 import com.cjwy.wxframework.validate.domain.properties.BasePublicNumberProperties;
 import com.cjwy.wxframework.validate.utils.UtilValidateWeChat;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
-
-import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
 
 /**
  * 微信服务器验证控制器
@@ -23,7 +21,8 @@ import static com.sun.xml.internal.ws.spi.db.BindingContextFactory.LOGGER;
  */
 @Slf4j
 @RestController
-public class WxValidateController {
+public class WxValidateController implements WxValidateControllerApi {
+
     @Resource
     private BasePublicNumberProperties basePublicNumberProperties;
 
@@ -36,7 +35,7 @@ public class WxValidateController {
      * @param echostr   随机字符串
      * @return 验证结果
      */
-    @GetMapping("wx/validate")
+    @Override
     public String accessGet(@RequestParam String signature,
                             @RequestParam String timestamp,
                             @RequestParam String nonce,
@@ -49,7 +48,7 @@ public class WxValidateController {
         log.info("入参[signature]={},[timestamp]={},[nonce]={}，[echostr]={}", signature, timestamp, nonce, echostr);
         boolean validate = UtilValidateWeChat.validate(signature, timestamp, nonce, token);
         if (validate) {
-            LOGGER.info("验证成功...");
+            log.info("验证成功...");
             result = echostr;
         } else {
             log.info("验证失败...");

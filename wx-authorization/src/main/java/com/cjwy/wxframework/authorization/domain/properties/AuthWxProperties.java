@@ -11,7 +11,7 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
  * @date 2019/12/27 11:11 上午
  */
 @Data
-@ConfigurationProperties("auth.wx")
+@ConfigurationProperties(prefix = "auth.wx")
 public class AuthWxProperties {
 
     /**
@@ -20,10 +20,6 @@ public class AuthWxProperties {
      */
     private String requestCode;
     /**
-     * 返回类型，请填写code
-     */
-    private String responseType;
-    /**
      * 静默授权
      */
     private String silenceScope;
@@ -31,4 +27,8 @@ public class AuthWxProperties {
      * 非静默授权
      */
     private String silenceNo;
+    /**
+     * code -> authAccessToken
+     */
+    private String code2AuthAccessToken;
 }
