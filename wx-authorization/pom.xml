@@ -10,7 +10,7 @@
 
     <groupId>com.cjwy.wxframework</groupId>
     <artifactId>authorization</artifactId>
-    <version>0.0.1.01-SNAPSHOT</version>
+    <version>0.0.1.02-SNAPSHOT</version>
     <name>cjwy-wx-authorization</name>
 
     <description>wx public number authorization</description>
