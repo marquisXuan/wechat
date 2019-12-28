@@ -35,4 +35,12 @@ public class AuthWxProperties {
      * 请求用户信息的 URL
      */
     private String requestUserInfoByAuthAccessToken;
+    /**
+     * 检查用户授权 Token 是否过期 URL
+     */
+    private String checkAuthAccessToken;
+    /**
+     * 请求刷新 AccessToken 的 URL
+     */
+    private String refreshAuthAccessToken;
 }

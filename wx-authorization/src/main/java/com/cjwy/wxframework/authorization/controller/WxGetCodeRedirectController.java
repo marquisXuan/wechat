@@ -5,7 +5,7 @@ import com.alibaba.fastjson.JSONObject;
 import com.cjwy.projects.commons.cache.service.CacheService;
 import com.cjwy.projects.commons.http.domain.enumm.ApiResponseEnum;
 import com.cjwy.projects.commons.wx.pubnum.domain.entity.ResponseWxUserInfoEntity;
-import com.cjwy.projects.commons.wx.pubnum.domain.vo.auth.response.ResponseByCode2AuthAccessTokenVO;
+import com.cjwy.projects.commons.wx.pubnum.domain.vo.auth.response.AuthAccessTokenVO;
 import com.cjwy.wxframework.authorization.controller.api.WxGetCodeRedirectControllerApi;
 import com.cjwy.wxframework.authorization.domain.constant.WxCacheConstant;
 import com.cjwy.wxframework.authorization.domain.properties.AuthWxProperties;
@@ -66,24 +66,24 @@ public class WxGetCodeRedirectController implements WxGetCodeRedirectControllerA
             log.error("[getCodeThenRedirectMethod] -> [使用 code 获取用户 AccessToken失败]", e);
             return;
         }
-        ResponseByCode2AuthAccessTokenVO responseByCode2AuthAccessTokenVO = JSONObject.parseObject(wxCode2AuthAccessTokenResult, ResponseByCode2AuthAccessTokenVO.class);
-        String errcode = responseByCode2AuthAccessTokenVO.getErrcode();
-        if (!StringUtils.isEmpty(errcode)) {
+        AuthAccessTokenVO authAccessTokenVO = JSONObject.parseObject(wxCode2AuthAccessTokenResult, AuthAccessTokenVO.class);
+        long errcode = authAccessTokenVO.getErrcode();
+        if (errcode != 0L) {
             // 说明返回结果有问题
-            response.sendRedirect(projectProperties.getRedirectPageUrl() + "?code=" + errcode + "&msg=" + responseByCode2AuthAccessTokenVO.getErrmsg());
+            response.sendRedirect(projectProperties.getRedirectPageUrl() + "?code=" + errcode + "&msg=" + authAccessTokenVO.getErrmsg());
         }
-        responseByCode2AuthAccessTokenVO.saveState(state);
-        responseByCode2AuthAccessTokenVO.recordCreateTime();
-        String userOpenId = responseByCode2AuthAccessTokenVO.getOpenid();
+        authAccessTokenVO.saveState(state);
+        authAccessTokenVO.recordCreateTime();
+        String userOpenId = authAccessTokenVO.getOpenid();
         // 缓存用户的 AuthAccessToken 30 天
-        cacheService.cacheValue(WxCacheConstant.WX_USER_AUTH_ACCESS_TOKEN_KEY_PREFIX + userOpenId, JSONObject.toJSONString(responseByCode2AuthAccessTokenVO), 30 * 24 * 3600);
+        cacheService.cacheValue(WxCacheConstant.WX_USER_AUTH_ACCESS_TOKEN_KEY_PREFIX + userOpenId, JSONObject.toJSONString(authAccessTokenVO), 30 * 24 * 3600);
         if (projectProperties.isSilence()) {
             // todo 2019-12-28 静默授权的通用业务逻辑
         }
         // 非静默授权的业务逻辑 - 使用accessToken 请求用户信息
         String responseUserInfoString = HttpUtil.get(authWxProperties.getRequestUserInfoByAuthAccessToken()
-                + responseByCode2AuthAccessTokenVO.getAccessToken() + "&openid="
-                + responseByCode2AuthAccessTokenVO.getOpenid());
+                + authAccessTokenVO.getAccessToken() + "&openid="
+                + authAccessTokenVO.getOpenid());
         ResponseWxUserInfoEntity responseWxUserInfoEntity = JSONObject.parseObject(responseUserInfoString, ResponseWxUserInfoEntity.class);
         if (!StringUtils.isEmpty(responseWxUserInfoEntity.getErrcode())) {
             response.sendRedirect(projectProperties.getRedirectPageUrl() + "?code=" + responseWxUserInfoEntity.getErrcode() + "&msg=" + responseWxUserInfoEntity.getErrmsg());

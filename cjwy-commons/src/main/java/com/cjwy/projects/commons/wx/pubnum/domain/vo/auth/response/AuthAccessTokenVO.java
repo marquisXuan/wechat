@@ -17,7 +17,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode(callSuper = false)
-public class ResponseByCode2AuthAccessTokenVO extends ResponseByWxPubNumBaseEntity {
+public class AuthAccessTokenVO extends ResponseByWxPubNumBaseEntity {
 
     private String accessToken;
     private Long expiresIn;

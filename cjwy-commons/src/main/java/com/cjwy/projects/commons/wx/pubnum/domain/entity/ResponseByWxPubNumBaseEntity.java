@@ -16,7 +16,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 public class ResponseByWxPubNumBaseEntity {
 
-    private String errcode;
+    private long errcode;
 
     private String errmsg;
 }

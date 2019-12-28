@@ -4,6 +4,7 @@ import com.cjwy.projects.commons.cache.service.CacheService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -150,10 +151,26 @@ public class MapCacheServiceImpl<K, V> implements CacheService<K, V> {
         return (V) CACHE_MAP.get(key);
     }
 
+    /**
+     * 针对字符串 Key 做了实现
+     *
+     * @param key key
+     * @return KeySet
+     */
     @Override
     public Set<K> likeKeys(K key) {
-        // TODO: 如何实现
-        return null;
+        Set<K> result = new HashSet<>();
+        Set set = CACHE_MAP.keySet();
+        if (key instanceof String) {
+            String k = String.valueOf(key).replaceAll("\\*", "");
+            for (Object o : set) {
+                String cacheKey = String.valueOf(o);
+                if (cacheKey.contains(k)) {
+                    result.add(key);
+                }
+            }
+        }
+        return result;
     }
 
     @Override

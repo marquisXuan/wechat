@@ -13,6 +13,8 @@ wx:
     appSecret: yourAppSecret
 ```
 
+## 说明
+
 |         配置项          |                           说明                           | 必配 |
 | :---------------------: | :------------------------------------------------------: | :--: |
 |     project.domain      |                        项目的域名                        | [x]  |
@@ -37,110 +39,30 @@ wx:
 
 
 
-## 目录结构
+## 继承
 
-```txt
-.
-├── README.md
-├── pom.xml
-├── src
-│   ├── main
-│   │   ├── java
-│   │   │   └── com
-│   │   │       └── cjwy
-│   │   │           └── wxframework
-│   │   │               └── authorization
-│   │   │                   ├── AuthorizationApplication.java
-│   │   │                   ├── condition
-│   │   │                   ├── controller
-│   │   │                   │   ├── WxGetAuthUrlController.java
-│   │   │                   │   ├── WxGetCodeRedirectController.java
-│   │   │                   │   └── api
-│   │   │                   │       ├── WxGetAuthUrlControllerApi.java
-│   │   │                   │       └── WxGetCodeRedirectControllerApi.java
-│   │   │                   ├── domain
-│   │   │                   │   ├── config
-│   │   │                   │   │   ├── AuthWxPropertiesConfig.java
-│   │   │                   │   │   └── ProjectPropertiesConfig.java
-│   │   │                   │   ├── constant
-│   │   │                   │   │   ├── APIConstant.java
-│   │   │                   │   │   └── AuthWxConstant.java
-│   │   │                   │   └── properties
-│   │   │                   │       ├── AuthWxProperties.java
-│   │   │                   │       └── ProjectProperties.java
-│   │   │                   ├── service
-│   │   │                   │   ├── WxGetAuthUrlService.java
-│   │   │                   │   └── achieve
-│   │   │                   │       └── WxGetAuthUrlServiceImpl.java
-│   │   │                   └── utils
-│   │   └── resources
-│   │       ├── META-INF
-│   │       │   └── additional-spring-configuration-metadata.json
-│   │       ├── banner.txt
-│   │       └── config
-│   │           └── application.yml
-│   └── test
-│       └── java
-│           └── com
-│               └── cjwy
-│                   └── wxframework
-│                       └── authorization
-│                           └── AuthorizationApplicationTests.java
-├── target
-│   ├── authorization-0.0.1-SNAPSHOT.jar
-│   ├── classes
-│   │   ├── META-INF
-│   │   │   └── additional-spring-configuration-metadata.json
-│   │   ├── banner.txt
-│   │   ├── com
-│   │   │   └── cjwy
-│   │   │       └── wxframework
-│   │   │           └── authorization
-│   │   │               ├── AuthorizationApplication.class
-│   │   │               ├── controller
-│   │   │               │   ├── WxGetAuthUrlController.class
-│   │   │               │   ├── WxGetCodeRedirectController.class
-│   │   │               │   └── api
-│   │   │               │       └── WxGetAuthUrlControllerApi.class
-│   │   │               ├── domain
-│   │   │               │   ├── config
-│   │   │               │   │   ├── AuthWxPropertiesConfig.class
-│   │   │               │   │   └── ProjectPropertiesConfig.class
-│   │   │               │   ├── constant
-│   │   │               │   │   ├── APIConstant.class
-│   │   │               │   │   └── AuthWxConstant.class
-│   │   │               │   └── properties
-│   │   │               │       ├── AuthWxProperties.class
-│   │   │               │       └── ProjectProperties.class
-│   │   │               └── service
-│   │   │                   ├── WxGetAuthUrlService.class
-│   │   │                   └── achieve
-│   │   │                       └── WxGetAuthUrlServiceImpl.class
-│   │   └── config
-│   │       └── application.yml
-│   ├── generated-sources
-│   │   └── annotations
-│   ├── generated-test-sources
-│   │   └── test-annotations
-│   ├── maven-archiver
-│   │   └── pom.properties
-│   ├── maven-status
-│   │   └── maven-compiler-plugin
-│   │       ├── compile
-│   │       │   └── default-compile
-│   │       │       ├── createdFiles.lst
-│   │       │       └── inputFiles.lst
-│   │       └── testCompile
-│   │           └── default-testCompile
-│   │               ├── createdFiles.lst
-│   │               └── inputFiles.lst
-│   └── test-classes
-│       └── com
-│           └── cjwy
-│               └── wxframework
-│                   └── authorization
-│                       └── AuthorizationApplicationTests.class
-└── wx-authorization.iml
+> 如果需要自己处理微信公众号获取到的用户信息,请实现com.cjwy.wxframework.authorization.rpc.service.WxPublicNumberUserInfoService接口
+>
+> 在处理用户授权后获取到用户信息时,返回一个业务系统唯一标识
 
+```java
+
+/**
+ * 微信公众号用户业务
+ * <p>
+ *
+ * @author 叶云轩 at tdg_yyx@foxmail.com
+ * @date 2019/12/28 1:50 下午
+ */
+public interface WxPublicNumberUserInfoService {
+
+    /**
+     * 通过微信公众号用户信息生成业务系统登陆 Token
+     *
+     * @param responseWxUserInfoEntity 微信公众号返回的用户信息
+     * @return token
+     */
+    String generateTokenByWxPublicNumberUserInfo(ResponseWxUserInfoEntity responseWxUserInfoEntity);
+}
 ```
 
