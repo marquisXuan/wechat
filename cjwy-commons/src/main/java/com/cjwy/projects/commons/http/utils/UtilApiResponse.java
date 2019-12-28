@@ -1,8 +1,8 @@
-package com.cjwy.projects.commons.utils;
+package com.cjwy.projects.commons.http.utils;
 
-import com.cjwy.projects.commons.domain.enumm.ApiResponseEnum;
-import com.cjwy.projects.commons.domain.enumm.ApiResponseEnumInterface;
-import com.cjwy.projects.commons.domain.vo.ApiResponseVO;
+import com.cjwy.projects.commons.http.domain.enumm.ApiResponseEnum;
+import com.cjwy.projects.commons.http.domain.enumm.ApiResponseEnumInterface;
+import com.cjwy.projects.commons.http.domain.vo.ApiResponseVO;
 
 /**
  * 响应工具类

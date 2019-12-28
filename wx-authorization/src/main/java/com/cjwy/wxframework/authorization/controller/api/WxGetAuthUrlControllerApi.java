@@ -1,6 +1,6 @@
 package com.cjwy.wxframework.authorization.controller.api;
 
-import com.cjwy.projects.commons.domain.vo.ApiResponseVO;
+import com.cjwy.projects.commons.http.domain.vo.ApiResponseVO;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiImplicitParam;
 import io.swagger.annotations.ApiOperation;

@@ -31,4 +31,8 @@ public class AuthWxProperties {
      * code -> authAccessToken
      */
     private String code2AuthAccessToken;
+    /**
+     * 请求用户信息的 URL
+     */
+    private String requestUserInfoByAuthAccessToken;
 }

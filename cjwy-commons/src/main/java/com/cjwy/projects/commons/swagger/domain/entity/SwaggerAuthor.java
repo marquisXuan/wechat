@@ -1,4 +1,4 @@
-package com.cjwy.projects.commons.domain.entity.swagger;
+package com.cjwy.projects.commons.swagger.domain.entity;
 
 import lombok.Data;
 

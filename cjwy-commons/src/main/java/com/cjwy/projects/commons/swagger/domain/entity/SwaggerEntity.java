@@ -1,6 +1,5 @@
-package com.cjwy.projects.commons.domain.entity;
+package com.cjwy.projects.commons.swagger.domain.entity;
 
-import com.cjwy.projects.commons.domain.entity.swagger.SwaggerAuthor;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.service.ApiInfo;
 import springfox.documentation.service.Contact;

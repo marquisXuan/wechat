@@ -1,4 +1,4 @@
-package com.cjwy.projects.commons.domain.enumm;
+package com.cjwy.projects.commons.http.domain.enumm;
 
 /**
  * api 响应枚举接口

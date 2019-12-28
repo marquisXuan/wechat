@@ -1,6 +1,6 @@
-package com.cjwy.projects.commons.domain.entity.swagger;
+package com.cjwy.projects.commons.swagger.config;
 
-import com.cjwy.projects.commons.domain.entity.SwaggerEntity;
+import com.cjwy.projects.commons.swagger.domain.entity.SwaggerEntity;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 import springfox.documentation.builders.PathSelectors;

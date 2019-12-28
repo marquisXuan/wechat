@@ -55,16 +55,18 @@ public class AuthWxConstant {
      *
      * @return 响应+授权方式
      */
+    public static String getResponseTypeAndScope() {
+        return "&response_type=code&scope=" + getScope();
+    }
+
     public static String getScope() {
-        StringBuilder scopeBuffer = new StringBuilder("&response_type=code&scope=");
         boolean silence = projectProperties.isSilence();
         if (silence) {
             // 静默授权
-            scopeBuffer.append(authWxProperties.getSilenceScope());
+            return authWxProperties.getSilenceScope();
         } else {
-            scopeBuffer.append(authWxProperties.getSilenceNo());
+            return authWxProperties.getSilenceNo();
         }
-        return scopeBuffer.toString();
     }
 
     /**

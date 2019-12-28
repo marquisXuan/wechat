@@ -1,7 +1,16 @@
 auth:
   wx:
-    domain: https://open.weixin.qq.com
+    # 静默授权
     silenceScope: snsapi_base
+    # 非静默授权方式
     silenceNo: snsapi_userinfo
-    requestCode: ${auth.wx.domain}/connect/oauth2/authorize?appid=${wx.validate.appId}&redirect_uri=
+    # 用户点击同意授权后请求 code
+    requestCode: https://open.weixin.qq.com/connect/oauth2/authorize?appid=${wx.validate.appId}&redirect_uri=
+    # 使用 code 获取授权 AccessToken
     code2AuthAccessToken: https://api.weixin.qq.com/sns/oauth2/access_token?appid=${wx.validate.appId}&secret=${wx.validate.appSecret}&grant_type=authorization_code&code=
+    # 刷新 AuthAccessToken
+    refreshAuthAccessToken: https://api.weixin.qq.com/sns/oauth2/refresh_token?appid=${wx.validate.appId}&grant_type=refresh_token&refresh_token=
+    # 拉取用户信息 scope = snsapi_userinfo ACCESS_TOKEN&openid=OPENID
+    requestUserInfoByAuthAccessToken: https://api.weixin.qq.com/sns/userinfo?lang=zh_CN&access_token=
+    # 检查用户的 AuthAccessToken 是否有效 ACCESS_TOKEN&openid=OPENID
+    checkAuthAccessToken: https://api.weixin.qq.com/sns/auth?access_token=

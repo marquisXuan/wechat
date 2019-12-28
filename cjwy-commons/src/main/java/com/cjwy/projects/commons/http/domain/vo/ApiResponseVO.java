@@ -1,4 +1,4 @@
-package com.cjwy.projects.commons.domain.vo;
+package com.cjwy.projects.commons.http.domain.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;

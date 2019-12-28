@@ -11,6 +11,35 @@
     <name>yyx-wx</name>
     <description>叶云轩微信Demo</description>
 
+    <!-- 之后在你想要共享的项目的 pom.xml 文件中添加以下配置后即可 deploy 到私服上面-->
+    <repositories>
+        <repository>
+            <id>cjwy</id>
+            <name>cjwy</name>
+            <url>http://maven.frps.vanrentong.com/repository/cjwy-public/</url>
+            <releases>
+                <enabled>true</enabled>
+            </releases>
+            <snapshots>
+                <enabled>true</enabled>
+            </snapshots>
+        </repository>
+    </repositories>
+
+    <distributionManagement>
+        <repository>
+            <id>release</id>
+            <name>cjwy-releases</name>
+            <url>http://maven.frps.vanrentong.com/repository/cjwy-releases/</url>
+        </repository>
+        <snapshotRepository>
+            <id>snapshots</id>
+            <name>cjwy-snapshots</name>
+            <url>http://maven.frps.vanrentong.com/repository/cjwy-snapshots/</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -22,11 +51,17 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <lombok>1.18.2</lombok>
-        <fastjson>1.2.47</fastjson>
         <hutool.http>4.1.8</hutool.http>
         <hutool.core>4.1.8</hutool.core>
         <dom4j>1.6.1</dom4j>
         <customer.util>1.0.10-RELEASE</customer.util>
+        <dependency.management.spring-boot-start-web.version>2.2.0.RELEASE
+        </dependency.management.spring-boot-start-web.version>
+        <dependency.management.fastjson.version>1.2.47</dependency.management.fastjson.version>
+        <dependency.management.springfox-swagger2.version>2.9.2</dependency.management.springfox-swagger2.version>
+        <dependency.management.springfox-swagger-ui.version>2.9.2</dependency.management.springfox-swagger-ui.version>
+        <dependency.management.cjwy-wx-validate.version>0.0.1-SNAPSHOT</dependency.management.cjwy-wx-validate.version>
+        <dependency.management.cjwy-commons.version>0.0.1-SNAPSHOT</dependency.management.cjwy-commons.version>
     </properties>
 
     <dependencyManagement>
@@ -34,31 +69,35 @@
             <dependency>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-starter-web</artifactId>
-                <version>2.2.0.RELEASE</version>
+                <version>${dependency.management.spring-boot-start-web.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger2 -->
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger2</artifactId>
-                <version>2.9.2</version>
+                <version>${dependency.management.springfox-swagger2.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/io.springfox/springfox-swagger-ui -->
             <dependency>
                 <groupId>io.springfox</groupId>
                 <artifactId>springfox-swagger-ui</artifactId>
-                <version>2.9.2</version>
+                <version>${dependency.management.springfox-swagger-ui.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.cjwy.wxframework</groupId>
                 <artifactId>validate</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${dependency.management.cjwy-wx-validate.version}</version>
             </dependency>
 
             <dependency>
                 <groupId>com.cjwy.projects</groupId>
                 <artifactId>commons</artifactId>
-                <version>0.0.1-SNAPSHOT</version>
+                <version>${dependency.management.cjwy-commons.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.alibaba</groupId>
+                <artifactId>fastjson</artifactId>
+                <version>${dependency.management.fastjson.version}</version>
             </dependency>
 
         </dependencies>
@@ -107,7 +146,6 @@
             <artifactId>dom4j</artifactId>
             <version>${dom4j}</version>
         </dependency>
-
     </dependencies>
 
     <build>

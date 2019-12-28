@@ -1,6 +1,6 @@
 package com.cjwy.wxframework.authorization.service.achieve;
 
-import com.cjwy.projects.commons.utils.string.UtilString;
+import com.cjwy.projects.commons.string.utils.UtilString;
 import com.cjwy.wxframework.authorization.domain.constant.AuthWxConstant;
 import com.cjwy.wxframework.authorization.domain.properties.AuthWxProperties;
 import com.cjwy.wxframework.authorization.service.WxGetAuthUrlService;
@@ -40,7 +40,7 @@ public class WxGetAuthUrlServiceImpl implements WxGetAuthUrlService {
         // http://xxx.com/projectName/controller/mthod
         String redirectUri = AuthWxConstant.getRedirectUri();
         // &response_type=code&scope=SCOPE
-        String scope = AuthWxConstant.getScope();
+        String scope = AuthWxConstant.getResponseTypeAndScope();
         String statePrefix = "&state=";
         // &state=STATE#wechat_redirect
         if (StringUtils.isEmpty(state)) {

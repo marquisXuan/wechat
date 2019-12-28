@@ -1,7 +1,7 @@
 package com.cjwy.wxframework.authorization.controller;
 
-import com.cjwy.projects.commons.domain.vo.ApiResponseVO;
-import com.cjwy.projects.commons.utils.UtilApiResponse;
+import com.cjwy.projects.commons.http.domain.vo.ApiResponseVO;
+import com.cjwy.projects.commons.http.utils.UtilApiResponse;
 import com.cjwy.wxframework.authorization.controller.api.WxGetAuthUrlControllerApi;
 import com.cjwy.wxframework.authorization.service.WxGetAuthUrlService;
 import org.springframework.web.bind.annotation.PathVariable;

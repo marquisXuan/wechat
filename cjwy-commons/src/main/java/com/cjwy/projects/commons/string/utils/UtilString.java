@@ -1,4 +1,4 @@
-package com.cjwy.projects.commons.utils.string;
+package com.cjwy.projects.commons.string.utils;
 
 import java.util.UUID;
 

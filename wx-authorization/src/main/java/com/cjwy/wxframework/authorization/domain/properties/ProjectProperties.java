@@ -26,4 +26,9 @@ public class ProjectProperties {
      * 默认为 false
      */
     private boolean silence = false;
+    /**
+     * 重定向到页面的请求 URL
+     * http://xxxxx.domain.com/projectName/pageUrl?code=xxx&msg=xxx&data=xxx
+     */
+    private String redirectPageUrl;
 }
