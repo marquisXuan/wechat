@@ -5,6 +5,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import javax.servlet.http.HttpServletResponse;
 
+import java.io.IOException;
+
 import static com.cjwy.wxframework.authorization.domain.constant.APIConstant.REDIRECT_CONTROLLER_MAPPING;
 import static com.cjwy.wxframework.authorization.domain.constant.APIConstant.REDIRECT_METHOD_MAPPING;
 
@@ -24,5 +26,5 @@ public interface WxGetCodeRedirectControllerApi {
      * @param response 用于重定向到新页面
      */
     @GetMapping(REDIRECT_METHOD_MAPPING)
-    void getCodeThenRedirectMethod(String code, String state, HttpServletResponse response);
+    void getCodeThenRedirectMethod(String code, String state, HttpServletResponse response) throws IOException;
 }

@@ -17,6 +17,10 @@ public enum ApiResponseEnum implements ApiResponseEnumInterface {
      */
     success("000000000", "request success"),
     /**
+     * 生成业务 Token 错误时返回的响应
+     */
+    auth_token_generate_error("001001001", "generate token exception"),
+    /**
      * 服务器返回错误的响应
      */
     error("999999999", "server error");

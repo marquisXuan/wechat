@@ -3,12 +3,16 @@ package com.cjwy.wxframework.authorization.controller;
 import cn.hutool.http.HttpUtil;
 import com.alibaba.fastjson.JSONObject;
 import com.cjwy.projects.commons.cache.service.CacheService;
+import com.cjwy.projects.commons.http.domain.enumm.ApiResponseEnum;
+import com.cjwy.projects.commons.wx.pubnum.domain.entity.ResponseWxUserInfoEntity;
 import com.cjwy.projects.commons.wx.pubnum.domain.vo.auth.response.ResponseByCode2AuthAccessTokenVO;
 import com.cjwy.wxframework.authorization.controller.api.WxGetCodeRedirectControllerApi;
 import com.cjwy.wxframework.authorization.domain.constant.WxCacheConstant;
 import com.cjwy.wxframework.authorization.domain.properties.AuthWxProperties;
 import com.cjwy.wxframework.authorization.domain.properties.ProjectProperties;
+import com.cjwy.wxframework.authorization.rpc.service.WxPublicNumberUserInfoService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
@@ -41,12 +45,17 @@ public class WxGetCodeRedirectController implements WxGetCodeRedirectControllerA
      */
     @Resource
     private ProjectProperties projectProperties;
+    /**
+     * 微信公众号用户业务
+     */
+    @Resource
+    private WxPublicNumberUserInfoService wxPublicNumberUserInfoService;
 
     /**
      * 用户授权使用 Code 后,重定向的方法
      */
     @Override
-    public void getCodeThenRedirectMethod(String code, String state, HttpServletResponse response) {
+    public void getCodeThenRedirectMethod(String code, String state, HttpServletResponse response) throws IOException {
         // 使用code 换取 AuthAccessToken
         String code2AuthAccessTokenUrl = authWxProperties.getCode2AuthAccessToken();
         String wxCode2AuthAccessTokenResult;
@@ -59,13 +68,9 @@ public class WxGetCodeRedirectController implements WxGetCodeRedirectControllerA
         }
         ResponseByCode2AuthAccessTokenVO responseByCode2AuthAccessTokenVO = JSONObject.parseObject(wxCode2AuthAccessTokenResult, ResponseByCode2AuthAccessTokenVO.class);
         String errcode = responseByCode2AuthAccessTokenVO.getErrcode();
-        if (null != errcode) {
+        if (!StringUtils.isEmpty(errcode)) {
             // 说明返回结果有问题
-            try {
-                response.sendRedirect(projectProperties.getRedirectPageUrl() + "?code=" + errcode + "&msg=" + responseByCode2AuthAccessTokenVO.getErrmsg());
-            } catch (IOException e) {
-                return;
-            }
+            response.sendRedirect(projectProperties.getRedirectPageUrl() + "?code=" + errcode + "&msg=" + responseByCode2AuthAccessTokenVO.getErrmsg());
         }
         responseByCode2AuthAccessTokenVO.saveState(state);
         responseByCode2AuthAccessTokenVO.recordCreateTime();
@@ -79,5 +84,14 @@ public class WxGetCodeRedirectController implements WxGetCodeRedirectControllerA
         String responseUserInfoString = HttpUtil.get(authWxProperties.getRequestUserInfoByAuthAccessToken()
                 + responseByCode2AuthAccessTokenVO.getAccessToken() + "&openid="
                 + responseByCode2AuthAccessTokenVO.getOpenid());
+        ResponseWxUserInfoEntity responseWxUserInfoEntity = JSONObject.parseObject(responseUserInfoString, ResponseWxUserInfoEntity.class);
+        if (!StringUtils.isEmpty(responseWxUserInfoEntity.getErrcode())) {
+            response.sendRedirect(projectProperties.getRedirectPageUrl() + "?code=" + responseWxUserInfoEntity.getErrcode() + "&msg=" + responseWxUserInfoEntity.getErrmsg());
+        }
+        String businessToken = wxPublicNumberUserInfoService.generateTokenByWxPublicNumberUserInfo(responseWxUserInfoEntity);
+        if (StringUtils.isEmpty(businessToken)) {
+            response.sendRedirect(projectProperties.getRedirectPageUrl() + "?code=" + ApiResponseEnum.auth_token_generate_error.getCode() + "&msg=" + ApiResponseEnum.auth_token_generate_error.getMsg());
+        }
+        response.sendRedirect(projectProperties.getRedirectPageUrl() + "?code=" + ApiResponseEnum.success.getCode() + "&msg=" + ApiResponseEnum.success.getMsg() + "&data=" + businessToken);
     }
 }
