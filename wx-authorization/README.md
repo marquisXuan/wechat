@@ -6,33 +6,34 @@
 # 在 yml 中配置以下内容即可
 project:
 	domain: http://yourdomain.com
+	redirectPageUrl: http://yourWebDomain.com/page.html
 wx:
   validate:
     appId: yourAppId
     appSecret: yourAppSecret
 ```
 
-|      配置项       |                          说明                           | 必配 |
-| :---------------: | :-----------------------------------------------------: | :--: |
-|  project.domain   |                       项目的域名                        | [x]  |
-|  project.silence  | true: 静默授权 false: 弹出授权框  微信授权时 scope 字段 |      |
-|   auth.wx.appId   |                    微信公众号 APPID                     | [x]  |
-| auth.wx.appSecret |                  微信公众号 APPSecret                   | [x]  |
-|                   |                                                         |      |
-|                   |                                                         |      |
-|                   |                                                         |      |
-|                   |                                                         |      |
-|                   |                                                         |      |
-|                   |                                                         |      |
-|                   |                                                         |      |
-|                   |                                                         |      |
-|                   |                                                         |      |
-|                   |                                                         |      |
-|                   |                                                         |      |
-|                   |                                                         |      |
-|                   |                                                         |      |
-|                   |                                                         |      |
-|                   |                                                         |      |
+|         配置项          |                           说明                           | 必配 |
+| :---------------------: | :------------------------------------------------------: | :--: |
+|     project.domain      |                        项目的域名                        | [x]  |
+|     project.silence     | true: 静默授权 false: 弹出授权框  微信授权时 scope 字段  |      |
+|      auth.wx.appId      |                     微信公众号 APPID                     | [x]  |
+|    auth.wx.appSecret    |                   微信公众号 APPSecret                   | [x]  |
+| project.redirectPageUrl | 前端项目的 url,页面需要对请求参数 code,msg,data 进行处理 | [x]  |
+|                         |                                                          |      |
+|                         |                                                          |      |
+|                         |                                                          |      |
+|                         |                                                          |      |
+|                         |                                                          |      |
+|                         |                                                          |      |
+|                         |                                                          |      |
+|                         |                                                          |      |
+|                         |                                                          |      |
+|                         |                                                          |      |
+|                         |                                                          |      |
+|                         |                                                          |      |
+|                         |                                                          |      |
+|                         |                                                          |      |
 
 
 
