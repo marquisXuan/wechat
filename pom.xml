@@ -61,7 +61,7 @@
         <dependency.management.springfox-swagger2.version>2.9.2</dependency.management.springfox-swagger2.version>
         <dependency.management.springfox-swagger-ui.version>2.9.2</dependency.management.springfox-swagger-ui.version>
         <dependency.management.cjwy-wx-validate.version>0.0.1-SNAPSHOT</dependency.management.cjwy-wx-validate.version>
-        <dependency.management.cjwy-commons.version>0.0.1-SNAPSHOT</dependency.management.cjwy-commons.version>
+        <dependency.management.cjwy-commons.version>0.0.1.01-SNAPSHOT</dependency.management.cjwy-commons.version>
     </properties>
 
     <dependencyManagement>

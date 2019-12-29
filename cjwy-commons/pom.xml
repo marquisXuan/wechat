@@ -10,12 +10,13 @@
 
     <groupId>com.cjwy.projects</groupId>
     <artifactId>commons</artifactId>
-    <version>0.0.1-SNAPSHOT</version>
+    <version>0.0.1.01-SNAPSHOT</version>
     <name>cjwy-commons</name>
     <description>公共内容</description>
 
     <properties>
         <java.version>1.8</java.version>
+        <mybatis-plus.version>3.3.0</mybatis-plus.version>
     </properties>
 
     <dependencies>
@@ -43,6 +44,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis-plus.version}</version>
         </dependency>
 
     </dependencies>
