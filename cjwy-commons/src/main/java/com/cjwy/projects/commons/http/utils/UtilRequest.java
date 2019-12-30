@@ -1,6 +1,7 @@
 package com.cjwy.projects.commons.http.utils;
 
-import com.cjwy.projects.commons.http.exception.NoAuthorizationException;
+import com.cjwy.projects.commons.http.domain.enumm.ApiResponseEnum;
+import com.cjwy.projects.commons.http.exception.NoAuthenticationException;
 import org.springframework.util.StringUtils;
 
 import javax.servlet.http.HttpServletRequest;
@@ -26,7 +27,7 @@ public class UtilRequest {
     public static String getAuthorizationInHeader(HttpServletRequest request) {
         String authorization = request.getHeader("Authorization");
         if (StringUtils.isEmpty(authorization)) {
-            throw new NoAuthorizationException();
+            throw new NoAuthenticationException(ApiResponseEnum.authentication_no);
         }
         return authorization;
     }

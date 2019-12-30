@@ -19,7 +19,8 @@ public enum ApiResponseEnum implements ApiResponseEnumInterface {
     /**
      * 生成业务 Token 错误时返回的响应
      */
-    auth_token_generate_error("001001001", "generate token exception"),
+    authentication_token_generate_error("500001001", "generate token exception"),
+    authentication_no("401001001", "no authentication"),
     /**
      * 服务器返回错误的响应
      */

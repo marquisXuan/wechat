@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.annotation.Resource;
 
 /**
+ * 刷新 Token 的业务
  * <p>
  *
  * @author 叶云轩 at tdg_yyx@foxmail.com

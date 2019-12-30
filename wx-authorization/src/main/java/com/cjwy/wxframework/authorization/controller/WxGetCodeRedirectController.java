@@ -90,7 +90,7 @@ public class WxGetCodeRedirectController implements WxGetCodeRedirectControllerA
         }
         String businessToken = wxPublicNumberUserInfoService.generateTokenByWxPublicNumberUserInfo(responseWxUserInfoEntity);
         if (StringUtils.isEmpty(businessToken)) {
-            response.sendRedirect(projectProperties.getRedirectPageUrl() + "?code=" + ApiResponseEnum.auth_token_generate_error.getCode() + "&msg=" + ApiResponseEnum.auth_token_generate_error.getMsg());
+            response.sendRedirect(projectProperties.getRedirectPageUrl() + "?code=" + ApiResponseEnum.authentication_token_generate_error.getCode() + "&msg=" + ApiResponseEnum.authentication_token_generate_error.getMsg());
         }
         response.sendRedirect(projectProperties.getRedirectPageUrl() + "?code=" + ApiResponseEnum.success.getCode() + "&msg=" + ApiResponseEnum.success.getMsg() + "&data=" + businessToken);
     }
