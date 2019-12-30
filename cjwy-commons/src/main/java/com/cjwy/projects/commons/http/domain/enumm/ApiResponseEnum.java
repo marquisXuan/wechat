@@ -15,7 +15,7 @@ public enum ApiResponseEnum implements ApiResponseEnumInterface {
     /**
      * 响应成功时的响应
      */
-    success("000000000", "request success"),
+    success("200000200", "request success"),
     /**
      * 生成业务 Token 错误时返回的响应
      */
@@ -23,7 +23,7 @@ public enum ApiResponseEnum implements ApiResponseEnumInterface {
     /**
      * 服务器返回错误的响应
      */
-    error("999999999", "server error");
+    error("500500500", "server error");
 
     @Getter
     @Setter

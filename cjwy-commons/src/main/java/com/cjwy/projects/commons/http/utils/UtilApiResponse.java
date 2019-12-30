@@ -99,4 +99,20 @@ public class UtilApiResponse<T> {
         apiResponseVO.setMsg(apiResponseEnumInterface.getMsg());
         return apiResponseVO;
     }
+
+    /**
+     * 返回错误信息, qpi 调用时,返回错误信息,去除数据,转换格式
+     *
+     * @param apiResponse 响应实体封装
+     * @param <Void>      Void
+     * @return 响应实体封装
+     */
+    @SuppressWarnings("unchecked")
+    public static <Void> ApiResponseVO<Void> error(ApiResponseVO apiResponse) {
+        ApiResponseVO<Void> apiResponseVO = new ApiResponseVO<>();
+        apiResponseVO.setData(null);
+        apiResponseVO.setCode(apiResponse.getCode());
+        apiResponseVO.setMsg(apiResponse.getMsg());
+        return apiResponseVO;
+    }
 }

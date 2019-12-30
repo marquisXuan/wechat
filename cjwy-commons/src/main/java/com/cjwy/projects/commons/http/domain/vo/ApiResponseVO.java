@@ -1,5 +1,6 @@
 package com.cjwy.projects.commons.http.domain.vo;
 
+import com.cjwy.projects.commons.http.domain.enumm.ApiResponseEnum;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -29,4 +30,22 @@ public class ApiResponseVO<T> {
      */
     @ApiModelProperty(value = "响应时携带的数据", name = "data")
     private T data;
+
+    /**
+     * 响应是否失败
+     *
+     * @return true 失败 false 成功
+     */
+    public boolean isFail() {
+        return !isSuccess();
+    }
+
+    /**
+     * 响应是否成功
+     *
+     * @return true 成功 false 失败
+     */
+    public boolean isSuccess() {
+        return ApiResponseEnum.success.getCode().equals(this.code);
+    }
 }
