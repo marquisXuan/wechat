@@ -10,7 +10,7 @@
 
     <groupId>com.cjwy.projects</groupId>
     <artifactId>commons</artifactId>
-    <version>0.0.1.02-SNAPSHOT</version>
+    <version>0.0.1.04-SNAPSHOT</version>
     <name>cjwy-commons</name>
     <description>公共内容</description>
 
@@ -50,6 +50,11 @@
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-boot-starter</artifactId>
             <version>${mybatis-plus.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
         </dependency>
 
     </dependencies>
