@@ -107,6 +107,7 @@
         <module>cjwy-commons</module>
         <module>wx-validate</module>
         <module>wx-authorization</module>
+        <module>wx-message</module>
 <!--        <module>yyx-wx-commons</module>-->
 <!--        <module>yyx-wx-modules</module>-->
 <!--        <module>yyx-wx-butt</module>-->
