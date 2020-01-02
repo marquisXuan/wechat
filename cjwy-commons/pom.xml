@@ -10,7 +10,7 @@
 
     <groupId>com.cjwy.projects</groupId>
     <artifactId>commons</artifactId>
-    <version>0.0.1.06-SNAPSHOT</version>
+    <version>0.0.1.07-SNAPSHOT</version>
     <name>cjwy-commons</name>
     <description>公共内容</description>
 

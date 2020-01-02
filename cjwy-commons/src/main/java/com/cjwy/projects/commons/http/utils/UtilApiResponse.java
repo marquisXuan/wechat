@@ -3,6 +3,9 @@ package com.cjwy.projects.commons.http.utils;
 import com.cjwy.projects.commons.http.domain.enumm.ApiResponseEnum;
 import com.cjwy.projects.commons.http.domain.enumm.ApiResponseEnumInterface;
 import com.cjwy.projects.commons.http.domain.vo.ApiResponseVO;
+import com.cjwy.projects.commons.http.domain.vo.PageVO;
+
+import java.util.List;
 
 /**
  * 响应工具类
@@ -107,12 +110,27 @@ public class UtilApiResponse<T> {
      * @param <Void>      Void
      * @return 响应实体封装
      */
-    @SuppressWarnings("unchecked")
     public static <Void> ApiResponseVO<Void> error(ApiResponseVO apiResponse) {
         ApiResponseVO<Void> apiResponseVO = new ApiResponseVO<>();
         apiResponseVO.setData(null);
         apiResponseVO.setCode(apiResponse.getCode());
         apiResponseVO.setMsg(apiResponse.getMsg());
         return apiResponseVO;
+    }
+
+    /**
+     * 返回分页数据结果
+     *
+     * @param pageData 返回分页中的数据字段
+     * @param total    返回数据总条数
+     * @param <T>      泛型
+     * @return 封装的结果
+     */
+    public static <T> ApiResponseVO<PageVO<List<T>>> success(List<T> pageData, Long total) {
+        PageVO<List<T>> pageVO = new PageVO<>();
+        pageVO.setData(pageData);
+        pageVO.setTotal(total);
+        return success(pageVO);
+
     }
 }
