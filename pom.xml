@@ -55,8 +55,7 @@
         <hutool.core>4.1.8</hutool.core>
         <dom4j>1.6.1</dom4j>
         <customer.util>1.0.10-RELEASE</customer.util>
-        <dependency.management.spring-boot-start-web.version>2.2.0.RELEASE
-        </dependency.management.spring-boot-start-web.version>
+        <dependency.management.spring-boot-start-web.version>2.5.12</dependency.management.spring-boot-start-web.version>
         <dependency.management.fastjson.version>1.2.47</dependency.management.fastjson.version>
         <dependency.management.springfox-swagger2.version>2.9.2</dependency.management.springfox-swagger2.version>
         <dependency.management.springfox-swagger-ui.version>2.9.2</dependency.management.springfox-swagger-ui.version>
