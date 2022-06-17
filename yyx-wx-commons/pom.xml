@@ -20,7 +20,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
-        <fastjson>1.2.47</fastjson>
+        <fastjson>1.2.83</fastjson>
     </properties>
 
     <dependencies>
